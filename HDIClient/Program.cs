@@ -20,8 +20,17 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+<<<<<<< HEAD
+app.MapRazorPages(
+ );
+=======
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}");
+
+/*app.MapControllerRoute(
+    name: "driver",
+    pattern: "{controller=RegisterDriver}/{action=RegisterDriver}");*/
+>>>>>>> f0472800e2c19d3bb24c0115daa08f474013344e
 
 app.Run();
