@@ -1,0 +1,131 @@
+﻿@model AseguradoraApp.Models.DriverClient
+
+@{
+    ViewData["title"] = "RegisterDriver";
+}
+<head>
+    <link rel="stylesheet" href="~/css/registerDriver.css" />
+
+</head>
+
+<div class="background-image">
+    <div class="conteiner">
+        <h2 class="h2">Formulario de registro</h2>
+        <br />
+        <i class="fa-brands fa-youtube"></i>
+        <br />
+        <form asp-action="RegisterNewDriver">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DriverName" class="control-label"></label>
+                <input asp-for="DriverName" type="text" class="form-control form-control-lg col-md-1"/>
+                <span asp-validation-for="DriverName" class="text-danger"></span>
+            </div>
+            
+            <br />
+            <div>
+                <h3 class="h3">Apellido</h3>
+                <input asp-for="DriverLastname" class="form-control form-control-lg col-md-1">
+                <span asp-validation-for="DriverLastname" class="text-danger"></span>
+            </div>
+            
+            <br />
+            <div>
+                <h3 class="h3">Fecha de nacimiento</h3>
+                <input asp-for="DriverBirthday" type="date" class="form-control" id="fecha" name="fecha">
+                <span asp-validation-for="DriverBirthday" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div>
+                <h3 class="h3">Numero de licencia de conducir</h3>
+                <input asp-for="License" type="text" class="form-control form-control-lg col-md-1" >
+                <span asp-validation-for="License" class="text-danger"></span>
+            </div>
+            
+            <br />
+            <div>
+                <h3 class="h3">Numero telefonico</h3>
+                <input asp-for="TelephoneNumber" type="tel" class="form-control form-control-lg col-md-1" >
+                <span asp-validation-for="TelephoneNumber" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div>
+                <h3 class="h3">contraseña</h3>
+                <input asp-for="DriverPassword" type="password" class="form-control form-control-lg col-md-1" >
+                <span asp-validation-for="DriverPassword" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div>
+                <h3 class="h3">Repite la contraseña</h3>
+                <input type="password" class="form-control form-control-lg col-md-1" placeholder="repite tu contraseña">
+            </div>
+
+            <br />
+            <div class="buttons">
+
+                <button type="" class="btn btn-dark">Cerrar</button>
+                <button type="submit" value="Register" class="btn btn-light">Crear cuenta</button>
+
+            </div>
+        </form>
+        
+        
+
+
+    </div>
+
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+@*@model AseguradoraApp.Models.DriverClient
+
+@{
+    ViewData["title"] = "RegisterDriver";
+}
+<head>
+    <link rel="stylesheet" href="~/css/registerDriver.css" />
+
+</head>
+
+<div class="conteiner">
+        <div class=".contenedor-login">
+            <h2 class="h2">Formulario de registro</h2>
+            <br />
+        <i class="fa-brands fa-youtube"></i>
+            <br />
+            <h3 class="h3">Nombre</h3>
+            <input type="text" class="form-control form-control-lg col-md-1" placeholder="ingresa tu nombre/s">
+        <br />
+            <h3 class="h3">Apellido</h3>
+            <input type="text" class="form-control form-control-lg col-md-1" placeholder="ingresa tu apellido/s">
+        <br />
+            <h3 class="h3">Fecha de nacimiento</h3>
+            <input type="date" class="form-control" id="fecha" name="fecha">
+        <br />
+            <h3 class="h3">Numero de licencia de conducir</h3>
+            <input type="text" class="form-control form-control-lg col-md-1" placeholder="ingresa tu numero de licencia">
+        <br />
+            <h3 class="h3">Numero telefonico</h3>
+            <input type="tel" class="form-control form-control-lg col-md-1" placeholder="ingresa tu numero de licencia">
+        <br />
+            <h3 class="h3">contraseña</h3>
+            <input type="password" class="form-control form-control-lg col-md-1" placeholder="ingresa tu contraseña">
+        <br />
+            <h3 class="h3">Repite la contraseña</h3>
+            <input type="password" class="form-control form-control-lg col-md-1" placeholder="repite tu contraseña">
+        </div>
+
+</div>
+*@
+
+
+
+
