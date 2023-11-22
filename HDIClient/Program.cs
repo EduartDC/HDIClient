@@ -1,8 +1,25 @@
-var builder = WebApplication.CreateBuilder(args);
+using HDIClient.Service;
+using HDIClient.Service.Interface;
 
+var builder = WebApplication.CreateBuilder(args);
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .Build();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton(configuration);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddMemoryCache();
 
+var appSettings = builder.Configuration.GetSection("ApiSettings");
+builder.Services.AddHttpClient("ApiHttpClient", client =>
+{
+    client.BaseAddress = new Uri(appSettings.GetValue<string>("BaseAddress"));
+});
+
+builder.Services.AddDistributedMemoryCache();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,8 +41,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}");
 
-/*app.MapControllerRoute(
-    name: "driver",
-    pattern: "{controller=RegisterDriver}/{action=RegisterDriver}");*/
+app.MapControllerRoute(
+    name: "login",
+    pattern: "{controller=Login}/{action=LoginView}");
 
 app.Run();
