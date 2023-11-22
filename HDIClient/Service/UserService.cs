@@ -39,7 +39,7 @@ namespace HDIClient.Service
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var token = responseObject.token;
+                    var token = responseObject;
                     _memoryCache.Set("Token", token);
                     result = response.StatusCode.ToString();
                 }
