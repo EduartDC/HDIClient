@@ -11,6 +11,7 @@ builder.Services.AddSingleton(configuration);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddMemoryCache();
 
 var appSettings = builder.Configuration.GetSection("ApiSettings");
@@ -47,6 +48,14 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "login",
     pattern: "{controller=Login}/{action=LoginView}");
+
+app.MapControllerRoute(
+    name: "registerdriver",
+    pattern: "{controller=RegisterDriver}/{action=RegisterDriverDos}");
+
+app.MapControllerRoute(
+    name: "registerEmployee",
+    pattern: "{controller=RegisterEmployee}/{action=RegisterEmployee}");
 
 
 app.Run();

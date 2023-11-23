@@ -1,0 +1,21 @@
+﻿@model HDIClient.Models.User
+@{
+    ViewData["title"] = "Registro de emepleados";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/registerDriver.css" />
+
+</head>
+
+<div>
+    <form>
+        <div>
+            <h3>Nombre</h3>
+            <input asp-for="NameEmployeee" type="text" class="form-control form-control-lg col-md-1" />
+            <span asp-validation-for="NameEmployeee" class="text-danger"></span>
+        </div>
+
+    </form>
+   
+</div>

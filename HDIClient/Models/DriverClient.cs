@@ -4,7 +4,7 @@ namespace AseguradoraApp.Models
 {
     public class DriverClient
     {
-        [Required(ErrorMessage ="El campo es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Nombre")]
         public string DriverName { get; set; }
 
@@ -13,10 +13,12 @@ namespace AseguradoraApp.Models
         public string DriverLastname { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        public string DriverBirthday { get; set; }
+        [Display(Name = "Nacimiento")]
+        public DateTime DriverBirthday { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Numero telefonico")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "El campo Teléfono solo puede contener números.")]
         public string TelephoneNumber { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
