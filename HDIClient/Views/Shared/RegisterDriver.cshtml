@@ -16,54 +16,55 @@
         <form id="info" asp-action="RegisterNewDriver" onsubmit="validatePassword(event)">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <h3 class="h3">Nombre</h3>
+                @*<h2 class="fw-bold mb-2 text-uppercase">Nombre</h2>*@
+                <label asp-for="DriverName" class="form-label"></label>
                 <input asp-for="DriverName" type="text" class="form-control form-control-lg col-md-1" />
                 <span asp-validation-for="DriverName" class="text-danger"></span>
             </div>
 
             <br />
             <div>
-                <h3 class="h3">Apellido</h3>
+                <label asp-for="DriverLastname" class="form-label"></label>
                 <input asp-for="DriverLastname" class="form-control form-control-lg col-md-1">
                 <span asp-validation-for="DriverLastname" class="text-danger"></span>
             </div>
 
             <br />
             <div>
-                <h3 class="h3">Fecha de nacimiento</h3>
+                <label asp-for="DriverBirthday" class="form-label"></label>
                 <input asp-for="DriverBirthday" type="date" class="form-control form-control-lg col-md-1" id="fecha" name="fecha">
                 <span asp-validation-for="DriverBirthday" class="text-danger"></span>
             </div>
 
             <br />
             <div>
-                <h3 class="h3">Numero de licencia de conducir</h3>
+                <label asp-for="License" class="form-label"></label>
                 <input asp-for="License" type="text" class="form-control form-control-lg col-md-1" maxlength="20">
                 <span asp-validation-for="License" class="text-danger"></span>
             </div>
 
             <br />
             <div>
-                <h3 class="h3">Numero telefonico</h3>
+                <label asp-for="TelephoneNumber" class="form-label"></label>
                 <input asp-for="TelephoneNumber" type="tel" class="form-control form-control-lg col-md-1" maxlength="10" pattern="\d*">
                 <span asp-validation-for="TelephoneNumber" class="text-danger"></span>
             </div>
 
             <br />
             <div>
-                <h3 class="h3" >contraseña</h3>
+                <label asp-for="DriverPassword" class="form-label"></label>
                 <input id="inputPassword" asp-for="DriverPassword" type="password" class="form-control form-control-lg col-md-1">
                 <span asp-validation-for="DriverPassword" class="text-danger"></span>
             </div>
 
             <br />
             <div>
-                <h3 class="h3" >Repite la contraseña</h3>
+                <label class="form-label">Repite la contraseña</label>
                 <input id="inputRepeatPassword" type="password" class="form-control form-control-lg col-md-1" placeholder="repite tu contraseña">
             </div>
 
             <br />
-            <div class="align-items-center">
+            <div class="text-center">
 
                 @*<button type="" onclick="alertSweet()" class="btn btn-dark">Cerrar</button>*@
                 <button type="submit" value="Register" class="btn btn-outline-light btn-lg px-5">Crear cuenta</button>

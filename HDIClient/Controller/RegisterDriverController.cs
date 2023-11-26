@@ -2,11 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text;
+
 using HDIClient.Services;
 using HDIClient.Service.Interface;
 
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+
+
 namespace AseguradoraApp.Controllers
 {
+    
     public class RegisterDriverController : Controller
     {
         IClientService _clientservice;
