@@ -10,6 +10,7 @@ namespace HDIClient.Controllers
     {
         public IActionResult NewReportView()
         {
+            
             return View();
         }
     }

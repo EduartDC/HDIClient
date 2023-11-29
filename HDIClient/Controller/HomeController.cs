@@ -12,5 +12,9 @@ namespace HDIClient.Controllers
         {
             return View();
         }
+        public IActionResult Privacy()
+        {
+            return View();
+        }
     }
 }

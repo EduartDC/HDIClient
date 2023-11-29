@@ -1,7 +1,9 @@
-﻿namespace HDIClient.Service.Interface
+﻿using HDIClient.DTOs;
+
+namespace HDIClient.Service.Interface
 {
     public interface IUserService
     {
-        public Task<string> Login(string user, string pass);
+        public Task<TokenDTO> Login(string user, string pass);
     }
 }
