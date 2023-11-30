@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace HDIClient.Models
 {
-    public class User
+    public class EmployeeViewModel
     {
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Nombre")]
-        public string NameEmployeee {  get; set; }
+        public string NameEmployeee { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Apellido")]
@@ -21,12 +22,13 @@ namespace HDIClient.Models
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "El campo es obligatorio")]
-        [Display(Name = "Rol")]
-        public string Rol { get; set; }
 
-        [Required(ErrorMessage = "El campo es obligatorio")]
-        [Display(Name = "Fecha de registro")]
-        public DateTime RegistrationDate {get; set;} 
+        public string? Rol { get; set; }
+
+     //   public DateTime? RegistrationDate { get; set; }
+
+        [Display(Name = "Rol")]
+        public SelectList? ListaDeRoles { get; set; }
+ 
     }
 }

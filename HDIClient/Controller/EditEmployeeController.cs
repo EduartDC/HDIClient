@@ -7,15 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HDIClient.Controllers
 {
-    public class RegisterEmployeeController : Controller
+    public class EditEmployeeController : Controller
     {
         private IEmployeeService _employeeService;
         private EmployeeViewModel viewmodelTemp ;
-        public RegisterEmployeeController(IEmployeeService employeeService) { 
+        private string idUserPrueba = "1d";//ESAT ES UNICAMENTE PARA PRUEBA
+        public EditEmployeeController(IEmployeeService employeeService) { 
         _employeeService = employeeService;
         }
 
-        public IActionResult GetRegisterEmployeeView()
+        public async Task<IActionResult> EditRegisterEmployeeView()
         {
             var Roles = new Dictionary<string, string>
             {
@@ -24,23 +25,34 @@ namespace HDIClient.Controllers
                 {"OTHER","El de servicio"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
+            var DTOObject = _employeeService.GetEmployeeById(idUserPrueba);
             //iniciamos el modelo a enviar a la vista
             var model = new EmployeeViewModel
             {
+                NameEmployeee = DTOObject.Result.Item2.NameEmployee,
+                LastnameEmployee = DTOObject.Result.Item2.LastnameEmployee,
+                Username = DTOObject.Result.Item2.Username,
+                Password = DTOObject.Result.Item2.Password,
                 ListaDeRoles = selectList,
+                Rol = DTOObject.Result.Item2.Rol
             };
-           // viewmodelTemp = model;
-            return View("RegisterEmployeeView",model);
+            TempData["IdUser"] = DTOObject.Result.Item2.IdEmployee;
+
+
+
+            // viewmodelTemp = model;
+            return View("EditEmployeeView", model);
+            //return View("LoginView");
         }
 
-        public async Task<IActionResult> RegisterNewEmployee([Bind("NameEmployeee,LastnameEmployee,Username,Password,Rol,ListaDeRoles")] EmployeeViewModel newEmployee)
+        public async Task<IActionResult> SetUpdateEmployee([Bind("NameEmployeee,LastnameEmployee,Username,Password,Rol,ListaDeRoles")] EmployeeViewModel newEmployee)
         {
-            var x = newEmployee;
            if (ModelState.IsValid)
            {
                 //generando DTO
                 EmployeeDTO employeeTemp = new EmployeeDTO()
                 {
+                    IdEmployee = TempData["IdUser"] as string,
                     NameEmployee = newEmployee.NameEmployeee,
                     LastnameEmployee = newEmployee.LastnameEmployee,
                     Username = newEmployee.Username,
@@ -48,7 +60,7 @@ namespace HDIClient.Controllers
                     Rol = newEmployee.Rol
                 };
 
-                var result = await _employeeService.RegisterNewEmployee(employeeTemp);
+                var result = await _employeeService.SetUpdateEmployee(employeeTemp);
 
                 if (result == 200 || result == 201)
                 {
@@ -61,11 +73,11 @@ namespace HDIClient.Controllers
                     TempData["ErrorLicenciaExistente"] = true;
                 }
 
-            }
+           }
             
             
 
-            return View("RegisterEmployeeView",viewmodelTemp);
+            return View("LoginView");
 
         }
     }

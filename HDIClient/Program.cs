@@ -17,7 +17,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IClientService, ClientService>();
-
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<AuthorizationFilter>();
 builder.Services.AddMemoryCache();
 // Add JWT authentication
@@ -71,7 +71,10 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "registerEmployee",
-    pattern: "{controller=RegisterEmployee}/{action=RegisterEmployee}");
+    pattern: "{controller=RegisterEmployee}/{action=GetRegisterEmployeeView}");
+app.MapControllerRoute(
+    name: "editEmployee",
+    pattern: "{controller=EditEmployee}/{action=EditRegisterEmployeeView}");
 
 
 app.Run();

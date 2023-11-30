@@ -1,6 +1,6 @@
 ﻿@model HDIClient.Models.EmployeeViewModel
 @{
-    ViewData["title"] = "Registro de emepleados";
+    ViewData["title"] = "Edicion de empleado";
 }
 
 <head>
@@ -9,9 +9,9 @@
 </head>
 
 <div class="conteiner card bg-dark text-white">
-    <form id="info" asp-action="RegisterNewEmployee">
+    <form id="info" asp-action="SetUpdateEmployee">
         <div>
-            <h2> RRegistro de empleados</h2>
+            <h2> Edicion de empleados</h2>
             <br />
             <h3>Nombre</h3>
             <input asp-for="NameEmployeee" type="text" class="form-control form-control-lg col-md-1" />

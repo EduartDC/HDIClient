@@ -12,9 +12,9 @@ namespace AseguradoraApp.Models
         [Display(Name = "Apellido")]
         public string DriverLastname { get; set; }
 
-        [Required(ErrorMessage = "El campo es obligatorio")]
-        [Display(Name = "Nacimiento")]
-        public DateTime DriverBirthday { get; set; }
+        //[Required(ErrorMessage = "El campo es obligatorio")]
+        //[Display(Name = "Nacimiento")]
+        //public DateTime DriverBirthday { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Numero telefonico")]
