@@ -64,7 +64,7 @@ app.MapControllerRoute(
     pattern: "{controller=Account}/{action=LoginView}");
 app.MapControllerRoute(
     name: "report",
-    pattern: "{controller=NewReport}/{action=NewReportView}");
+    pattern: "{controller=Report}/{action=Tips}");
 
 
 app.Run();

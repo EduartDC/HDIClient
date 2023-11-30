@@ -1,0 +1,44 @@
+﻿<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Tips.css" />
+</head>
+<body>
+    <div class="info-container">
+        <p id="init" class="h4 subtitle">
+            Tips
+        </p>
+        <ol>
+            <li>Ten a la mano tu póliza.</li>
+            <li>Si chocaste, quédate en el lugar del accidente y mantén la calma.</li>
+            <li>Espera a tu ajustador y no llegues a un acuerdo.</li>
+        </ol>
+        <p>
+            <strong><span style="color: #006c30">¿No tuviste la culpa, y el responsable tiene seguro?</span></strong><br>
+            Confía en tu ajustador, él llegará a un acuerdo con la aseguradora del responsable.
+        </p>
+        <p>
+            <strong><span style="color: #006c30">¡Se fugó!</span></strong><br>
+            No lo sigas, anota placas, marca y color del auto.
+        </p>
+        <p>
+            <strong><span style="color: #006c30">¿Las cosas se pusieron difíciles y necesitas asistencia legal?</span></strong><br>
+            Cuentas con un abogado en el caso de haber contratado la Asistencia Jurídica.
+        </p>
+        <p>
+            <strong><span style="color: #006c30">¿No tuviste la culpa, y el responsable no tiene seguro?</span></strong><br>
+            El ajustador negociará con el responsable el cobro de los daños ocasionados.
+        </p>
+        <p>
+            <strong><span style="color: #006c30">¿Tuviste la culpa?</span></strong><br>
+            ¡Calma! El ajustador te ayudará a resolver la situación de la mejor manera.
+        </p>
+        <p>
+            <strong><span style="color: #006c30">¡Tu auto no se va al corralón!</span></strong><br>
+            Si no es necesario resguardarlo en una pensión, cuenta con pase para el taller y/o médico.
+        </p>
+        <form asp-action="NewReport" asp-controller="Report" method="get">
+            <button type="submit" class="btn btn-dark">Crear Reporte</button>
+        </form>
+    </div>
+</body>
