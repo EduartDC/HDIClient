@@ -1,6 +1,6 @@
 using HDIClient.Service;
 using HDIClient.Service.Interface;
-using HDIClient.Utility;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +17,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<AuthorizationFilter>();
 builder.Services.AddMemoryCache();
 
 // Add authentication
@@ -25,8 +24,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.Cookie.Name = "HDIClientCookie";
-        options.AccessDeniedPath = "/Home/AccessDenied";
-        options.LoginPath = "/Login/LoginView";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.LoginPath = "/Account/LoginView";
         options.SlidingExpiration = true;
         options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
     });
