@@ -5,10 +5,27 @@
 <body>
     <h1>@ViewData["Title"]</h1>
 
-    <div class="separator-container">
+    <div class="scroll-container">
 
         <h2>Selecciona el vehículo siniestrado:</h2>
-        <p>Contenido del separador 1.</p>
+        <div class="card-container" id="cardContainer">
+            <div class="row">
+                @foreach (var item in Model.policyList)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.VehicleClient.Model</h5>
+                                <p class="card-text">@item.VehicleClient.Plate</p>
+                                <p class="card-text">@item.VehicleClient.Brand</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
     <div class="separator-container">
 
@@ -38,7 +55,7 @@
                                 <label asp-for="Longitud" class="form-label"></label>
                                 <input asp-for="Longitud" class="form-control">
                             </div>
-                            
+
                         </div>
                         <div class="card-footer text-center">
                             Ingrese el nombre de la ubicación o las coordenadas para verlo en el mapa.

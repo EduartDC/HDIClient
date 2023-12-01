@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using HDIClient.DTOs;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
@@ -25,5 +26,7 @@ namespace HDIClient.Models
 
         [Display(Name = "Mostrar la ruta")]
         public bool Ruta { get; set; }
+
+        public List<PolicyDTO> policyList { get; set; }
     }
 }

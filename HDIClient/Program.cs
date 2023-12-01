@@ -17,6 +17,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPolicyService, PolicyService>();
 builder.Services.AddMemoryCache();
 
 // Add authentication
