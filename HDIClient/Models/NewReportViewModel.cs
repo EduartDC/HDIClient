@@ -14,19 +14,13 @@ namespace HDIClient.Models
 
         public int Longitud { get; set; }
 
-        [Display(Name = "Medio de transporte:")]
-        public SelectList? Transportes { get; set; }
-        public string? Transporte { get; set; }
-
-        [Display(Name = "Distancia entre tu ubicación y el destino:")]
-        public string? Distancia { get; set; }
-
-        [Display(Name = "Tiempo entre tu ubicación y el destino:")]
-        public string? Tiempo { get; set; }
-
-        [Display(Name = "Mostrar la ruta")]
-        public bool Ruta { get; set; }
-
         public List<PolicyDTO> policyList { get; set; }
+
+        public VehicleclientDTO? VehicleSelected { get; set; }
+
+        public string? IdVehicleSelected { get; set; }
+
+        public string? Url { get; set; }
+
     }
 }

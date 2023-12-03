@@ -1,10 +1,6 @@
 ﻿@using HDIClient.DTOs;
 @using Microsoft.Extensions.Caching.Memory;
-@inject IMemoryCache memoryCache
 
-@{
-    TokenDTO token = memoryCache.Get<TokenDTO>("Token");
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,15 +16,17 @@
 <body>
     <header id="menu">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid" >
+            <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HDIClient</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    @if (token != null)
+
+                    @if (User.Identity.IsAuthenticated)
                     {
+
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -42,19 +40,19 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="RegisterDriver" asp-action="RegisterDriverDos">Registrar Conductor</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="Tips">Reporte</a>
+                            </li>
                         </ul>
+                        
+                        
                     }
                     else
                     {
-                        <ul class="navbar-nav d-flex justify-content-end flex-grow-1">
-                            <li class="nav-item">
-                                <a asp-controller="Account" asp-action="LoginView" class="btn btn-primary">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-page="/RegisterView" class="btn">Registrarse</a>
-                            </li>
+                        <ul class="navbar-nav flex-grow-1">
                         </ul>
                     }
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

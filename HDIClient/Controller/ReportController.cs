@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace HDIClient.Controllers
@@ -13,6 +14,7 @@ namespace HDIClient.Controllers
     public class ReportController : Controller
     {
         readonly IPolicyService _service;
+
         public ReportController(IPolicyService service, IMemoryCache memoryCache)
         {
             _service = service;
@@ -47,11 +49,38 @@ namespace HDIClient.Controllers
 
             var model = new NewReportViewModel
             {
-                Transportes = selectList,
                 policyList = listPolicy,
-                Ruta = true
             };
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SelectVehicle(string vehicleId, List<PolicyDTO> list)
+        {
+            // Lógica para seleccionar el vehículo y actualizar el ViewModel
+            var select = new VehicleclientDTO();
+            foreach (var vehicle in list)
+            {
+                if (vehicle.IdVehicleClient == vehicleId)
+                {
+
+                    select = vehicle.VehicleClient;
+                }
+
+            }
+            var model = new NewReportViewModel
+            {
+                VehicleSelected = select,
+            };
+
+            // Regresa el partial view junto con el ViewModel
+            return PartialView("_PartialNewReport", model);
+        }
+
+        public IActionResult ViewReport()
+        {
+            //recuperar el reporte
+           return View();
         }
     }
 }

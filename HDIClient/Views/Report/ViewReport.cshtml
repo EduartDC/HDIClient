@@ -1,12 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Nuevo Reporte";
-}
-<head>
-    <meta charset="UTF-8">
-    <title>Inicio de sesión</title>
-    <link rel="stylesheet" href="~/css/camara.css" />
-</head>
-@model NewReportViewModel
+﻿@model NewReportViewModel
 <body>
     <h1>@ViewData["Title"]</h1>
 
@@ -15,20 +7,27 @@
         <h2>Selecciona el vehículo siniestrado:</h2>
         <div class="card-container" id="cardContainer">
             <div class="row">
-                @foreach (var item in Model.policyList)
+                @if (Model.policyList.Any())
                 {
-                    <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="..." alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.VehicleClient.Model</h5>
-                                <p class="card-text">@item.VehicleClient.Plate</p>
-                                <p class="card-text">@item.VehicleClient.Brand</p>
-                                <p class="card-text">@item.VehicleClient.IdVehicleClient</p>
-                                <button class="btn btn-primary select-vehicle" data-vehicle-id="@item.VehicleClient.IdVehicleClient">Seleccionar</button>
+                    @foreach (var item in Model.policyList)
+                    {
+                        <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="..." alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.VehicleClient.Model</h5>
+                                    <p class="card-text">@item.VehicleClient.Plate</p>
+                                    <p class="card-text">@item.VehicleClient.Brand</p>
+                                    <p class="card-text">@item.VehicleClient.IdVehicleClient</p>
+                                    <button class="btn btn-primary select-vehicle" data-vehicle-id="@item.VehicleClient.IdVehicleClient">Seleccionar</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                }
+                else
+                {
+                    
                 }
             </div>
         </div>
@@ -40,7 +39,7 @@
             <div class="row" id="vehicleInfoRow">
                 <div class="col-lg-4 col-md-6 mb-4">
 
-                    <input asp-for="IdVehicleSelected" class="form-control d-none" id="infoId">
+                    <p id="infoId" style="display: none;"></p>
                     <h5>Modelo:</h5>
                     <p id="infoModel">Modelo del carro</p>
                 </div>
@@ -122,14 +121,7 @@
     <div class="separator-container">
 
         <h2>Fotografías del siniestro:</h2>
-        <button id="iniciar-camara">Iniciar la cámara</button>
-        <video id="video" width="320" height="240" autoplay></video>
-        <button id="clic-foto">Tomar foto</button>
-        <div id="dataurl-container">
-            <canvas id="canvas" width="320" height="240"></canvas>
-            <div id="dataurl-header" class="d-none">Data URL de la imagen</div>
-            <textarea asp-for=Url id="dataurl" readonly class="d-none"></textarea>
-        </div>
+        <p>Contenido del separador 1.</p>
     </div>
     <div class="separator-container">
 
@@ -164,67 +156,3 @@
     </div>
 
 </body>
-
-@section Styles {
-    <link rel="stylesheet" href="~/css/NewReport.css" asp-append-version="true" />
-}
-
-@section Scripts {
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN3vjtO_5CHpPTAIVpygowsC4sjptPESE&libraries=places&callback=&callback=console.debug"></script>
-    <script src="~/js/locationpicker.js"></script>
-    <script src="~/js/ubicacion.js"></script>
-    <script defer src="camara.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var selectButtons = document.querySelectorAll('.select-vehicle');
-
-            selectButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var vehicleId = this.getAttribute('data-vehicle-id');
-                    showVehicleInfo(vehicleId);
-                });
-            });
-
-            function showVehicleInfo(vehicleId) {
-                // Obtener la lista de vehículos desde el modelo
-                var vehicleList = @Html.Raw(Json.Serialize(Model.policyList));
-                for (var i = 0; i < vehicleList.length; i++) {
-                    var vehiculo = vehicleList[i];
-
-                    // Comparar el vehicleId
-                    if (vehiculo.idVehicleClient === vehicleId) {
-                        // Acceder a las propiedades de vehicleClient
-                        var idVehicleClient = vehiculo.vehicleClient.idVehicleClient;
-                        var brand = vehiculo.vehicleClient.brand;
-                        var color = vehiculo.vehicleClient.color;
-                        var model = vehiculo.vehicleClient.model;
-                        var plate = vehiculo.vehicleClient.plate;
-                        var serialNumber = vehiculo.vehicleClient.serialNumber;
-                        var year = vehiculo.vehicleClient.year;
-
-
-                        var infoId = document.getElementById('infoId');
-                        var infoModel = document.getElementById('infoModel');
-                        var infoColor = document.getElementById('infoColor');
-                        var infoBrand = document.getElementById('infoBrand');
-                        var infoYear = document.getElementById('infoYear');
-                        var infoSerialNumber = document.getElementById('infoSerialNumber');
-                        var infoPlate = document.getElementById('infoPlate');
-
-                        // Actualizar el contenido de la sección de información del vehículo
-                        infoId.value = idVehicleClient;
-                        infoModel.innerText = model;
-                        infoColor.innerText = color;
-                        infoBrand.innerText = brand;
-                        infoYear.innerText = year;
-                        infoSerialNumber.innerText = serialNumber;
-                        infoPlate.innerText = plate;
-
-                        break;
-                    }
-                }
-            }
-        });
-    </script>
-}
-

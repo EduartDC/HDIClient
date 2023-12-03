@@ -66,6 +66,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "report",
     pattern: "{controller=Report}/{action=Tips}");
+app.MapControllerRoute(
+    name: "policy",
+    pattern: "{controller=Policy}/{action=ViewPolicy}");
 
 
 app.Run();
