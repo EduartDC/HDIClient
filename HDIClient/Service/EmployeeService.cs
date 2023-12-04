@@ -24,7 +24,7 @@ namespace HDIClient.Service
             {
 
                 var json = new StringContent(JsonConvert.SerializeObject(idEmployee), Encoding.UTF8, "application/json");
-                var response = await _cliente.GetAsync("/Employee/GetEmployeeById/K2Z7IYF29M");
+                var response = await _cliente.GetAsync("/Employee/GetEmployeeById/" + idEmployee);
                 code = (int)response.StatusCode;
                 if(response.IsSuccessStatusCode)
                 {
@@ -40,6 +40,32 @@ namespace HDIClient.Service
             }
 
             return (code,employeeDTO);
+        }
+
+        public async Task<(int, List<EmployeeDTO>)> GetEmployeeList()
+        {
+            List<EmployeeDTO> employeeList = new List<EmployeeDTO> ();
+            var code = 0;
+            try
+            {
+
+                
+                var response = await _cliente.GetAsync("/Employee/GetEmployeeList");
+                code = (int)response.StatusCode;
+                if (response.IsSuccessStatusCode)
+                {
+
+                    var content = await response.Content.ReadAsStringAsync();
+                    
+                    employeeList = JsonConvert.DeserializeObject<List<EmployeeDTO>>(content);
+                }
+            }
+            catch (HttpRequestException)
+            {
+                code = 500;
+            }
+
+            return (code, employeeList);
         }
 
         public async Task<int> RegisterNewEmployee(EmployeeDTO newEmployee)

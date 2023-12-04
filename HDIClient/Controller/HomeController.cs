@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HDIClient.Controllers
 {
@@ -9,6 +10,11 @@ namespace HDIClient.Controllers
             return View();
         }
         public IActionResult Test()
+        {
+            return View();
+        }
+        //[Authorize(Roles = "admin")]
+        public IActionResult Privacy()
         {
             return View();
         }

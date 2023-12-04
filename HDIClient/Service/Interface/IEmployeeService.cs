@@ -11,6 +11,9 @@ namespace HDIClient.Service.Interface
 
         public Task<int> SetUpdateEmployee(EmployeeDTO newEmployee);
 
+        public Task<(int, List<EmployeeDTO>)> GetEmployeeList();
+
+
 
     }
 }

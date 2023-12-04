@@ -1,6 +1,7 @@
 using HDIClient.Service;
 using HDIClient.Service.Interface;
-using HDIClient.Utility;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -18,17 +19,31 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddScoped<AuthorizationFilter>();
+
 builder.Services.AddMemoryCache();
 // Add JWT authentication
+
 var appSettings = builder.Configuration.GetSection("ApiSettings");
 
-
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton(configuration);
+builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddMemoryCache();
 
+// Add authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "HDIClientCookie";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.LoginPath = "/Account/LoginView";
+        options.SlidingExpiration = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    });
+
+builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddHttpClient("ApiHttpClient", client =>
 {
@@ -49,10 +64,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 // Add authentication and authorization middleware
-app.UseAuthentication();
-
 
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
@@ -60,7 +74,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "login",
-    pattern: "{controller=Login}/{action=LoginView}");
+    pattern: "{controller=Account}/{action=LoginView}");
 app.MapControllerRoute(
     name: "report",
     pattern: "{controller=NewReport}/{action=NewReportView}");
@@ -75,6 +89,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "editEmployee",
     pattern: "{controller=EditEmployee}/{action=EditRegisterEmployeeView}");
+app.MapControllerRoute(
+    name: "employeeManagement",
+    pattern: "{controller=EmployeeManagement}/{action=EmployeeManagementView}");
 
 
 app.Run();

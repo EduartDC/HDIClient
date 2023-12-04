@@ -25,18 +25,18 @@ namespace HDIClient.Controllers
                 {"OTHER","El de servicio"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
-            var DTOObject = _employeeService.GetEmployeeById(idUserPrueba);
+            var DTOObject =   _employeeService.GetEmployeeById(TempData["IdUserEdit"] as string);
             //iniciamos el modelo a enviar a la vista
             var model = new EmployeeViewModel
             {
-                NameEmployeee = DTOObject.Result.Item2.NameEmployee,
+                NameEmployeee =  DTOObject.Result.Item2.NameEmployee,
                 LastnameEmployee = DTOObject.Result.Item2.LastnameEmployee,
                 Username = DTOObject.Result.Item2.Username,
                 Password = DTOObject.Result.Item2.Password,
                 ListaDeRoles = selectList,
                 Rol = DTOObject.Result.Item2.Rol
             };
-            TempData["IdUser"] = DTOObject.Result.Item2.IdEmployee;
+          //  TempData["IdUserEdit"] = DTOObject.Result.Item2.IdEmployee;
 
 
 
@@ -52,7 +52,7 @@ namespace HDIClient.Controllers
                 //generando DTO
                 EmployeeDTO employeeTemp = new EmployeeDTO()
                 {
-                    IdEmployee = TempData["IdUser"] as string,
+                    IdEmployee = TempData["IdUserEdit"] as string,
                     NameEmployee = newEmployee.NameEmployeee,
                     LastnameEmployee = newEmployee.LastnameEmployee,
                     Username = newEmployee.Username,

@@ -21,9 +21,9 @@ namespace HDIClient.Service
 
         }
 
-        public async Task<string> Login(string user, string pass)
+        public async Task<TokenDTO> Login(string user, string pass)
         {
-            var result = "";
+            TokenDTO result = null;
             try
             {
                 var loginInfo = new LoginDTO
@@ -39,19 +39,13 @@ namespace HDIClient.Service
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var token = responseObject;
-                    _memoryCache.Set("Token", token);
-                    result = response.StatusCode.ToString();
+                    result = responseObject;
                 }
-                else
-                {
-                    result = "400";
-                }
-                
+
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
-                return "500";
+                throw new Exception("Error al conectarse con el servidor");
             }
             return result;
         }
