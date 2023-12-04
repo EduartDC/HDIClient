@@ -1,37 +1,7 @@
-﻿@model NewReportViewModel
+﻿@model ReportViewModel
 <body>
     <h1>@ViewData["Title"]</h1>
 
-    <div class="scroll-container">
-
-        <h2>Selecciona el vehículo siniestrado:</h2>
-        <div class="card-container" id="cardContainer">
-            <div class="row">
-                @if (Model.policyList.Any())
-                {
-                    @foreach (var item in Model.policyList)
-                    {
-                        <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
-                            <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="..." alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">@item.VehicleClient.Model</h5>
-                                    <p class="card-text">@item.VehicleClient.Plate</p>
-                                    <p class="card-text">@item.VehicleClient.Brand</p>
-                                    <p class="card-text">@item.VehicleClient.IdVehicleClient</p>
-                                    <button class="btn btn-primary select-vehicle" data-vehicle-id="@item.VehicleClient.IdVehicleClient">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-                else
-                {
-                    
-                }
-            </div>
-        </div>
-    </div>
     <div class="separator-container">
 
         <h2>Información del Vehículo:</h2>
@@ -121,38 +91,21 @@
     <div class="separator-container">
 
         <h2>Fotografías del siniestro:</h2>
-        <p>Contenido del separador 1.</p>
+        
     </div>
     <div class="separator-container">
 
-        <h2>Agregar Involucrados:</h2>
-        <div class="col-sm-6">
-            <form>
-                <div class="card mt-3">
-                    <div class="card-header">
-                        Datos de localización
-                    </div>
-                    <div class="card-body contenedor-mapa">
-                        <div class="mb-3">
-                            <label asp-for="Localizador" class="form-label"></label>
-                            <input asp-for="Localizador" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Latitud" class="form-label"></label>
-                            <input asp-for="Latitud" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Longitud" class="form-label"></label>
-                            <input asp-for="Longitud" class="form-control">
-                        </div>
-
-                    </div>
-                    <div class="card-footer text-center">
-                        Ingrese la informacion del involucrado.
-                    </div>
-                </div>
-            </form>
-        </div>
+        <h2>Involucrados:</h2>
+       
     </div>
 
 </body>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/NewReport.css" asp-append-version="true" />
+}
+@section Scripts {
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN3vjtO_5CHpPTAIVpygowsC4sjptPESE&libraries=places&callback=&callback=console.debug"></script>
+    <script src="~/js/locationpicker.js"></script>
+    <script src="~/js/ubicacion.js"></script>
+}

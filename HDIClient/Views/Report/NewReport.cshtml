@@ -1,11 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Nuevo Reporte";
 }
-<head>
-    <meta charset="UTF-8">
-    <title>Inicio de sesión</title>
-    <link rel="stylesheet" href="~/css/camara.css" />
-</head>
+
 @model NewReportViewModel
 <body>
     <h1>@ViewData["Title"]</h1>
@@ -19,7 +15,7 @@
                 {
                     <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
                         <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <img class="card-img-top" src="" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">@item.VehicleClient.Model</h5>
                                 <p class="card-text">@item.VehicleClient.Plate</p>
@@ -122,14 +118,16 @@
     <div class="separator-container">
 
         <h2>Fotografías del siniestro:</h2>
-        <button id="iniciar-camara">Iniciar la cámara</button>
-        <video id="video" width="320" height="240" autoplay></video>
-        <button id="clic-foto">Tomar foto</button>
-        <div id="dataurl-container">
-            <canvas id="canvas" width="320" height="240"></canvas>
-            <div id="dataurl-header" class="d-none">Data URL de la imagen</div>
-            <textarea asp-for=Url id="dataurl" readonly class="d-none"></textarea>
+        <label for="sourceSelection">Seleccione la fuente de la imagen:</label>
+        <select id="sourceSelection">
+            <option value="camera">Tomar foto con la cámara</option>
+            <option value="gallery">Subir desde la galería</option>
+        </select>
+
+        <div id="partialViewContainer">
+            <!-- Aquí se cargará la Partial View dinámicamente -->
         </div>
+
     </div>
     <div class="separator-container">
 
@@ -167,13 +165,14 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/NewReport.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/camara.css" />
 }
 
 @section Scripts {
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN3vjtO_5CHpPTAIVpygowsC4sjptPESE&libraries=places&callback=&callback=console.debug"></script>
     <script src="~/js/locationpicker.js"></script>
     <script src="~/js/ubicacion.js"></script>
-    <script defer src="camara.js"></script>
+    <script src="~/js/camara.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var selectButtons = document.querySelectorAll('.select-vehicle');
@@ -224,6 +223,31 @@
                     }
                 }
             }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Manejar el cambio en la selección
+            $('#sourceSelection').change(function () {
+                var selectedValue = $(this).val();
+
+                // Limpiar el contenedor de Partial View
+                $('#partialViewContainer').empty();
+
+                // Cargar la Partial View correspondiente
+                $.ajax({
+                    url: '/Report/' + (selectedValue === 'camera' ? 'Camara' : 'Galeria'),
+                    type: 'GET',
+                    success: function (result) {
+                        // Insertar el resultado en el contenedor de Partial View
+                        $('#partialViewContainer').html(result);
+                    },
+                    error: function (error) {
+                        console.error('Error al cargar la Partial View: ', error);
+                    }
+                });
+            });
         });
     </script>
 }

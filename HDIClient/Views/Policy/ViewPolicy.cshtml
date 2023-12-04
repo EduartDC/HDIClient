@@ -17,7 +17,7 @@
                                 <p class="card-text">@item.EndTerm</p>
                                 <p class="card-text">@item.Price</p>
                                 <p class="card-text">@item.PolicyType</p>
-
+                                <button class="btn btn-primary select-vehicle" data-vehicle-id="@item.VehicleClient.IdVehicleClient">Seleccionar</button>
                             </div>
                         </div>
                     </div>
@@ -31,4 +31,95 @@
             }
         </div>
     </div>
+    <div class="separator-container">
+
+        <h2>Información del Vehículo:</h2>
+        <div id="vehicleInfoContainer">
+            <div class="row" id="vehicleInfoRow">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Modelo:</h5>
+                    <p id="infoModel">Modelo del carro</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Color:</h5>
+                    <p id="infoColor">Color del carro</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Marca:</h5>
+                    <p id="infoBrand">Marca del carro</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Año:</h5>
+                    <p id="infoYear">Año del carro</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Número de Serie:</h5>
+                    <p id="infoSerialNumber">Número de serie del carro</p>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Número de Placas:</h5>
+                    <p id="infoPlate">Número de placas del carro</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/camara.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var selectButtons = document.querySelectorAll('.select-vehicle');
+
+            selectButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var vehicleId = this.getAttribute('data-vehicle-id');
+                    showVehicleInfo(vehicleId);
+                });
+            });
+
+            function showVehicleInfo(vehicleId) {
+                // Obtener la lista de vehículos desde el modelo
+                var vehicleList = @Html.Raw(Json.Serialize(Model.PolicyList));
+                for (var i = 0; i < vehicleList.length; i++) {
+                    var vehiculo = vehicleList[i];
+                    console.log(vehicleId);
+                    // Comparar el vehicleId
+                    if (vehiculo.idVehicleClient === vehicleId) {
+                        // Acceder a las propiedades de vehicleClient
+                        var idVehicleClient = vehiculo.vehicleClient.idVehicleClient;
+                        var brand = vehiculo.vehicleClient.brand;
+                        var color = vehiculo.vehicleClient.color;
+                        var model = vehiculo.vehicleClient.model;
+                        var plate = vehiculo.vehicleClient.plate;
+                        var serialNumber = vehiculo.vehicleClient.serialNumber;
+                        var year = vehiculo.vehicleClient.year;
+
+                        var infoModel = document.getElementById('infoModel');
+                        var infoColor = document.getElementById('infoColor');
+                        var infoBrand = document.getElementById('infoBrand');
+                        var infoYear = document.getElementById('infoYear');
+                        var infoSerialNumber = document.getElementById('infoSerialNumber');
+                        var infoPlate = document.getElementById('infoPlate');
+
+                        // Actualizar el contenido de la sección de información del vehículo
+                        infoModel.innerText = model;
+                        infoColor.innerText = color;
+                        infoBrand.innerText = brand;
+                        infoYear.innerText = year;
+                        infoSerialNumber.innerText = serialNumber;
+                        infoPlate.innerText = plate;
+
+                        break;
+                    }
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,20 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h1>camara</h1>
+
+<button id="iniciar-camara">Iniciar la cámara</button>
+<video id="video" width="320" height="240" autoplay></video>
+<button id="clic-foto">Tomar foto</button>
+<div id="dataurl-container">
+    <canvas id="canvas" width="320" height="240"></canvas>
+    <div id="dataurl-header" class="d-none">Data URL de la imagen</div>
+    <textarea  id="dataurl" readonly class="d-none"></textarea>
+</div>
+
+@section Scripts {
+
+    <script src="~/js/camara.js"></script>
+}

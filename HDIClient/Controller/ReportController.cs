@@ -14,10 +14,12 @@ namespace HDIClient.Controllers
     public class ReportController : Controller
     {
         readonly IPolicyService _service;
+        readonly IReportService _reportService;
 
-        public ReportController(IPolicyService service, IMemoryCache memoryCache)
+        public ReportController(IPolicyService service, IReportService reportService)
         {
             _service = service;
+            _reportService = reportService;
 
         }
         public IActionResult Tips()
@@ -39,19 +41,24 @@ namespace HDIClient.Controllers
             {
                 //
             }
-            var Transportes = new Dictionary<string, string>
-            {
-                {"DRIVING", "Automóvil"},
-                {"WALKING", "Caminando"},
-                {"BICYCLING", "Bicicleta"}
-            };
-            var selectList = new SelectList(Transportes, "Key", "Value");
 
             var model = new NewReportViewModel
             {
                 policyList = listPolicy,
             };
             return View(model);
+        }
+
+        public IActionResult Camara()
+        {
+            // Lógica para tomar fotos con la cámara
+            return PartialView("_PartialCamara");
+        }
+
+        public IActionResult Galeria()
+        {
+            // Lógica para subir fotos desde la galería
+            return PartialView("_PartialFiles");
         }
 
         [HttpPost]
@@ -77,10 +84,16 @@ namespace HDIClient.Controllers
             return PartialView("_PartialNewReport", model);
         }
 
-        public IActionResult ViewReport()
+        public async Task<IActionResult> ViewReport()
         {
+            var token = User.FindFirst("token").Value;
+            var report  = await _reportService.GetReportById(token, "ACC3NOBORRAR");
             //recuperar el reporte
-           return View();
+            var model = new ReportViewModel
+            {
+                Report = report,
+            };
+           return View(model);
         }
     }
 }
