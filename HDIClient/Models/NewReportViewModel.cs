@@ -21,6 +21,7 @@ namespace HDIClient.Models
         public string? IdVehicleSelected { get; set; }
 
         public string? Url { get; set; }
+        public List<InvolvedDTO> involvedDTOs { get; set; }
 
     }
 }
