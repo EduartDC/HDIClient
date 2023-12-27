@@ -31,6 +31,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IPolicyService, PolicyService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddMemoryCache();
 
 // Add authentication

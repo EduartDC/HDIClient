@@ -19,6 +19,8 @@
 
     <Folder Include="Utility\" />
 
+    <Folder Include="wwwroot\images\" />
+
   </ItemGroup>
 
 </Project>

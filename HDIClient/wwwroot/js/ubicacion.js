@@ -6,8 +6,6 @@ let longitud = -96.9271873;
 // Coordenadas de donde esta el cliente
 let latitudHome;
 let longitudHome;
-let transportesSelect = document.getElementById("Transporte");
-let rutaCheck = document.querySelector("#Ruta");
 let directionsRenderer = new google.maps.DirectionsRenderer();
 
 // Esta función dibuja el mapa y coloca un marcador seleccionable en la FEI
@@ -26,7 +24,7 @@ function dibujaMapa() {
         onchanged: function (currentLocation, radius, isMarkerDropped) {
             latitud = currentLocation.latitude;
             longitud = currentLocation.longitude;
-            distancia();
+            
         }
     });
 }
@@ -48,7 +46,7 @@ function miUbicacion() {
                     title: "Esta es tu ubicación actual",
                     icon: "images/home.png"
                 });
-                distancia();
+                
             },
             () => {
                 $('#Distancia').val("La localización no está activada.");
@@ -59,7 +57,7 @@ function miUbicacion() {
     }
 }
 
-function distancia() {
+/*function distancia() {
     let mapContext = mapa.locationpicker('map');
 
     const service = new google.maps.DistanceMatrixService();
@@ -99,7 +97,7 @@ function distancia() {
     } else {
         directionsRenderer.setMap(null);
     }
-}
+}*/
 
 /*[transportesSelect, rutaCheck].forEach(item => {
     item.addEventListener("change", function () {

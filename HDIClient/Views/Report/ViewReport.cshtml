@@ -1,37 +1,8 @@
-﻿@model NewReportViewModel
+﻿@using System.Web;
+@model ReportViewModel
 <body>
     <h1>@ViewData["Title"]</h1>
 
-    <div class="scroll-container">
-
-        <h2>Selecciona el vehículo siniestrado:</h2>
-        <div class="card-container" id="cardContainer">
-            <div class="row">
-                @if (Model.policyList.Any())
-                {
-                    @foreach (var item in Model.policyList)
-                    {
-                        <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
-                            <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="..." alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">@item.VehicleClient.Model</h5>
-                                    <p class="card-text">@item.VehicleClient.Plate</p>
-                                    <p class="card-text">@item.VehicleClient.Brand</p>
-                                    <p class="card-text">@item.VehicleClient.IdVehicleClient</p>
-                                    <button class="btn btn-primary select-vehicle" data-vehicle-id="@item.VehicleClient.IdVehicleClient">Seleccionar</button>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-                else
-                {
-                    
-                }
-            </div>
-        </div>
-    </div>
     <div class="separator-container">
 
         <h2>Información del Vehículo:</h2>
@@ -41,32 +12,32 @@
 
                     <p id="infoId" style="display: none;"></p>
                     <h5>Modelo:</h5>
-                    <p id="infoModel">Modelo del carro</p>
+                    <p id="infoModel">@Model.Report.VehicleClient.Model</p>
                 </div>
 
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5>Color:</h5>
-                    <p id="infoColor">Color del carro</p>
+                    <p id="infoColor">@Model.Report.VehicleClient.Color</p>
                 </div>
 
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5>Marca:</h5>
-                    <p id="infoBrand">Marca del carro</p>
+                    <p id="infoBrand">@Model.Report.VehicleClient.Brand</p>
                 </div>
 
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5>Año:</h5>
-                    <p id="infoYear">Año del carro</p>
+                    <p id="infoYear">@Model.Report.VehicleClient.Year</p>
                 </div>
 
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5>Número de Serie:</h5>
-                    <p id="infoSerialNumber">Número de serie del carro</p>
+                    <p id="infoSerialNumber">@Model.Report.VehicleClient.SerialNumber</p>
                 </div>
 
                 <div class="col-lg-4 col-md-6 mb-4">
                     <h5>Número de Placas:</h5>
-                    <p id="infoPlate">Número de placas del carro</p>
+                    <p id="infoPlate">@Model.Report.VehicleClient.Plate</p>
                 </div>
             </div>
         </div>
@@ -89,16 +60,15 @@
                             </div>
                             <div class="mb-3">
                                 <label asp-for="Latitud" class="form-label"></label>
-                                <input asp-for="Latitud" class="form-control">
+                                <input id="latitudid" asp-for="Latitud" class="form-control" value="@Model.Report.Latitude">
                             </div>
                             <div class="mb-3">
                                 <label asp-for="Longitud" class="form-label"></label>
-                                <input asp-for="Longitud" class="form-control">
+                                <input id="longitudid" asp-for="Longitud" class="form-control" value="@Model.Report.Longitude">
                             </div>
 
                         </div>
                         <div class="card-footer text-center">
-                            Ingrese el nombre de la ubicación o las coordenadas para verlo en el mapa.
                         </div>
                     </div>
                 </form>
@@ -109,10 +79,9 @@
                         Mapa
                     </div>
                     <div class="card-body contenedor-mapa">
-                        <div id="mapa" class="h-100"></div>
+                        <div id="mapa" class="h-100" draggable="false"></div>
                     </div>
                     <div class="card-footer text-center">
-                        Seleccione un lugar moviendo el marcador rojo a una ubicación.
                     </div>
                 </div>
             </div>
@@ -121,38 +90,117 @@
     <div class="separator-container">
 
         <h2>Fotografías del siniestro:</h2>
-        <p>Contenido del separador 1.</p>
+        <section id="galery">
+            <div class="row">
+            </div>
+        </section>
+
+
     </div>
     <div class="separator-container">
 
-        <h2>Agregar Involucrados:</h2>
-        <div class="col-sm-6">
-            <form>
-                <div class="card mt-3">
-                    <div class="card-header">
-                        Datos de localización
-                    </div>
-                    <div class="card-body contenedor-mapa">
-                        <div class="mb-3">
-                            <label asp-for="Localizador" class="form-label"></label>
-                            <input asp-for="Localizador" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Latitud" class="form-label"></label>
-                            <input asp-for="Latitud" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Longitud" class="form-label"></label>
-                            <input asp-for="Longitud" class="form-control">
-                        </div>
+        <h2>Involucrados:</h2>
+        <table class="table table-striped table-hover mt-3 text-center table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Numero de Licencia</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Color</th>
+                    <th>No. Placas</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Report.Involveds)
+                {
+                    <tr>
+                        <td>@item.NameInvolved @item.LastNameInvolved</td>
+                        <td>@item.LicenseNumber</td>
+                        @if (item.CarInvolved != null)
+                        {
+                            <td>@item.CarInvolved.Brand</td>
+                            <td>@item.CarInvolved.Model</td>
+                            <td>@item.CarInvolved.Color</td>
+                            <td>@item.CarInvolved.Plate</td>
+                        }
+                        else
+                        {
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-                    </div>
-                    <div class="card-footer text-center">
-                        Ingrese la informacion del involucrado.
-                    </div>
-                </div>
-            </form>
-        </div>
     </div>
 
+    <div class="separator-container">
+        <h2>Resolución del ajustador:</h2>
+
+        <div>
+            @if (Model.Report.OpinionAdjuster.Description != null)
+            {
+                <form method="post" action="@Url.Action("UpdateOpinion", "Report")">
+                    <!-- Si existe opinión, muestra la opinión y un botón para editar -->
+                    <input type="hidden" name="IdOpinionAdjuster" value="@Model.Report.IdOpinionAdjuster" />
+                    <textarea class="form-control" rows="5" name="description" readonly>
+                        @Html.Raw(Model.Report.OpinionAdjuster.Description.TrimStart())
+                    </textarea>
+                    <button type="button" class="btn btn-primary mt-2" onclick="habilitarEdicion()">Editar</button>
+                    <button type="submit" class="btn btn-success mt-2" id="btnGuardar" style="display:none">Guardar</button>
+                </form>
+            }
+            else
+            {
+                <form method="post" action="@Url.Action("CreatOpinion", "Report")">
+                    <!-- Si no existe opinión, muestra un área de texto para agregar -->
+                    <input type="hidden" name="idReport" value="@Model.Report.IdAccident" />
+                    <textarea class="form-control" rows="5" name="description" readonly>El ajustador no ha dado una resolución.</textarea>
+                    <button type="button" class="btn btn-primary mt-2" onclick="limpiarTextarea()">Agregar resolución</button>
+                    <button type="submit" class="btn btn-success mt-2" id="btnGuardar" style="display:none">Guardar</button>
+                </form>
+            }
+        </div>
+
+    </div>
 </body>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/NewReport.css" asp-append-version="true" />
+}
+@section Scripts {
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN3vjtO_5CHpPTAIVpygowsC4sjptPESE&libraries=places&callback=&callback=console.debug"></script>
+    <script src="~/js/locationpicker.js"></script>
+    <script src="~/js/ubicacionTwo.js"></script>
+    <script>
+        function habilitarEdicion() {
+            // Habilita la edición del textarea
+            var textarea = document.getElementsByName("description")[0];
+            textarea.readOnly = false;
+
+            // Oculta el botón de editar
+            var btnEditar = textarea.nextElementSibling;
+            btnEditar.style.display = "none";
+
+            // Muestra el botón de guardar
+            var btnGuardar = document.getElementById("btnGuardar");
+            btnGuardar.style.display = "block";
+        }
+        function limpiarTextarea() {
+            var textarea = document.querySelector('textarea[name="description"]');
+            textarea.value = ''; // Limpiar el contenido del textarea
+            textarea.removeAttribute('readonly');
+            // Oculta el botón de editar
+            var btnEditar = textarea.nextElementSibling;
+            btnEditar.style.display = "none";
+            document.getElementById('btnGuardar').style.display = 'block';
+        }
+    </script>
+    <script>
+    console.log('@Model.Report.OpinionAdjuster.Description');
+</script>
+}

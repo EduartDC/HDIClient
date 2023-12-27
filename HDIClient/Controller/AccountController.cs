@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using HDIClient.Service.Interface;
 using Microsoft.Extensions.Caching.Memory;
+using System.Net;
 
 namespace HDIClient.Controllers
 {
@@ -34,27 +35,39 @@ namespace HDIClient.Controllers
 
                 var user = loginModel.User;
                 var password = loginModel.Password;
-
-                var result = await _service.Login(user, password);
-                if (result != null)
+                
+                try
                 {
-                    var claims = new List<Claim>
+                    var (result, code) = await _service.Login(user, password);
+                    if (code == HttpStatusCode.OK)
                     {
-                        new Claim(ClaimTypes.Name, result.fullName),
-                        new Claim(ClaimTypes.Sid, result.idUser),
-                        new Claim(ClaimTypes.Role, result.role),
-                        new Claim("token", result.token)
-                    };
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, result.fullName),
+                            new Claim(ClaimTypes.Sid, result.idUser),
+                            new Claim(ClaimTypes.Role, result.role),
+                            new Claim("token", result.token)
+                        };
 
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties();
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-                    return RedirectToAction("Index", "Home");
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var authProperties = new AuthenticationProperties();
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (code == HttpStatusCode.InternalServerError)
+                    {
+                        //mensaje de error de servidor
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Usuario o contraseña invalido");
+                    }
                 }
-                else
+                catch(Exception)
                 {
-                    ModelState.AddModelError("", "Usuario o contraseña invalido");
+                   //mensaje de error de conexion
                 }
+                
             }
             return View("LoginView");
         }
