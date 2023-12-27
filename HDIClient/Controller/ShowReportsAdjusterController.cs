@@ -9,39 +9,44 @@ namespace HDIClient.Controllers
 {
     public class ShowReportsAdjusterController : Controller
     {
-        private IEmployeeService _employeeService;
-        private EmployeeViewModel viewmodelTemp ;
+        private IReportService _reportService;
+        private EmployeeViewModel viewmodelTemp;
         private string idUserPrueba = "1d";//ESAT ES UNICAMENTE PARA PRUEBA
-        public ShowReportsAdjusterController(IEmployeeService employeeService) { 
-        _employeeService = employeeService;
+        public ShowReportsAdjusterController(IReportService reportService)
+        {
+            _reportService = reportService;
         }
 
         public async Task<IActionResult> ShowReportsAjusterView()
         {
+            string idAjustadorPrueba = "e2";
+            //lista para uno de los filtros
             var StatusList = new Dictionary<string, string>
             {
                 {"Concluido","Concluido"},
                 {"Activo","Activo"},
             };
             var selectList = new SelectList(StatusList, "Key", "Value");
-            var DTOReports =   _employeeService.GetEmployeeById(TempData["IdUserEdit"] as string);
-            //iniciamos el modelo a enviar a la vista
-            var model = new EmployeeViewModel
+            var result =  _reportService.GetPreviewReportsList(idAjustadorPrueba);
+
+            if (result.Result.Item1 == 200)
             {
-                //NameEmployeee =  DTOObject.Result.Item2.NameEmployee,
-                //LastnameEmployee = DTOObject.Result.Item2.LastnameEmployee,
-                //Username = DTOObject.Result.Item2.Username,
-                //Password = DTOObject.Result.Item2.Password,
-                //ListaDeRoles = selectList,
-                //Rol = DTOObject.Result.Item2.Rol
-            };
-     
+                var model = new PreviewReportsListViewModel
+                {
+                    previewList = result.Result.Item2
+                };
+                return View("ShowReportsAdjuster", model);
+            }
+            else
+            {
+
+            }
 
 
 
-            // viewmodelTemp = model;
-            return View("EditEmployeeView", model);
-            //return View("LoginView");
+
+            return View("ShowReportsAdjuster");
+
         }
 
     }

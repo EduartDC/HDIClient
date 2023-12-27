@@ -1,11 +1,61 @@
-﻿@{
+﻿@model HDIClient.Models.PreviewReportsListViewModel
+@{
     ViewData["title"] = "Historial de siniestros";
 }
 <div>
-    <h2> Administracion de empleados</h2>
-    <br />
+    <h2>Historial de reportes</h2>
 
-    <div class="historalReports">
-           
-    </div>
+    <h3>Filtros</h3>
+    
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.previewList[0].ReportNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.previewList[0].NameClient)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.previewList[0].ReportDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.previewList[0].StatusReport)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.previewList[0].)
+                </th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.previewList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReportNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameClient)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReportDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusReport)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    </td>*@
+                    <td class="td">
+                        @* <a class="boton" asp-controller="EmployeeManagement" asp-action="EditInfoEmployee" asp-route-id="@item.IdEmployee">Editar</a>*@
+                        <a class="boton" asp-action="EditInfoEmployee" asp-route-id="@item.ReportNumber">Editar</a>
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

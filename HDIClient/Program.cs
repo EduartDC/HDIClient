@@ -29,7 +29,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
-
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IPolicyService, PolicyService>();
 builder.Services.AddMemoryCache();
 
 // Add authentication
@@ -77,7 +78,10 @@ app.MapControllerRoute(
     pattern: "{controller=Account}/{action=LoginView}");
 app.MapControllerRoute(
     name: "report",
-    pattern: "{controller=NewReport}/{action=NewReportView}");
+    pattern: "{controller=Report}/{action=Tips}");
+app.MapControllerRoute(
+    name: "policy",
+    pattern: "{controller=Policy}/{action=ViewPolicy}");
 
 app.MapControllerRoute(
     name: "registerdriver",
@@ -92,6 +96,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "employeeManagement",
     pattern: "{controller=EmployeeManagement}/{action=EmployeeManagementView}");
+app.MapControllerRoute(
+    name: "showReportsAdjuster",
+    pattern: "{controller=ShowReportsAdjuster}/{action=ShowReportsAjusterView}");
 
 
 app.Run();
