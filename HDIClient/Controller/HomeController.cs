@@ -9,14 +9,13 @@ namespace HDIClient.Controllers
         {
             return View();
         }
-        public IActionResult Test()
-        {
-            return View();
-        }
+
         //[Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
+        
     }
 }

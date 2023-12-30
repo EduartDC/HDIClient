@@ -1,0 +1,24 @@
+﻿@using HDIClient.DTOs;
+@using Microsoft.AspNetCore.Identity
+
+
+<ul class="navbar-nav">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark">Hola @(User.Identity?.Name)!</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Cuentas" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index","Home")">Salir</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a asp-controller="Account" asp-action="LoginView" class="btn btn-primary">Login</a>
+        </li>
+        <li class="nav-item">
+            <a asp-page="/RegisterView" class="btn">Registrarse</a>
+        </li>
+    }
+</ul>

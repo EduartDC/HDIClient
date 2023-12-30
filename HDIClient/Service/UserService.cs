@@ -3,6 +3,7 @@ using HDIClient.Responses;
 using HDIClient.Service.Interface;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
+using System.Net;
 using System.Text;
 
 namespace HDIClient.Service
@@ -21,9 +22,10 @@ namespace HDIClient.Service
 
         }
 
-        public async Task<TokenDTO> Login(string user, string pass)
+        public async Task<(TokenDTO, HttpStatusCode)> Login(string user, string pass)
         {
             TokenDTO result = null;
+            HttpStatusCode statusCode = HttpStatusCode.OK;
             try
             {
                 var loginInfo = new LoginDTO
@@ -41,13 +43,17 @@ namespace HDIClient.Service
                 {
                     result = responseObject;
                 }
+                else
+                {
+                    statusCode = response.StatusCode;
+                }
 
             }
             catch (Exception)
             {
                 throw new Exception("Error al conectarse con el servidor");
             }
-            return result;
+            return (result, statusCode);
         }
         
     }
