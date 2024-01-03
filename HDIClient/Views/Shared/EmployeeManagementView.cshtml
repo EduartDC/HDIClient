@@ -1,0 +1,81 @@
+﻿@model HDIClient.Models.EmployeeListViewModel
+@{
+    ViewData["title"] = "Edicion de empleado";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/EmployeeManagementStyle.css" />
+
+</head>
+<div>
+    <h2> Administracion de empleados</h2>
+    <br/>
+    <button class="btn btn-primary" asp-controller="EmployeeManagement" asp-action="RegisterNewEmployee">Agregar nuevo empleado</button>
+    <br />
+    
+    <table class="table table-bordered">
+       
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.employeeList[0].NameEmployee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.employeeList[0].LastnameEmployee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.employeeList[0].Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.employeeList[0].Rol)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.employeeList[0].RegistrationDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.employeeList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdEmployee)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastnameEmployee)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rol)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    </td>
+                    <td class="td">
+                       @* <a class="boton" asp-controller="EmployeeManagement" asp-action="EditInfoEmployee" asp-route-id="@item.IdEmployee">Editar</a>*@
+                        <a class="boton" asp-action="EditInfoEmployee" asp-route-id="@item.IdEmployee">Editar</a>
+
+                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+     }
+    <script src="@Url.Content("~/js/messages.js")"></script>
+
+    <script>
+        // Llamada a la función que verifica TempData y muestra mensajes
+        verificarMensajesTempData();
+    </script>
+}

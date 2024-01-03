@@ -1,0 +1,167 @@
+﻿@model AseguradoraApp.Models.DriverClient
+
+@{
+    ViewData["title"] = "RegisterDriver";
+}
+<head>
+    <link rel="stylesheet" href="~/css/registerDriver.css" />
+
+</head>
+
+<div class="background-image container-fluid">
+    <div class="conteiner card bg-dark text-white">
+        <h2 class="h2">Formulario de registro</h2>
+        <br />
+        <br />
+        <form id="info" asp-action="RegisterNewDriver" onsubmit="validatePassword(event)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @*<h2 class="fw-bold mb-2 text-uppercase">Nombre</h2>*@
+                <label asp-for="NameDriver" class="form-label"></label>
+                <input asp-for="NameDriver" type="text" class="form-control form-control-lg col-md-1" />
+                <span asp-validation-for="NameDriver" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div>
+                <label asp-for="LastNameDriver" class="form-label"></label>
+                <input asp-for="LastNameDriver" class="form-control form-control-lg col-md-1">
+                <span asp-validation-for="LastNameDriver" class="text-danger"></span>
+            </div>
+
+            <br />
+           @* <div>
+                <label asp-for="DriverBirthday" class="form-label"></label>
+                <input asp-for="DriverBirthday" type="date" class="form-control form-control-lg col-md-1" id="fecha" name="fecha">
+                <span asp-validation-for="DriverBirthday" class="text-danger"></span>
+            </div>*@
+
+            <br />
+            <div>
+                <label asp-for="LicenseNumber" class="form-label"></label>
+                <input asp-for="LicenseNumber" type="text" class="form-control form-control-lg col-md-1" maxlength="20">
+                <span asp-validation-for="LicenseNumber" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div>
+                <label asp-for="TelephoneNumber" class="form-label"></label>
+                <input asp-for="TelephoneNumber" type="tel" class="form-control form-control-lg col-md-1" maxlength="10" pattern="\d*">
+                <span asp-validation-for="TelephoneNumber" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div>
+                <label asp-for="Password" class="form-label"></label>
+                <input id="inputPassword" asp-for="Password" type="password" class="form-control form-control-lg col-md-1">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div>
+                <label class="form-label">Repite la contraseña</label>
+                <input id="inputRepeatPassword" type="password" class="form-control form-control-lg col-md-1" placeholder="repite tu contraseña">
+            </div>
+
+            <br />
+            <div class="text-center">
+
+                @*<button type="" onclick="alertSweet()" class="btn btn-dark">Cerrar</button>*@
+                <button type="submit" value="Register" class="btn btn-outline-light btn-lg px-5">Crear cuenta</button>
+
+            </div>
+        </form>
+
+
+
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+       
+
+        <script>
+          
+            function mostrarMensajeSucces(mensaje) {
+                Swal.fire({
+                    icon: "success",
+                    text: mensaje
+                });
+            }
+
+            function mostrarMensajeError(mensaje) {
+                Swal.fire({
+                    icon: "error",
+                    text: mensaje
+                });
+            }
+
+            function validatePassword(e) {
+                e.preventDefault();
+                console.log("verificando contraseña");
+                var passwordElement = document.getElementById("inputPassword");
+                var repeatPasswordElement = document.getElementById("inputRepeatPassword");
+
+                // Comprobar si los elementos existen
+                if (passwordElement && repeatPasswordElement) {
+                    var passwordValue = passwordElement.value;
+                    var repeatPasswordValue = repeatPasswordElement.value;
+
+                    if (passwordValue === repeatPasswordValue) {
+                        const formElement = document.getElementById('info');
+                        console.log("guardando registro");
+                        formElement.submit();
+                    } else {
+                        console.log("amndando error");
+                        mostrarMensajeError('Las contraseñas no coinciden');
+                    }
+                } else {
+                    console.log("amndando error de campos");
+                    mostrarMensajeError('No se encontraron elementos de contraseña en el formulario.');
+                }
+            }
+            
+            // Verificar TempData para mostrar mensajes
+            @if (TempData.ContainsKey("RegistroExitoso") && (bool)TempData["RegistroExitoso"])
+            {
+                <text>
+                    mostrarMensajeSuccess('Registro exitoso');
+                </text>
+            }
+            else if (TempData.ContainsKey("ErrorLicenciaExistente") && (bool)TempData["ErrorLicenciaExistente"])
+            {
+                <text>
+                    mostrarMensajeError('Licencia registrada por otro usuario');
+                </text>
+            }
+            else if (TempData.ContainsKey("ErrorConexion") && (bool)TempData["ErrorConexion"])
+            {
+                <text>
+                    mostrarMensajeError('Error de conexion');
+                </text>
+            }
+
+            
+        </script>
+       
+    }
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    
+    <script>
+        console.log("adsdasdasd");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '@TempData["ErrorMessage"]'
+        });
+    </script>
+}
+
+
