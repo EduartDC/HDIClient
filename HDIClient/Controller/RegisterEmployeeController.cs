@@ -1,5 +1,4 @@
-﻿using AseguradoraApp.Models;
-using HDIClient.DTOs;
+﻿using HDIClient.DTOs;
 using HDIClient.Models;
 using HDIClient.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +9,10 @@ namespace HDIClient.Controllers
     public class RegisterEmployeeController : Controller
     {
         private IEmployeeService _employeeService;
-        private EmployeeViewModel viewmodelTemp ;
-        public RegisterEmployeeController(IEmployeeService employeeService) { 
-        _employeeService = employeeService;
+        private EmployeeViewModel viewmodelTemp;
+        public RegisterEmployeeController(IEmployeeService employeeService)
+        {
+            _employeeService = employeeService;
         }
 
         public IActionResult GetRegisterEmployeeView()
@@ -29,15 +29,15 @@ namespace HDIClient.Controllers
             {
                 ListaDeRoles = selectList,
             };
-           // viewmodelTemp = model;
-            return View("RegisterEmployeeView",model);
+            // viewmodelTemp = model;
+            return View("RegisterEmployeeView", model);
         }
 
         public async Task<IActionResult> RegisterNewEmployee([Bind("NameEmployeee,LastnameEmployee,Username,Password,Rol,ListaDeRoles")] EmployeeViewModel newEmployee)
         {
             var x = newEmployee;
-           if (ModelState.IsValid)
-           {
+            if (ModelState.IsValid)
+            {
                 //generando DTO
                 EmployeeDTO employeeTemp = new EmployeeDTO()
                 {
@@ -62,10 +62,10 @@ namespace HDIClient.Controllers
                 }
 
             }
-            
-            
 
-            return View("RegisterEmployeeView",viewmodelTemp);
+
+
+            return View("RegisterEmployeeView", viewmodelTemp);
 
         }
     }

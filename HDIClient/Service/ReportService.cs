@@ -1,14 +1,9 @@
 ﻿using HDIClient.DTOs;
 using HDIClient.Service.Interface;
-
-using Newtonsoft.Json;
-using System.Text;
-
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System.Net;
 using System.Text;
-using System.Text.Json;
 
 
 namespace HDIClient.Service
@@ -65,7 +60,7 @@ namespace HDIClient.Service
             _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             try
             {
-                var response =  await _cliente.GetAsync($"/api/Report/GetReportById/{idReport}");
+                var response = await _cliente.GetAsync($"/api/Report/GetReportById/{idReport}");
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadFromJsonAsync<ReportDTO>();
@@ -121,7 +116,7 @@ namespace HDIClient.Service
                 if (!response.IsSuccessStatusCode)
                 {
                     statusCode = response.StatusCode;
-                }               
+                }
             }
             catch (Exception)
             {

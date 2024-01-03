@@ -17,16 +17,16 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 @*<h2 class="fw-bold mb-2 text-uppercase">Nombre</h2>*@
-                <label asp-for="DriverName" class="form-label"></label>
-                <input asp-for="DriverName" type="text" class="form-control form-control-lg col-md-1" />
-                <span asp-validation-for="DriverName" class="text-danger"></span>
+                <label asp-for="NameDriver" class="form-label"></label>
+                <input asp-for="NameDriver" type="text" class="form-control form-control-lg col-md-1" />
+                <span asp-validation-for="NameDriver" class="text-danger"></span>
             </div>
 
             <br />
             <div>
-                <label asp-for="DriverLastname" class="form-label"></label>
-                <input asp-for="DriverLastname" class="form-control form-control-lg col-md-1">
-                <span asp-validation-for="DriverLastname" class="text-danger"></span>
+                <label asp-for="LastNameDriver" class="form-label"></label>
+                <input asp-for="LastNameDriver" class="form-control form-control-lg col-md-1">
+                <span asp-validation-for="LastNameDriver" class="text-danger"></span>
             </div>
 
             <br />
@@ -38,9 +38,9 @@
 
             <br />
             <div>
-                <label asp-for="License" class="form-label"></label>
-                <input asp-for="License" type="text" class="form-control form-control-lg col-md-1" maxlength="20">
-                <span asp-validation-for="License" class="text-danger"></span>
+                <label asp-for="LicenseNumber" class="form-label"></label>
+                <input asp-for="LicenseNumber" type="text" class="form-control form-control-lg col-md-1" maxlength="20">
+                <span asp-validation-for="LicenseNumber" class="text-danger"></span>
             </div>
 
             <br />
@@ -52,9 +52,9 @@
 
             <br />
             <div>
-                <label asp-for="DriverPassword" class="form-label"></label>
-                <input id="inputPassword" asp-for="DriverPassword" type="password" class="form-control form-control-lg col-md-1">
-                <span asp-validation-for="DriverPassword" class="text-danger"></span>
+                <label asp-for="Password" class="form-label"></label>
+                <input id="inputPassword" asp-for="Password" type="password" class="form-control form-control-lg col-md-1">
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
             <br />
@@ -80,8 +80,10 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+       
 
         <script>
           
@@ -101,7 +103,7 @@
 
             function validatePassword(e) {
                 e.preventDefault();
-
+                console.log("verificando contraseña");
                 var passwordElement = document.getElementById("inputPassword");
                 var repeatPasswordElement = document.getElementById("inputRepeatPassword");
 
@@ -112,11 +114,14 @@
 
                     if (passwordValue === repeatPasswordValue) {
                         const formElement = document.getElementById('info');
+                        console.log("guardando registro");
                         formElement.submit();
                     } else {
+                        console.log("amndando error");
                         mostrarMensajeError('Las contraseñas no coinciden');
                     }
                 } else {
+                    console.log("amndando error de campos");
                     mostrarMensajeError('No se encontraron elementos de contraseña en el formulario.');
                 }
             }

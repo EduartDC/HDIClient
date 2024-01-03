@@ -1,6 +1,5 @@
 ﻿using HDIClient.DTOs;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace HDIClient.Models
 {

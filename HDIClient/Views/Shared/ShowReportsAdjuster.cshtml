@@ -2,60 +2,245 @@
 @{
     ViewData["title"] = "Historial de siniestros";
 }
-<div>
-    <h2>Historial de reportes</h2>
+<body>
 
-    <h3>Filtros</h3>
-    
-    <table class="table table-bordered">
 
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.previewList[0].ReportNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.previewList[0].NameClient)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.previewList[0].ReportDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.previewList[0].StatusReport)
-                </th>
-                @*<th>
-                    @Html.DisplayNameFor(model => model.previewList[0].)
-                </th>*@
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.previewList)
-            {
+    <div>
+        <h2>Historial de reportes</h2>
+
+        <h3>Filtros</h3>
+        <label><input type="checkbox" id="cbfilter"  onchange="toggleDiv()" />Desplegar filtros</label>
+        <div id="divfilters" class="separator-container " >
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <form>
+                        <h4>Selección de fecha de reporte</h4>
+                        <input type="date" class="form-control form-control-lg col-md-1" id="reportedate" >
+                        <h4>Selección de estado de reporte</h4>
+                        <select id="estado" name="estado" class="form-select">
+                            <option value="Sin especificar">Sin especificar</option>
+                            <option value="Dictaminado">Dictaminado</option>
+                            <option value="Terminado">Terminado</option>
+                        </select>
+                        <h4>Selección de ubicacion</h4>
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                Datos de localización
+                            </div>
+                            <div class="card-body contenedor-mapa">
+                                <div class="mb-3">
+                                    <label asp-for="Localizador" class="form-label"></label>
+                                    <input asp-for="Localizador" class="form-control" >
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="button" value="filterreports" class="" onclick="filterReports()">Filtrar reportes</button>
+
+                    </form>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            Mapa
+                        </div>
+                        <div class="card-body contenedor-mapa">
+                            <div id="mapa" class="h-100"></div>
+                        </div>
+                        <div class="card-footer text-center">
+                            Seleccione un lugar moviendo el marcador rojo a una ubicación.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReportNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NameClient)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReportDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StatusReport)
-                    </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.RegistrationDate)
-                    </td>*@
-                    <td class="td">
-                        @* <a class="boton" asp-controller="EmployeeManagement" asp-action="EditInfoEmployee" asp-route-id="@item.IdEmployee">Editar</a>*@
-                        <a class="boton" asp-action="EditInfoEmployee" asp-route-id="@item.ReportNumber">Editar</a>
-
-
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.previewList[0].ReportNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.previewList[0].NameClient)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.previewList[0].ReportDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.previewList[0].StatusReport)
+                    </th>
+                    @*<th>
+                    @Html.DisplayNameFor(model => model.previewList[0].)
+                    </th>*@
+                    <th></th>
                 </tr>
+            </thead>
+            <tbody id="tableBody">
+                @foreach (var item in Model.previewList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReportNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameClient)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReportDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StatusReport)
+                        </td>
+                        @*<td>
+                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    </td>*@
+                        <td class="td">
+                            @* <a class="boton" asp-controller="EmployeeManagement" asp-action="EditInfoEmployee" asp-route-id="@item.IdEmployee">Editar</a>*@
+                            <a class="boton" asp-action="EditInfoEmployee" asp-route-id="@item.ReportNumber">Editar</a>
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+@section Styles {
+    <link rel="stylesheet" href="~/css/NewReport.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ShowReportsFilter.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/camara.css" />
+}
+@section Scripts {
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN3vjtO_5CHpPTAIVpygowsC4sjptPESE&libraries=places&callback=&callback=console.debug"></script>
+    <script src="~/js/locationpicker.js"></script>
+    <script src="~/js/ubicacionajustador.js"></script>
+
+    <script>
+        //oculta o muestra close filtros
+        function toggleDiv() {
+            var div = document.getElementById("divfilters");
+            var checkbox = document.getElementById("cbfilter");
+
+            if (!checkbox.checked) {
+                // Si el checkbox está marcado, expandir el div
+                div.style.visibility = "hidden"
+                div.style.height = "0px";
+                
+            } else {
+                // Si el checkbox no está marcado, contraer el div
+                div.style.visibility = "visible"
+                div.style.height = div.scrollHeight + "px";
             }
-        </tbody>
-    </table>
-</div>
+        }
+
+        //filtra la lista
+        async function filterReports() {
+            try{
+            console.log("dentro de funcion de filtro de lista");
+            var inputLocation = $('#Localizador').val();
+            var locationSplit = inputLocation.split(',');
+            var direccionSinNumeros = locationSplit[locationSplit.length - 3].replace(/\d+/g, '');
+
+            console.log("ciudad seleccionada: ", direccionSinNumeros.trim());
+                var tableBody = document.getElementById("tableBody");
+            tableBody.innerHTML = ''; // Limpiar filas existentes
+
+            // Obtener valores de los filtros
+            var selectedDate = document.getElementById("reportedate").value;
+            var selectedEstado = document.getElementById("estado").value;
+            console.log("filtro seleccionado es: " + selectedEstado);
+
+            // Otros filtros...
+
+            var viewModelJson = @Html.Raw(Json.Serialize(Model.previewList));
+            console.log(viewModelJson);
+
+            // Obtener direcciones de forma asíncrona
+            const direccionesPromesas = viewModelJson.map(item => obtenerDireccionPalabras(item.latitude, item.longitude));
+
+            // Esperar a que todas las direcciones se resuelvan antes de continuar
+            const direcciones = await Promise.all(direccionesPromesas);
+
+            viewModelJson.forEach((item, index) => {
+                var x = direcciones[index];
+                console.log("FOREACH: ", x);
+            });
+
+            // Imprimir en consola
+
+            // Filtrar la lista en base a los valores seleccionados
+            var filteredList = viewModelJson
+                .filter((item, index) => {
+                    var locationName = direcciones[index];
+                    console.log("dentro del filter: ", direccionSinNumeros.trim());
+                    return (!selectedDate || new Date(item.reportDate).toISOString().substring(0, 10) === new Date(selectedDate).toISOString().substring(0, 10)) &&
+                        (selectedEstado == "Sin especificar" || item.statusReport == selectedEstado) &&
+                        locationName.includes(direccionSinNumeros.trim());
+                    // Agregar lógica para otros filtros...
+                });
+
+            console.log("tamaño de filteredList: " + filteredList.length);
+
+            filteredList.forEach(item => {
+                console.log("item:", item);
+                console.log("item.StatusReport:", item.statusReport);
+                console.log("selectedEstado:", selectedEstado);
+
+                // Agregar filas a la tabla en la vista
+                var row = tableBody.insertRow();
+                var cell1 = row.insertCell(0);
+                cell1.innerHTML = item.reportNumber;
+
+                var cell2 = row.insertCell(1);
+                cell2.innerHTML = item.nameClient;
+
+                var cell3 = row.insertCell(2);
+                cell3.innerHTML = new Date(item.reportDate).toLocaleDateString();
+
+                var cell4 = row.insertCell(3);
+                cell4.innerHTML = item.statusReport;
+
+                var cell5 = row.insertCell(4);
+                var editButton = document.createElement("a");
+                editButton.className = "boton";
+                editButton.href = "/EditInfoEmployee/" + item.reportNumber;
+                editButton.textContent = "Editar";
+                cell5.appendChild(editButton);
+                
+            });
+                // Limpiar filas existentes
+            }catch(error){
+                console.log("pedos",error);
+            }
+        }
+
+
+        //genera la cadena de localizacion a partir de las coordenadas
+        function obtenerDireccionPalabras(latitud, longitud) {
+            return new Promise((resolve, reject) => {
+                let geocoder = new google.maps.Geocoder();
+                let latlng = new google.maps.LatLng(latitud, longitud);
+
+                geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            let direccion = results[1].formatted_address;
+                            resolve(direccion);
+                        } else {
+                            reject(new Error('No se encontró ninguna dirección para la ubicación proporcionada.'));
+                        }
+                    } else {
+                        reject(new Error('Error en la solicitud al geocodificador. Estado: ' + status));
+                    }
+                });
+            });
+        }
+
+    </script>
+
+}

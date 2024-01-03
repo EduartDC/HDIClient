@@ -1,5 +1,4 @@
 ﻿using HDIClient.DTOs;
-using HDIClient.Responses;
 using HDIClient.Service.Interface;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
@@ -55,7 +54,7 @@ namespace HDIClient.Service
             }
             return (result, statusCode);
         }
-        
+
     }
 }
 

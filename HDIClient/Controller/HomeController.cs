@@ -16,6 +16,6 @@ namespace HDIClient.Controllers
         {
             return View();
         }
-        
+
     }
 }

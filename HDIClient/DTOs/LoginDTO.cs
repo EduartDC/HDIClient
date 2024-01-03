@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-
-namespace HDIClient.DTOs
+﻿namespace HDIClient.DTOs
 {
     public class LoginDTO
     {

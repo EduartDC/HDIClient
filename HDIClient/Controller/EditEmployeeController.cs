@@ -1,5 +1,4 @@
-﻿using AseguradoraApp.Models;
-using HDIClient.DTOs;
+﻿using HDIClient.DTOs;
 using HDIClient.Models;
 using HDIClient.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +9,16 @@ namespace HDIClient.Controllers
     public class EditEmployeeController : Controller
     {
         private IEmployeeService _employeeService;
-        private EmployeeViewModel viewmodelTemp ;
-        private string idUserPrueba = "1d";//ESAT ES UNICAMENTE PARA PRUEBA
-        public EditEmployeeController(IEmployeeService employeeService) { 
-        _employeeService = employeeService;
+        private EmployeeViewModel viewmodelTemp;
+       //ESAT ES UNICAMENTE PARA PRUEBA
+        public EditEmployeeController(IEmployeeService employeeService)
+        {
+            _employeeService = employeeService;
         }
 
-        public async Task<IActionResult> EditRegisterEmployeeView()
+        public async Task<IActionResult> EditRegisterEmployeeView(string id)
         {
+            TempData["IdUserEdit"] = id;
             var Roles = new Dictionary<string, string>
             {
                 {"ADMIN","Administrador"},
@@ -25,18 +26,20 @@ namespace HDIClient.Controllers
                 {"OTHER","El de servicio"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
-            var DTOObject =   _employeeService.GetEmployeeById(TempData["IdUserEdit"] as string);
+           // idE = ViewData["IdUserEdit"] as string;
+            var DTOObject = _employeeService.GetEmployeeById(id);
             //iniciamos el modelo a enviar a la vista
             var model = new EmployeeViewModel
             {
-                NameEmployeee =  DTOObject.Result.Item2.NameEmployee,
+
+                NameEmployeee = DTOObject.Result.Item2.NameEmployee,
                 LastnameEmployee = DTOObject.Result.Item2.LastnameEmployee,
                 Username = DTOObject.Result.Item2.Username,
                 Password = DTOObject.Result.Item2.Password,
                 ListaDeRoles = selectList,
                 Rol = DTOObject.Result.Item2.Rol
             };
-          //  TempData["IdUserEdit"] = DTOObject.Result.Item2.IdEmployee;
+            //  TempData["IdUserEdit"] = DTOObject.Result.Item2.IdEmployee;
 
 
 
@@ -47,8 +50,8 @@ namespace HDIClient.Controllers
 
         public async Task<IActionResult> SetUpdateEmployee([Bind("NameEmployeee,LastnameEmployee,Username,Password,Rol,ListaDeRoles")] EmployeeViewModel newEmployee)
         {
-           if (ModelState.IsValid)
-           {
+            if (ModelState.IsValid)
+            {
                 //generando DTO
                 EmployeeDTO employeeTemp = new EmployeeDTO()
                 {
@@ -73,9 +76,9 @@ namespace HDIClient.Controllers
                     TempData["ErrorLicenciaExistente"] = true;
                 }
 
-           }
-            
-            
+            }
+
+
 
             return View("LoginView");
 

@@ -1,7 +1,5 @@
 ﻿using HDIClient.DTOs;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace HDIClient.Models
 {

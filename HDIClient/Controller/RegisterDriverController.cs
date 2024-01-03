@@ -1,18 +1,11 @@
 ﻿using AseguradoraApp.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text;
-
-
 using HDIClient.Service.Interface;
-
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace AseguradoraApp.Controllers
 {
-    
+
     public class RegisterDriverController : Controller
     {
         IClientService _clientservice;
@@ -28,11 +21,12 @@ namespace AseguradoraApp.Controllers
             return View("RegisterDriver");
         }
 
-        public async Task<IActionResult> RegisterNewDriver([Bind("DriverName,DriverLastname,DriverBirthday,TelephoneNumber,License,DriverPassword")] DriverClient newDriver)
+        public async Task<IActionResult> RegisterNewDriver([Bind("NameDriver,LastNameDriver,TelephoneNumber,LicenseNumber,Password")] DriverClient newDriver)
         {
             if (ModelState.IsValid)
             {
                 var result = await _clientservice.RegisterNewClientDriver(newDriver);
+                var x = result;
 
                 if (result == 200 || result == 201)
                 {
@@ -43,7 +37,8 @@ namespace AseguradoraApp.Controllers
                 {
                     ModelState.AddModelError("Error", "Licencia registrada por otro usuario");
                     TempData["ErrorLicenciaExistente"] = true;
-                }else
+                }
+                else
                 {
                     ModelState.AddModelError("Error", "Error de conexion");
                     TempData["ErrorConexion"] = true;

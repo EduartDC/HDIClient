@@ -1,5 +1,4 @@
 ﻿using AseguradoraApp.Models;
-using HDIClient.DTOs;
 using HDIClient.Service.Interface;
 using Newtonsoft.Json;
 using System.Text;

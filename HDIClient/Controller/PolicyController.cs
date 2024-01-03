@@ -2,7 +2,6 @@
 using HDIClient.Models;
 using HDIClient.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
 using System.Security.Claims;
 
@@ -30,11 +29,11 @@ namespace HDIClient.Controllers
             {
                 //
             }
-         
+
             var model = new PolicyViewModel
             {
                 PolicyList = listPolicy,
-                
+
             };
             return View(model);
         }

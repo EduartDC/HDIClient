@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace HDIClient.Models
 {
@@ -25,10 +24,10 @@ namespace HDIClient.Models
 
         public string? Rol { get; set; }
 
-     //   public DateTime? RegistrationDate { get; set; }
+        //   public DateTime? RegistrationDate { get; set; }
 
         [Display(Name = "Rol")]
         public SelectList? ListaDeRoles { get; set; }
- 
+
     }
 }

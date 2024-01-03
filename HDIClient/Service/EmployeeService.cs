@@ -1,6 +1,4 @@
-﻿using AseguradoraApp.Models;
-using HDIClient.DTOs;
-using HDIClient.Models;
+﻿using HDIClient.DTOs;
 using HDIClient.Service.Interface;
 using Newtonsoft.Json;
 using System.Text;
@@ -26,9 +24,9 @@ namespace HDIClient.Service
                 var json = new StringContent(JsonConvert.SerializeObject(idEmployee), Encoding.UTF8, "application/json");
                 var response = await _cliente.GetAsync("/Employee/GetEmployeeById/" + idEmployee);
                 code = (int)response.StatusCode;
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    
+
                     var content = await response.Content.ReadAsStringAsync();
                     Console.WriteLine("BODY: " + content);
                     employeeDTO = JsonConvert.DeserializeObject<EmployeeDTO>(content);
@@ -39,24 +37,24 @@ namespace HDIClient.Service
                 code = 500;
             }
 
-            return (code,employeeDTO);
+            return (code, employeeDTO);
         }
 
         public async Task<(int, List<EmployeeDTO>)> GetEmployeeList()
         {
-            List<EmployeeDTO> employeeList = new List<EmployeeDTO> ();
+            List<EmployeeDTO> employeeList = new List<EmployeeDTO>();
             var code = 0;
             try
             {
 
-                
+
                 var response = await _cliente.GetAsync("/Employee/GetEmployeeList");
                 code = (int)response.StatusCode;
                 if (response.IsSuccessStatusCode)
                 {
 
                     var content = await response.Content.ReadAsStringAsync();
-                    
+
                     employeeList = JsonConvert.DeserializeObject<List<EmployeeDTO>>(content);
                 }
             }

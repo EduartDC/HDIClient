@@ -1,6 +1,4 @@
-﻿using AseguradoraApp.Models;
-using HDIClient.DTOs;
-using HDIClient.Models;
+﻿using HDIClient.Models;
 using HDIClient.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,7 +25,7 @@ namespace HDIClient.Controllers
                 {"Activo","Activo"},
             };
             var selectList = new SelectList(StatusList, "Key", "Value");
-            var result =  _reportService.GetPreviewReportsList(idAjustadorPrueba);
+            var result = _reportService.GetPreviewReportsList(idAjustadorPrueba);
 
             if (result.Result.Item1 == 200)
             {

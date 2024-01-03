@@ -1,12 +1,8 @@
 ﻿using HDIClient.DTOs;
 using HDIClient.Models;
 using HDIClient.Service.Interface;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Caching.Memory;
 using System.Net;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 
@@ -90,7 +86,7 @@ namespace HDIClient.Controllers
         {
             var model = new ReportViewModel();
             var token = User.FindFirst("token").Value;
-            var (report, code)  = await _reportService.GetReportById(token, "a1");
+            var (report, code) = await _reportService.GetReportById(token, "a1");
             if (code == HttpStatusCode.OK)
             {
                 model.Report = report;
@@ -104,7 +100,7 @@ namespace HDIClient.Controllers
             {
                 return RedirectToAction("ServerError", "Home");
             }
-           
+
         }
 
         public async Task<IActionResult> UpdateOpinion(ReportViewModel reportViewModel)
@@ -112,7 +108,7 @@ namespace HDIClient.Controllers
             // Lógica para editar la opinión del ajustador
             var description = reportViewModel.Description;
             var idOpinion = reportViewModel.IdOpinionAdjuster;
-            
+
             var allowedCharsRegex = @"[\w\s.,?!0-9]";
             if (string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(idOpinion))
             {
@@ -126,7 +122,7 @@ namespace HDIClient.Controllers
             {
                 try
                 {
-                    
+
                     var opinion = new NewOpinionadjusterDTO();
                     opinion.Description = description;
                     opinion.IdOpinionAdjuster = idOpinion;
@@ -166,7 +162,7 @@ namespace HDIClient.Controllers
             {
                 // Lógica para mostrar mensaje de error
             }
-            else  if(!Regex.IsMatch(description, $"^{allowedCharsRegex}*$"))
+            else if (!Regex.IsMatch(description, $"^{allowedCharsRegex}*$"))
             {
                 // Lógica para mostrar mensaje de error
             }

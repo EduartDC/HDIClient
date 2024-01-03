@@ -1,45 +1,41 @@
-﻿using AseguradoraApp.Models;
-using HDIClient.DTOs;
-using HDIClient.Models;
-using HDIClient.Service;
+﻿using HDIClient.Models;
 using HDIClient.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HDIClient.Controllers
 {
     public class EmployeeManagementController : Controller
     {
         private IEmployeeService _employeeService;
-        public EmployeeManagementController(IEmployeeService employeeService) { 
-        _employeeService = employeeService;
+        public EmployeeManagementController(IEmployeeService employeeService)
+        {
+            _employeeService = employeeService;
         }
 
         public async Task<IActionResult> EmployeeManagementView()
         {
             var result = _employeeService.GetEmployeeList();
-            if(result.Result.Item1 == 200)
+            if (result.Result.Item1 == 200)
             {
                 var model = new EmployeeListViewModel
                 {
                     employeeList = result.Result.Item2
                 };
-                return View("EmployeeManagementView",model);
+                return View("EmployeeManagementView", model);
             }
             else
             {
                 //cambiar por otra cosa, esto de driver solo es para pruebas
                 return View("RegisterDriver");
             }
-            
+
         }
 
-        public IActionResult  EditInfoEmployee(string idEmployee)
+        public IActionResult EditInfoEmployee(string id)
         {
-            TempData["IdUserEdit"] = "4E13RS6IBG";
-
+            ViewData["IdUserEdit"] = id;
             // Redirige directamente a la acción de edición en lugar de crear una nueva instancia del controlador
-            return RedirectToAction("EditRegisterEmployeeView", "EditEmployee");
+            return RedirectToAction("EditRegisterEmployeeView", "EditEmployee", new {id});
             ////////////////////
             //var Roles = new Dictionary<string, string>
             //{
