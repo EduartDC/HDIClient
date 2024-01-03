@@ -12,14 +12,11 @@ namespace HDIClient.Models
 
         public int Longitud { get; set; }
 
-        public List<PolicyDTO> policyList { get; set; }
-
-        public VehicleclientDTO? VehicleSelected { get; set; }
+        public List<PolicyDTO>? policyList { get; set; }
 
         public string? IdVehicleSelected { get; set; }
-
-        public string? Url { get; set; }
-        public List<InvolvedDTO> involvedDTOs { get; set; }
+        
+        public List<InvolvedDTO> InvolvedList { get; set; }
 
     }
 }

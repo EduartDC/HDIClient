@@ -11,7 +11,7 @@
     background-color: #f9f9f9; /* Color de fondo */
 }
 .contenedor-mapa {
-    height: 400px;
+    height: 300px;
 }
 
 .scroll-container {
@@ -45,4 +45,65 @@
 textarea.form-control {
     margin: 0;
     padding: 0;
+}
+
+.icon-btn i {
+    font-size: 1em; /* Tamaño del icono ajustable según tus necesidades */
+}
+
+#editbtn,
+#deletebtn {
+    width: 2rem !important; /* Ancho deseado */
+    margin-right: 0.5rem; /* Espacio entre el icono y el texto */
+    padding: 0; /* Elimina el relleno del botón para ajustarse al tamaño deseado */
+}
+#newInvolvedBtn{
+    width:10rem;
+}
+
+ul {
+  padding: 0;
+}
+
+#liimageid {
+    
+    list-style: none;
+    background-color: lightgray;
+    border-radius: 10px;
+    display: flex;
+    height: 50px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+    #liimageid p {
+        margin: 0px;
+        padding: 15px;
+        width: 100%;
+    }
+
+.btn-delete {
+  margin-left: auto;
+  border: none;
+  background-color: #e31746;
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 10%;
+  font-size: 1.2em;
+  height:50px;
+
+}
+
+.btn-delete:hover {
+  cursor: pointer;
+  background-color: lightseagreen;
+}
+#sendInfoBtn{
+    width: 20%;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

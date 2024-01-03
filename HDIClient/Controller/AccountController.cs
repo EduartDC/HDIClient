@@ -56,7 +56,7 @@ namespace HDIClient.Controllers
                     }
                     else if (code == HttpStatusCode.InternalServerError)
                     {
-                        //mensaje de error de servidor
+                        return RedirectToAction("ErrorServer", "Home");
                     }
                     else
                     {
@@ -65,7 +65,7 @@ namespace HDIClient.Controllers
                 }
                 catch (Exception)
                 {
-                    //mensaje de error de conexion
+                    return RedirectToAction("ErrorServer", "Home");
                 }
 
             }

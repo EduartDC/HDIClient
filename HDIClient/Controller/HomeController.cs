@@ -17,5 +17,17 @@ namespace HDIClient.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public IActionResult ErrorNotFound()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        public IActionResult ErrorServer()
+        {
+            return View();
+        }
+
+
     }
 }
