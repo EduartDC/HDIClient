@@ -1,5 +1,6 @@
 ﻿using HDIClient.DTOs;
 using HDIClient.Models;
+using HDIClient.Service;
 using HDIClient.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -67,8 +68,9 @@ namespace HDIClient.Controllers
 
                 if (result == 200 || result == 201)
                 {
-                    TempData["RegistroExitoso"] = true;
-                    return RedirectToAction("Login", "Login");
+                    TempData["Prueba"] = true;
+                    var view = GetEmployeeManagementView();
+                    return view;
                 }
                 else if (result == 409)
                 {
@@ -82,6 +84,18 @@ namespace HDIClient.Controllers
 
             return View("LoginView");
 
+        }
+
+        private IActionResult GetEmployeeManagementView()
+        {
+            // Crear una instancia del controlador EmployeeManagementController y pasarle el mismo servicio
+            var employeeManagementController = new EmployeeManagementController(_employeeService);
+
+            // Llamar al método EmployeeManagementView del controlador
+            var result = employeeManagementController.EmployeeManagementView().Result;
+
+            // Devolver el resultado
+            return result;
         }
     }
 }
