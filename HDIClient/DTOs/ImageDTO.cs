@@ -2,6 +2,6 @@
 {
     public class ImageDTO
     {
-        public byte[]? ImageReport { get; set; }
+        public string? ImageReport { get; set; }
     }
 }
