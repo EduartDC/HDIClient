@@ -58,13 +58,15 @@ namespace HDIClient.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ViewReport()
+        public async Task<IActionResult> ViewReport(string id)
         {
             var model = new ReportViewModel();
             var token = User.FindFirst("token").Value;
             try
             {
-                var (report, code) = await _reportService.GetReportById(token, "acf38522-cf52-4132-ad90-7960d43df2ae");
+
+
+                var (report, code) = await _reportService.GetReportById(token, id);
                 if (code == HttpStatusCode.OK)
                 {
                     

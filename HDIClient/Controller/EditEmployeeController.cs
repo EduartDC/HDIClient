@@ -22,9 +22,9 @@ namespace HDIClient.Controllers
             TempData["IdUserEdit"] = id;
             var Roles = new Dictionary<string, string>
             {
-                {"ADMIN","Administrador"},
-                {"ADJUSTER","Ajustador"},
-                {"OTHER","El de servicio"},
+                {"admin","admin"},
+                {"ajustador","ajustador"},
+                {"asistente","asistente"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
            // idE = ViewData["IdUserEdit"] as string;
