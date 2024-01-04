@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["title"] = "RegisterEmployeeSuccess";
+}
+<div class="container-fluid">
+    <h1 class="display-4">Empleado registrado</h1>
+    <h1 class="display-6">Redirigiendo...</h1>
+</div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+
+        <script>
+            setTimeout(function () {
+                // Cambiar la ubicación a la URL de la nueva vista
+                window.location.href = '/EmployeeManagement/EmployeeManagementView';
+            }, 5000); // 5000 milisegundos = 5 segundos
+        </script>
+    }
+}

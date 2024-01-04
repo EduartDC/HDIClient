@@ -19,9 +19,9 @@ namespace HDIClient.Controllers
         {
             var Roles = new Dictionary<string, string>
             {
-                {"ADMIN","Administrador"},
-                {"ADJUSTER","Ajustador"},
-                {"OTHER","El de servicio"},
+                {"admin","admin"},
+                {"ajustadir","ajustador"},
+                {"asistente","asistente"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
             //iniciamos el modelo a enviar a la vista
@@ -53,7 +53,8 @@ namespace HDIClient.Controllers
                 if (result == 200 || result == 201)
                 {
                     TempData["RegistroExitoso"] = true;
-                    return RedirectToAction("Login", "Login");
+                    
+                    return View("RegisterEmployeeSuccesView");
                 }
                 else if (result == 409)
                 {

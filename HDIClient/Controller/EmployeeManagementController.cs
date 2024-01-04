@@ -59,6 +59,11 @@ namespace HDIClient.Controllers
             //////////////////////
 
         }
+        public IActionResult RegisterNewEmployee()
+        {
+            
+            return RedirectToAction("GetRegisterEmployeeView", "registerEmployee");
+        }
 
 
     }
