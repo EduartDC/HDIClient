@@ -90,8 +90,16 @@
     <div class="separator-container">
 
         <h2>Fotografías del siniestro:</h2>
-        <section id="galery">
+        <section id="galery" class="container">
             <div class="row">
+                @foreach (var item in Model.Report.Images)
+                {
+                    <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                        <a data-fancybox="gallery" data-src="@item.ImageReport" data-caption="Descripción opcional">
+                            <img src="@item.ImageReport" alt="Descripción de la imagen">
+                        </a>
+                    </div>
+                }
             </div>
         </section>
 
@@ -137,32 +145,37 @@
         </table>
 
     </div>
-
+    @if (TempData.ContainsKey("ErrorMessage"))
+    {
+        <div id="error-container">
+            <p>@TempData["ErrorMessage"]</p>
+        </div>
+    }
     <div class="separator-container">
         <h2>Resolución del ajustador:</h2>
 
         <div>
-            @if (Model.Report.OpinionAdjuster.Description != null)
+            @if (Model.Report.OpinionAdjuster != null)
             {
-                <form method="post" action="@Url.Action("UpdateOpinion", "Report")">
-                    <!-- Si existe opinión, muestra la opinión y un botón para editar -->
-                    <input type="hidden" name="IdOpinionAdjuster" value="@Model.Report.IdOpinionAdjuster" />
-                    <textarea class="form-control" rows="5" name="description" readonly>
-                        @Html.Raw(Model.Report.OpinionAdjuster.Description.TrimStart())
-                    </textarea>
-                    <button type="button" class="btn btn-primary mt-2" onclick="habilitarEdicion()">Editar</button>
-                    <button type="submit" class="btn btn-success mt-2" id="btnGuardar" style="display:none">Guardar</button>
-                </form>
+
+                <!-- Si existe opinión, muestra la opinión y un botón para editar -->
+                <input id="idOpinionAdjuster" type="hidden" name="IdOpinionAdjuster" value="@Model.Report.IdOpinionAdjuster" />
+                <textarea id="opinionTextArea" class="form-control" rows="5" name="description" readonly>
+                    @Html.Raw(Model.Report.OpinionAdjuster.Description.TrimStart())
+                            </textarea>
+                <button type="button" class="btn btn-primary mt-2" onclick="habilitarEdicion()">Editar</button>
+                <button type="submit" class="btn btn-success mt-2" id="btnGuardar" style="display:none" onclick="updOpinion()">Guardar</button>
+
             }
             else
             {
-                <form method="post" action="@Url.Action("CreatOpinion", "Report")">
-                    <!-- Si no existe opinión, muestra un área de texto para agregar -->
-                    <input type="hidden" name="idReport" value="@Model.Report.IdAccident" />
-                    <textarea class="form-control" rows="5" name="description" readonly>El ajustador no ha dado una resolución.</textarea>
-                    <button type="button" class="btn btn-primary mt-2" onclick="limpiarTextarea()">Agregar resolución</button>
-                    <button type="submit" class="btn btn-success mt-2" id="btnGuardar" style="display:none">Guardar</button>
-                </form>
+
+                <!-- Si no existe opinión, muestra un área de texto para agregar -->
+                <input id="idReport" type="hidden" name="idReport" value="@Model.Report.IdAccident" />
+                <textarea id="opinionTextArea" class="form-control" rows="5" name="description" readonly>El ajustador no ha dado una resolución.</textarea>
+                <button type="button" class="btn btn-primary mt-2" onclick="limpiarTextarea()">Agregar resolución</button>
+                <button type="submit" class="btn btn-success mt-2" id="btnGuardar" style="display:none" onclick="newOpinion()">Guardar</button>
+
             }
         </div>
 
@@ -176,31 +189,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN3vjtO_5CHpPTAIVpygowsC4sjptPESE&libraries=places&callback=&callback=console.debug"></script>
     <script src="~/js/locationpicker.js"></script>
     <script src="~/js/ubicacionTwo.js"></script>
-    <script>
-        function habilitarEdicion() {
-            // Habilita la edición del textarea
-            var textarea = document.getElementsByName("description")[0];
-            textarea.readOnly = false;
+    <script src="~/js/viewReport.js"></script>
 
-            // Oculta el botón de editar
-            var btnEditar = textarea.nextElementSibling;
-            btnEditar.style.display = "none";
-
-            // Muestra el botón de guardar
-            var btnGuardar = document.getElementById("btnGuardar");
-            btnGuardar.style.display = "block";
-        }
-        function limpiarTextarea() {
-            var textarea = document.querySelector('textarea[name="description"]');
-            textarea.value = ''; // Limpiar el contenido del textarea
-            textarea.removeAttribute('readonly');
-            // Oculta el botón de editar
-            var btnEditar = textarea.nextElementSibling;
-            btnEditar.style.display = "none";
-            document.getElementById('btnGuardar').style.display = 'block';
-        }
-    </script>
-    <script>
-    console.log('@Model.Report.OpinionAdjuster.Description');
-</script>
 }

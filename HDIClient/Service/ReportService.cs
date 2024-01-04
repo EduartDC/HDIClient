@@ -1,10 +1,11 @@
-﻿using HDIClient.DTOs;
+using HDIClient.DTOs;
 using HDIClient.Service.Interface;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
-
+using System.Text.Json;
 
 namespace HDIClient.Service
 {
@@ -77,9 +78,10 @@ namespace HDIClient.Service
             return (result, statusCode);
         }
 
-        public async Task<HttpStatusCode> PostOpionion(NewOpinionadjusterDTO opinion)
+        public async Task<HttpStatusCode> PostOpionion(NewOpinionadjusterDTO opinion, string token)
         {
             HttpStatusCode statusCode = HttpStatusCode.OK;
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             try
             {
                 string opinionJson = System.Text.Json.JsonSerializer.Serialize(opinion);
@@ -101,9 +103,33 @@ namespace HDIClient.Service
             return statusCode;
         }
 
-        public async Task<HttpStatusCode> PutOpionion(NewOpinionadjusterDTO opinion)
+        public async Task<HttpStatusCode> PostReport(NewReport report, string token)
         {
             HttpStatusCode statusCode = HttpStatusCode.OK;
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            try
+            {
+                string opinionJson = System.Text.Json.JsonSerializer.Serialize(report);
+
+                // Crea el contenido de la solicitud con el JSON
+                var content = new StringContent(opinionJson, Encoding.UTF8, "application/json");
+                var response = await _cliente.PostAsync("/api/Report/CreateReport", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    statusCode = response.StatusCode;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al conectarse con el servidor");
+            }
+            return statusCode;
+        }
+
+        public async Task<HttpStatusCode> PutOpionion(NewOpinionadjusterDTO opinion, string token)
+        {
+            HttpStatusCode statusCode = HttpStatusCode.OK;
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             try
             {
                 string opinionJson = System.Text.Json.JsonSerializer.Serialize(opinion);
