@@ -24,7 +24,7 @@
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: 'Opinion updated successfully',
+                    text: 'Se actualizó la información de forma correcta.',
                     onClose: function () {
                         // Redirect to another page or perform other actions after closing the message
                         window.location.href = '/ShowReportsAdjuster';
@@ -75,10 +75,10 @@ function newOpinion() {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: 'Another opinion saved successfully',
+                    text: 'Se guardo la información de forma correcta.',
                     onClose: function () {
                         // Redirect to another page or perform other actions after closing the message
-                        window.location.href = '/AnotherPage';
+                        window.location.href = '/ShowReportsAdjuster';
                     }
                 });
             },

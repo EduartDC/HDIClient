@@ -66,9 +66,10 @@ namespace HDIClient.Controllers
             {
 
 
-                var (report, code) = await _reportService.GetReportById(token, "a1");
+                var (report, code) = await _reportService.GetReportById(token, "acf38522-cf52-4132-ad90-7960d43df2ae");
                 if (code == HttpStatusCode.OK)
                 {
+                    
                     model.Report = report;
                     return View(model);
                 }
