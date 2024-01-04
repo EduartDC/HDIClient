@@ -69,8 +69,9 @@ namespace HDIClient.Controllers
                 if (result == 200 || result == 201)
                 {
                     TempData["Prueba"] = true;
-                    var view = GetEmployeeManagementView();
-                    return view;
+                    // var view = GetEmployeeManagementView();
+                    //return view;
+                    return View("EditEmployeeSuccessView");
                 }
                 else if (result == 409)
                 {

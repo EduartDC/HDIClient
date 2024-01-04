@@ -10,7 +10,11 @@
 <div>
     <h2> Administracion de empleados</h2>
     <br/>
-    <button class="btn btn-primary" asp-controller="EmployeeManagement" asp-action="RegisterNewEmployee">Agregar nuevo empleado</button>
+@*    <button class="btn btn-primary" asp-controller="EmployeeManagement" asp-action="RegisterNewEmployee">Agregar nuevo empleado</button>
+*@
+    <a class="boton" asp-action="RegisterNewEmployee">Agregar nuevo empleado</a>
+
+<br />
     <br />
     
     <table class="table table-bordered">
@@ -72,10 +76,10 @@
      @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
      }
-    <script src="@Url.Content("~/js/messages.js")"></script>
+    @*<script src="@Url.Content("~/js/messages.js")"></script>
 
     <script>
         // Llamada a la función que verifica TempData y muestra mensajes
         verificarMensajesTempData();
-    </script>
+    </script>*@
 }

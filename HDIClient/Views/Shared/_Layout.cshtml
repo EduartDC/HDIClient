@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
     <!-- Agrega estos enlaces en tu archivo HTML o layout Razor -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    
+
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -38,18 +38,29 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RegisterDriver">Registrar</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="RegisterDriver" asp-action="RegisterDriverDos">Registrar Conductor</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="Tips">Reporte</a>
-                            </li>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a asp-controller="EmployeeManagement" asp-action="EmployeeManagementView" class="btn">Registrar Empleado</a>
+                                </li>
+                                
+                            }
+                            else if (User.IsInRole("ajustador"))
+                            {
+
+                            }
+                            else if (User.IsInRole("asistente"))
+                            {
+                            }
+                            else if (User.IsInRole("conductor"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="Tips">Reporte</a>
+                                </li>
+                            }
+
+
                         </ul>
-
-
                     }
                     else
                     {
@@ -75,8 +86,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+

@@ -1,4 +1,4 @@
-ï»¿@using HDIClient.DTOs;
+@using HDIClient.DTOs;
 @using Microsoft.AspNetCore.Identity
 
 
@@ -8,8 +8,12 @@
         <li class="nav-item">
             <a class="nav-link text-dark">Hola @(User.Identity?.Name)!</a>
         </li>
+        <form asp-controller="Home" asp-action="Logout" method="post" id="logoutForm" style="display: none;">
+            
+        </form>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Cuentas" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index","Home")">Salir</a>
+            <a class="nav-link text-dark" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesión</a>
+
         </li>
     }
     else
@@ -17,8 +21,9 @@
         <li class="nav-item">
             <a asp-controller="Account" asp-action="LoginView" class="btn btn-primary">Login</a>
         </li>
+        
         <li class="nav-item">
-            <a asp-controller="RegisterDriver" asp-action="RegisterDriverDos" class="btn">Registro</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="RegisterDriver" asp-action="RegisterDriverDos">Registrar Conductor</a>
         </li>
     }
 </ul>
