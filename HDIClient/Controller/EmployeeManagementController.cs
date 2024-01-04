@@ -14,7 +14,8 @@ namespace HDIClient.Controllers
 
         public async Task<IActionResult> EmployeeManagementView()
         {
-            var result = _employeeService.GetEmployeeList();
+            var token = User.FindFirst("token").Value;
+            var result = _employeeService.GetEmployeeList(token);
             if (result.Result.Item1 == 200)
             {
                 var model = new EmployeeListViewModel
@@ -25,8 +26,7 @@ namespace HDIClient.Controllers
             }
             else
             {
-                //cambiar por otra cosa, esto de driver solo es para pruebas
-                return View("RegisterDriver");
+                return RedirectToAction("ErrorServer", "Home");
             }
 
         }
@@ -58,6 +58,11 @@ namespace HDIClient.Controllers
             //return View("EditEmployeeView", model);
             //////////////////////
 
+        }
+        public IActionResult RegisterNewEmployee()
+        {
+            
+            return RedirectToAction("GetRegisterEmployeeView", "registerEmployee");
         }
 
 

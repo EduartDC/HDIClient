@@ -43,6 +43,7 @@
                                 <li class="nav-item">
                                     <a asp-controller="EmployeeManagement" asp-action="EmployeeManagementView" class="btn">Registrar Empleado</a>
                                 </li>
+                                
                             }
                             else if (User.IsInRole("ajustador"))
                             {
@@ -90,3 +91,5 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
