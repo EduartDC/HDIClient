@@ -64,8 +64,6 @@ namespace HDIClient.Controllers
             var token = User.FindFirst("token").Value;
             try
             {
-
-
                 var (report, code) = await _reportService.GetReportById(token, "acf38522-cf52-4132-ad90-7960d43df2ae");
                 if (code == HttpStatusCode.OK)
                 {
