@@ -57,53 +57,7 @@ function miUbicacion() {
     }
 }
 
-/*function distancia() {
-    let mapContext = mapa.locationpicker('map');
 
-    const service = new google.maps.DistanceMatrixService();
-    const selectedMode = document.getElementById("Transporte").value;
-
-    const origen = { lat: latitudHome, lng: longitudHome };
-    const destino = { lat: latitud, lng: longitud };
-    const request = {
-        origins: [origen],
-        destinations: [destino],
-        travelMode: google.maps.TravelMode[selectedMode],
-        unitSystem: google.maps.UnitSystem.METRIC,
-        avoidHighways: false,
-        avoidTolls: false,
-    };
-
-    service.getDistanceMatrix(request).then((response) => {
-        if (response.rows.length > 0) {
-            $('#Distancia').val(response.rows[0].elements[0].distance.text);
-            $('#Tiempo').val(response.rows[0].elements[0].duration.text);
-        }
-    });
-
-    if (rutaCheck.checked) {
-        const directionsService = new google.maps.DirectionsService();
-        directionsRenderer.setMap(mapContext.map);
-
-        directionsService
-            .route({
-                origin: origen,
-                destination: destino,
-                travelMode: google.maps.TravelMode[selectedMode],
-            })
-            .then((response) => {
-                directionsRenderer.setDirections(response);
-            });
-    } else {
-        directionsRenderer.setMap(null);
-    }
-}*/
-
-/*[transportesSelect, rutaCheck].forEach(item => {
-    item.addEventListener("change", function () {
-        distancia();
-    });
-});*/
 
 $(function () {
     

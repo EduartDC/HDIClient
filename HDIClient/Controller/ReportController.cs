@@ -1,6 +1,7 @@
 using HDIClient.DTOs;
 using HDIClient.Models;
 using HDIClient.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
@@ -11,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace HDIClient.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ReportController : Controller
     {
         readonly IPolicyService _service;
@@ -27,7 +28,7 @@ namespace HDIClient.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "conductor")]
         [HttpGet]
         public async Task<IActionResult> NewReport()
         {
@@ -57,15 +58,13 @@ namespace HDIClient.Controllers
             }
             return View(model);
         }
-
+        [Authorize(Roles = "ajustador")]
         public async Task<IActionResult> ViewReport(string id)
         {
             var model = new ReportViewModel();
             var token = User.FindFirst("token").Value;
             try
             {
-
-
                 var (report, code) = await _reportService.GetReportById(token, id);
                 if (code == HttpStatusCode.OK)
                 {
@@ -88,6 +87,7 @@ namespace HDIClient.Controllers
             }
         }
         //solo los ajustadores
+        [Authorize(Roles = "ajustador")]
         [HttpPost("UpdateOpinion")]
         public async Task<IActionResult> UpdateOpinion([FromBody] NewOpinionadjusterDTO reportViewModel)
         {
@@ -127,6 +127,7 @@ namespace HDIClient.Controllers
             }
         }
         //solo los ajustadores
+        [Authorize(Roles = "ajustador")]
         [HttpPost("CreatOpinion")]
         public async Task<IActionResult> CreatOpinion([FromBody] NewOpinionadjusterDTO reportViewModel)
         {
@@ -168,6 +169,7 @@ namespace HDIClient.Controllers
 
         }
         //solo los conductores
+        [Authorize(Roles = "conductor")]
         [HttpPost("InfoReport")]
         public async Task<IActionResult> InfoReport([FromBody] ReportData reportData)
         {
