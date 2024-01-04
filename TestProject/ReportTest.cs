@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using HDIClient.Service;
 using HDIClient.Service.Interface;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 namespace TestProject
 {
@@ -15,15 +17,20 @@ namespace TestProject
 
         public ReportTest(IPolicyService service, IReportService reportService)
         {
+            var configuration = new Mock<IReportService>();
             _service = service;
             _reportService = reportService;
 
         }
 
         [Fact]
-        public void TestGetReportById()
+        public async Task TestGetReportById()
         {
+            string token = "";
+            var idReport = "e1";
+            var (report, code) = await _reportService.GetReportById(token, idReport);
 
+            Assert.IsType<OkObjectResult>(code);
         }
     }
 }
