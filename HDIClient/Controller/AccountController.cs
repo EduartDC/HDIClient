@@ -1,12 +1,12 @@
 ﻿using HDIClient.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using HDIClient.Service.Interface;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using HDIClient.Service.Interface;
 using Microsoft.Extensions.Caching.Memory;
 using System.Net;
+using System.Security.Claims;
 
 namespace HDIClient.Controllers
 {
@@ -35,7 +35,7 @@ namespace HDIClient.Controllers
 
                 var user = loginModel.User;
                 var password = loginModel.Password;
-                
+
                 try
                 {
                     var (result, code) = await _service.Login(user, password);
@@ -56,18 +56,18 @@ namespace HDIClient.Controllers
                     }
                     else if (code == HttpStatusCode.InternalServerError)
                     {
-                        //mensaje de error de servidor
+                        return RedirectToAction("ErrorServer", "Home");
                     }
                     else
                     {
                         ModelState.AddModelError("", "Usuario o contraseña invalido");
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
-                   //mensaje de error de conexion
+                    return RedirectToAction("ErrorServer", "Home");
                 }
-                
+
             }
             return View("LoginView");
         }

@@ -1,7 +1,8 @@
-﻿using HDIClient.DTOs;
+using HDIClient.DTOs;
 using HDIClient.Service.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -11,6 +12,38 @@ namespace HDIClient.Service
     public class ReportService : IReportService
     {
         HttpClient _cliente;
+
+        public ReportService(IHttpClientFactory httpClientFactory)
+        {
+            _cliente = httpClientFactory.CreateClient("ApiHttpClient");
+        }
+
+        public async Task<(int, List<PreviewReportDTO>)> GetPreviewReportsList(string idAdjuster)
+        {
+            List<PreviewReportDTO> previewReports = new List<PreviewReportDTO>();
+            var code = 0;
+            try
+            {
+
+                var json = new StringContent(JsonConvert.SerializeObject(idAdjuster), Encoding.UTF8, "application/json");
+                var response = await _cliente.GetAsync("/api/Report/GetPreviewReportsByEmployee/" + idAdjuster);
+                code = (int)response.StatusCode;
+                if (response.IsSuccessStatusCode)
+                {
+
+                    var content = await response.Content.ReadAsStringAsync();
+                    // Console.WriteLine("BODY: " + content);
+                    previewReports = JsonConvert.DeserializeObject<List<PreviewReportDTO>>(content);
+                }
+            }
+            catch (HttpRequestException)
+            {
+                code = 500;
+            }
+
+            return (code, previewReports);
+        }
+
         IMemoryCache _memoryCache;
 
         public ReportService(IHttpClientFactory httpClientFactory, IMemoryCache memoryCache)
@@ -28,7 +61,7 @@ namespace HDIClient.Service
             _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             try
             {
-                var response =  await _cliente.GetAsync($"/api/Report/GetReportById/{idReport}");
+                var response = await _cliente.GetAsync($"/api/Report/GetReportById/{idReport}");
                 if (response.IsSuccessStatusCode)
                 {
                     result = await response.Content.ReadFromJsonAsync<ReportDTO>();
@@ -45,12 +78,13 @@ namespace HDIClient.Service
             return (result, statusCode);
         }
 
-        public async Task<HttpStatusCode> PostOpionion(NewOpinionadjusterDTO opinion)
+        public async Task<HttpStatusCode> PostOpionion(NewOpinionadjusterDTO opinion, string token)
         {
             HttpStatusCode statusCode = HttpStatusCode.OK;
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             try
             {
-                string opinionJson = JsonSerializer.Serialize(opinion);
+                string opinionJson = System.Text.Json.JsonSerializer.Serialize(opinion);
 
                 // Crea el contenido de la solicitud con el JSON
                 var content = new StringContent(opinionJson, Encoding.UTF8, "application/json");
@@ -69,12 +103,36 @@ namespace HDIClient.Service
             return statusCode;
         }
 
-        public async Task<HttpStatusCode> PutOpionion(NewOpinionadjusterDTO opinion)
+        public async Task<HttpStatusCode> PostReport(NewReport report, string token)
         {
             HttpStatusCode statusCode = HttpStatusCode.OK;
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             try
             {
-                string opinionJson = JsonSerializer.Serialize(opinion);
+                string opinionJson = System.Text.Json.JsonSerializer.Serialize(report);
+
+                // Crea el contenido de la solicitud con el JSON
+                var content = new StringContent(opinionJson, Encoding.UTF8, "application/json");
+                var response = await _cliente.PostAsync("/api/Report/CreateReport", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    statusCode = response.StatusCode;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error al conectarse con el servidor");
+            }
+            return statusCode;
+        }
+
+        public async Task<HttpStatusCode> PutOpionion(NewOpinionadjusterDTO opinion, string token)
+        {
+            HttpStatusCode statusCode = HttpStatusCode.OK;
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            try
+            {
+                string opinionJson = System.Text.Json.JsonSerializer.Serialize(opinion);
 
                 // Crea el contenido de la solicitud con el JSON
                 var content = new StringContent(opinionJson, Encoding.UTF8, "application/json");
@@ -84,13 +142,14 @@ namespace HDIClient.Service
                 if (!response.IsSuccessStatusCode)
                 {
                     statusCode = response.StatusCode;
-                }               
+                }
             }
             catch (Exception)
             {
                 throw new Exception("Error al conectarse con el servidor");
             }
             return statusCode;
+
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using HDIClient.DTOs;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace HDIClient.Models
 {
@@ -14,7 +13,7 @@ namespace HDIClient.Models
         public int? Longitud { get; set; }
 
         public ReportDTO? Report { get; set; }
-
+        public List<byte[]>? Imagesbyte { get; set; }
         public string? Description { get; set; }
         public string? IdOpinionAdjuster { get; set; }
         public string? IdReport { get; set; }

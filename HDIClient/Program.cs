@@ -3,9 +3,6 @@ using HDIClient.Service.Interface;
 
 
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,12 +10,25 @@ var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton(configuration);
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+builder.Services.AddMemoryCache();
+// Add JWT authentication
+
 var appSettings = builder.Configuration.GetSection("ApiSettings");
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton(configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IPolicyService, PolicyService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddMemoryCache();
@@ -63,6 +73,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}");
 
+
 app.MapControllerRoute(
     name: "login",
     pattern: "{controller=Account}/{action=LoginView}");
@@ -72,6 +83,23 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "policy",
     pattern: "{controller=Policy}/{action=ViewPolicy}");
+
+app.MapControllerRoute(
+    name: "registerdriver",
+    pattern: "{controller=RegisterDriver}/{action=RegisterDriverDos}");
+
+app.MapControllerRoute(
+    name: "registerEmployee",
+    pattern: "{controller=RegisterEmployee}/{action=GetRegisterEmployeeView}");
+app.MapControllerRoute(
+    name: "editEmployee",
+    pattern: "{controller=EditEmployee}/{action=EditRegisterEmployeeView}");
+app.MapControllerRoute(
+    name: "employeeManagement",
+    pattern: "{controller=EmployeeManagement}/{action=EmployeeManagementView}");
+app.MapControllerRoute(
+    name: "showReportsAdjuster",
+    pattern: "{controller=ShowReportsAdjuster}/{action=ShowReportsAjusterView}");
 
 
 app.Run();

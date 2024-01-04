@@ -1,12 +1,11 @@
-﻿using HDIClient.DTOs;
+using HDIClient.DTOs;
 using HDIClient.Models;
 using HDIClient.Service.Interface;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System.Net;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 
@@ -35,172 +34,204 @@ namespace HDIClient.Controllers
             var token = User.FindFirst("token").Value;
             var idUser = User.FindFirst(ClaimTypes.Sid).Value;
             var listPolicy = new List<PolicyDTO>();
+            var model = new NewReportViewModel();
             try
             {
-                listPolicy = await _service.GetPolicyByDriver(token, idUser);
+                (listPolicy, var code) = await _service.GetPolicyByDriver(token, idUser);
+                if (code == HttpStatusCode.OK)
+                {
+                    model.policyList = listPolicy;
+                }
+                else if (code == HttpStatusCode.Unauthorized)
+                {
+                    return RedirectToAction("LoginView", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("ErrorNotFound", "Home");
+                }
             }
             catch (Exception)
             {
-                //
+                return RedirectToAction("ErrorServer", "Home");
             }
-
-            var model = new NewReportViewModel
-            {
-                policyList = listPolicy,
-            };
             return View(model);
         }
 
-        public IActionResult Camara()
-        {
-            // Lógica para tomar fotos con la cámara
-            return PartialView("_PartialCamara");
-        }
-
-        public IActionResult Galeria()
-        {
-            // Lógica para subir fotos desde la galería
-            return PartialView("_PartialFiles");
-        }
-
-        [HttpPost]
-        public IActionResult SelectVehicle(string vehicleId, List<PolicyDTO> list)
-        {
-            // Lógica para seleccionar el vehículo y actualizar el ViewModel
-            var select = new VehicleclientDTO();
-            foreach (var vehicle in list)
-            {
-                if (vehicle.IdVehicleClient == vehicleId)
-                {
-
-                    select = vehicle.VehicleClient;
-                }
-
-            }
-            var model = new NewReportViewModel
-            {
-                VehicleSelected = select,
-            };
-
-            // Regresa el partial view junto con el ViewModel
-            return PartialView("_PartialNewReport", model);
-        }
-
-        public async Task<IActionResult> ViewReport()
+        public async Task<IActionResult> ViewReport(string id)
         {
             var model = new ReportViewModel();
             var token = User.FindFirst("token").Value;
-            var (report, code)  = await _reportService.GetReportById(token, "a1");
-            if (code == HttpStatusCode.OK)
+            try
             {
-                model.Report = report;
-                return View(model);
-            }
-            else if (code == HttpStatusCode.Unauthorized)
-            {
-                return RedirectToAction("LoginView", "Account");
-            }
-            else
-            {
-                return RedirectToAction("ServerError", "Home");
-            }
-           
-        }
 
-        public async Task<IActionResult> UpdateOpinion(ReportViewModel reportViewModel)
+
+                var (report, code) = await _reportService.GetReportById(token, id);
+                if (code == HttpStatusCode.OK)
+                {
+                    
+                    model.Report = report;
+                    return View(model);
+                }
+                else if (code == HttpStatusCode.Unauthorized)
+                {
+                    return RedirectToAction("LoginView", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("ErrorNotFound", "Home");
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("ErrorServer", "Home");
+            }
+        }
+        //solo los ajustadores
+        [HttpPost("UpdateOpinion")]
+        public async Task<IActionResult> UpdateOpinion([FromBody] NewOpinionadjusterDTO reportViewModel)
         {
             // Lógica para editar la opinión del ajustador
             var description = reportViewModel.Description;
             var idOpinion = reportViewModel.IdOpinionAdjuster;
+            var token = User.FindFirst("token").Value;
             
-            var allowedCharsRegex = @"[\w\s.,?!0-9]";
-            if (string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(idOpinion))
+            try
             {
-                // Lógica para mostrar mensaje de error
-            }
-            else if (!Regex.IsMatch(description, $"^{allowedCharsRegex}*$"))
-            {
-                // Lógica para mostrar mensaje de error
-            }
-            else
-            {
-                try
+                var opinion = new NewOpinionadjusterDTO();
+                opinion.Description = description;
+                opinion.IdOpinionAdjuster = idOpinion;
+                opinion.CreationDate = DateTime.Now;
+
+                var code = await _reportService.PutOpionion(opinion, token);
+
+                if (code == HttpStatusCode.OK)
                 {
-                    
-                    var opinion = new NewOpinionadjusterDTO();
-                    opinion.Description = description;
-                    opinion.IdOpinionAdjuster = idOpinion;
-                    opinion.CreationDate = DateTime.Now;
 
-                    var code = await _reportService.PutOpionion(opinion);
+                    return Ok();
 
-                    if (code == HttpStatusCode.OK)
-                    {
-                        // Lógica para mostrar mensaje de éxito
-                    }
-                    else if (code == HttpStatusCode.Unauthorized)
-                    {
-                        return RedirectToAction("LoginView", "Account");
-                    }
-                    else
-                    {
-                        // Lógica para mostrar mensaje de error
-                    }
                 }
-                catch (Exception)
+                else if (code == HttpStatusCode.Unauthorized)
                 {
-                    // Lógica para mostrar mensaje de error de conexión
+                    return Unauthorized(new { ErrorMessage = "Su sesión ha expirado." });
+                }
+                else
+                {
+                    return NotFound(new { ErrorMessage = "Ha ocurrido un problema al procesar su solicitud" });
                 }
             }
-
-            return RedirectToAction("Index", "Home");
+            catch (Exception)
+            {
+                // Log the exception
+                return BadRequest(new { ErrorMessage = "Ha ocurrido un error con nuestro servicio, inténtelo más tarde." });
+            }
         }
-
-        public async Task<IActionResult> CreatOpinion(ReportViewModel reportViewModel)
+        //solo los ajustadores
+        [HttpPost("CreatOpinion")]
+        public async Task<IActionResult> CreatOpinion([FromBody] NewOpinionadjusterDTO reportViewModel)
         {
             // Lógica para crear la opinión del ajustador
+            var token = User.FindFirst("token").Value;
             var description = reportViewModel.Description;
-            var idReport = reportViewModel.IdReport;
-            var allowedCharsRegex = @"[\w\s.,?!0-9]";
-            if (string.IsNullOrWhiteSpace(description) || string.IsNullOrWhiteSpace(idReport))
+            var idReport = reportViewModel.IdAccident;
+             
+            // Lógica para crear la opinión del ajustador
+            try
             {
-                // Lógica para mostrar mensaje de error
-            }
-            else  if(!Regex.IsMatch(description, $"^{allowedCharsRegex}*$"))
-            {
-                // Lógica para mostrar mensaje de error
-            }
-            else
-            {
-                // Lógica para crear la opinión del ajustador
-                try
+                var opinion = new NewOpinionadjusterDTO();
+                opinion.Description = description;
+                opinion.IdAccident = idReport;
+                opinion.CreationDate = DateTime.Now;
+
+                var code = await _reportService.PostOpionion(opinion, token);
+
+                if (code == HttpStatusCode.OK)
                 {
-                    var opinion = new NewOpinionadjusterDTO();
-                    opinion.Description = description;
-                    opinion.IdAccident = idReport;
-                    opinion.CreationDate = DateTime.Now;
+                    return Ok();
 
-                    var code = await _reportService.PostOpionion(opinion);
-
-                    if (code == HttpStatusCode.OK)
-                    {
-                        // Lógica para mostrar mensaje de éxito
-                    }
-                    else if (code == HttpStatusCode.Unauthorized)
-                    {
-                        return RedirectToAction("LoginView", "Account");
-                    }
-                    else
-                    {
-                        // Lógica para mostrar mensaje de error
-                    }
                 }
-                catch (Exception)
+                else if (code == HttpStatusCode.Unauthorized)
                 {
-                    // Lógica para mostrar mensaje de error de conexión
+                    return Unauthorized(new { ErrorMessage = "Su sesión ha expirado." });
+                }
+                else
+                {
+                    return NotFound(new { ErrorMessage = "Ha ocurrido un problema al procesar su solicitud" });
                 }
             }
-            return RedirectToAction("Index", "Home");
+            catch (Exception)
+            {
+                // Log the exception
+                return BadRequest(new { ErrorMessage = "Ha ocurrido un error con nuestro servicio, inténtelo más tarde." });
+            }
+
+
+        }
+        //solo los conductores
+        [HttpPost("InfoReport")]
+        public async Task<IActionResult> InfoReport([FromBody] ReportData reportData)
+        {
+            var token = User.FindFirst("token").Value;
+            var idUser = User.FindFirst(ClaimTypes.Sid).Value;
+            var lat = reportData.Latitude;
+            var lon = reportData.Longitude;
+            var add = reportData.Address;
+            var id = reportData.Idcar;
+            var listimg = reportData.ImageByteList;
+            var listinv = reportData.InvolvedDataList;
+
+
+            var listInvolved = new List<InvolvedDTO>();
+            var newreport = new NewReport();
+            newreport.Location = add;
+            newreport.AccidentDate = DateTime.Now;
+            newreport.Latitude = lat;
+            newreport.Longitude = lon;
+            newreport.IdDriverClient = idUser;
+            newreport.IdVehicleClient = id;
+            newreport.Images = listimg;
+            newreport.ReportStatus = "Nuevo";
+            foreach (var item in listinv)
+            {
+                var newinv = new InvolvedDTO();
+                var carinv = new CarinvolvedDTO();
+                newinv.NameInvolved = item.InvolvedName;
+                newinv.LastNameInvolved = item.InvolvedLastName;
+                newinv.LicenseNumber = item.InvolvedNumber;
+                if (!string.IsNullOrWhiteSpace(item.Plate) || !string.IsNullOrWhiteSpace(item.Model) || !string.IsNullOrWhiteSpace(item.Brand) || !string.IsNullOrWhiteSpace(item.Color))
+                {
+                    carinv.Model = item.Model;
+                    carinv.Color = item.Color;
+                    carinv.Plate = item.Plate;
+                    carinv.Brand = item.Brand;
+                    newinv.CarInvolved = carinv;
+                }
+
+                listInvolved.Add(newinv);
+
+            }
+            newreport.Involveds = listInvolved;
+            try
+            {
+                var result = await _reportService.PostReport(newreport, token);
+                if (result == HttpStatusCode.OK)
+                {
+                    return Ok(new { Message = "Datos recibidos y procesados exitosamente" });
+                }
+                else if (result == HttpStatusCode.Unauthorized)
+                {
+                    return Unauthorized(new { ErrorMessage = "Su sesión ha expirado." });
+                }
+                else
+                {
+                    return NotFound(new { ErrorMessage = "Ha ocurrido un problema al procesar su solicitud" });
+                }
+            }
+            catch (Exception)
+            {
+                // Log the exception
+                return BadRequest(new { ErrorMessage = "Ha ocurrido un error con nuestro servicio, inténtelo más tarde." });
+            }
         }
     }
 }

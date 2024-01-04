@@ -1,0 +1,114 @@
+﻿@model HDIClient.Models.EmployeeViewModel
+@{
+    ViewData["title"] = "Edicion de empleado";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/registerEmployee.css" />
+
+</head>
+
+<div class="conteiner card bg-dark text-white">
+    <form id="info" asp-action="SetUpdateEmployee">
+        <div>
+            <h2> Edicion de empleados</h2>
+            <br />
+            <h3>Nombre</h3>
+            <input asp-for="NameEmployeee" type="text" class="form-control form-control-lg col-md-1" />
+            <span asp-validation-for="NameEmployeee" class="text-danger"></span>
+
+            <h3>Apellido</h3>
+            <input asp-for="LastnameEmployee" type="text" class="form-control form-control-lg col-md-1" />
+            <span asp-validation-for="LastnameEmployee" class="text-danger"></span>
+
+            <h3>Nombre de usuario</h3>
+            <input asp-for="Username" type="text" class="form-control form-control-lg col-md-1" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+
+            <h3>Contraseña</h3>
+            <input asp-for="Password" type="text" class="form-control form-control-lg col-md-1" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+            <h3>Rol</h3>
+            <select asp-for="Rol" asp-items="Model.ListaDeRoles" class="form-select">
+            </select>
+
+            <div class="text-center">
+                <button type="submit" value="Register" class="btn btn-outline-light btn-lg px-5">Crear cuenta</button>
+
+            </div>
+        </div>
+
+    </form>
+   
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>
+
+            function mostrarMensajeSucces(mensaje) {
+                Swal.fire({
+                    icon: "success",
+                    text: mensaje
+                });
+            }
+
+            function mostrarMensajeError(mensaje) {
+                Swal.fire({
+                    icon: "error",
+                    text: mensaje
+                });
+            }
+
+            function validatePassword(e) {
+                e.preventDefault();
+
+                var passwordElement = document.getElementById("inputPassword");
+                var repeatPasswordElement = document.getElementById("inputRepeatPassword");
+
+                // Comprobar si los elementos existen
+                if (passwordElement && repeatPasswordElement) {
+                    var passwordValue = passwordElement.value;
+                    var repeatPasswordValue = repeatPasswordElement.value;
+
+                    if (passwordValue === repeatPasswordValue) {
+                        const formElement = document.getElementById('info');
+                        formElement.submit();
+                    } else {
+                        mostrarMensajeError('Las contraseñas no coinciden');
+                    }
+                } else {
+                    mostrarMensajeError('No se encontraron elementos de contraseña en el formulario.');
+                }
+            }
+
+            // Verificar TempData para mostrar mensajes
+            @if (TempData.ContainsKey("RegistroExitoso") && (bool)TempData["RegistroExitoso"])
+            {
+                <text>
+                    mostrarMensajeSuccess('Registro exitoso');
+                </text>
+            }
+            else if (TempData.ContainsKey("ErrorLicenciaExistente") && (bool)TempData["ErrorLicenciaExistente"])
+            {
+                <text>
+                    mostrarMensajeError('Licencia registrada por otro usuario');
+                </text>
+            }
+            else if (TempData.ContainsKey("ErrorConexion") && (bool)TempData["ErrorConexion"])
+            {
+                <text>
+                    mostrarMensajeError('Error de conexion');
+                </text>
+            }
+           
+
+
+        </script>
+
+    }
+}
