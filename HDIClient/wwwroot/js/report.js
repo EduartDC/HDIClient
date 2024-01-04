@@ -43,7 +43,7 @@
                 infoYear.innerText = year;
                 infoSerialNumber.innerText = serialNumber;
                 infoPlate.innerText = plate;
-                // Puedes detener el bucle si ya encontraste el vehículo
+                
                 break;
             }
         }

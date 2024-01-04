@@ -14,9 +14,8 @@ namespace HDIClient.Service
         TokenDTO _token;
         IMemoryCache _memoryCache;
 
-        public UserService(IHttpClientFactory httpClientFactory, IMemoryCache memoryCache)
+        public UserService(IHttpClientFactory httpClientFactory)
         {
-            _memoryCache = memoryCache;
             _cliente = httpClientFactory.CreateClient("ApiHttpClient");
 
         }

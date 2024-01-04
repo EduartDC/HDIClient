@@ -61,7 +61,7 @@ $(document).ready(function () {
         var licens = $('#involvedNumberid').val();
 
         if (name.trim() === '' || lastName.trim() === '' || licens.trim() === '') {
-            // Mostrar mensaje de error utilizando alerta de Bootstrap
+            
             var errorMessage = $('<div class="alert alert-danger" role="alert" id="alertnull">Nombre, Apellido y No. Licencia son obligatorios.</div>');
             $('#formInvolved').prepend(errorMessage);
             return;
@@ -242,14 +242,14 @@ function addDeleteBtn() {
     return deleteBtn;
 }
 function sendInfo() {
-    // Obtener los datos que deseas enviar al controlador
+
     let involvedData = involvedList; // La lista de involucrados
     let imageByteListData = imageByteList; // La lista de imágenes
     console.log('Cantidad de arreglos en la lista:', imageByteList.length);
     console.log('Cantidad de arreglos en la lista dos:', involvedData);
     console.log('Involved List:', involvedList);
     console.log('Image Byte List:', imageByteList);
-    // Otras variables que necesitas enviar al controlador
+
     let latitud = document.querySelector('[name="Latitud"]').value;
     let longitud = document.querySelector('[name="Longitud"]').value;
     let localizador = document.querySelector('[name="Localizador"]').value;
@@ -259,7 +259,7 @@ function sendInfo() {
         alert('Por favor, complete todos los campos y asegúrese de tener al menos un involucrado y cuatro imagenes.');
         return;
     }
-    // Crear un objeto con todos los datos que deseas enviar
+    //objeto con todos los datos
     var dataToSend = {
         InvolvedDataList: involvedData,
         ImageByteList: imageByteListData,
@@ -276,7 +276,7 @@ function sendInfo() {
         data: JSON.stringify(dataToSend),
         success: function (response) {
             console.log('Respuesta del controlador:', response);
-            // Puedes manejar la respuesta del controlador aquí
+
             Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
@@ -290,7 +290,7 @@ function sendInfo() {
         },
         error: function (xhr, textStatus, errorThrown) {
             console.error('Error al enviar datos al controlador:', xhr.responseText);
-            // Procesar el mensaje de error y mostrarlo al usuario
+
             try {
                 var errorResponse = JSON.parse(xhr.responseText);
                 Swal.fire({
@@ -311,7 +311,7 @@ function sendInfo() {
 }
 // Función de validación
 function validateData(involvedData, imageByteListData, latitud, longitud, localizador, idvehiculo) {
-    // Agrega lógica de validación aquí según tus requisitos
+
     if (!involvedData || involvedData.length === 0) {
         console.error('La lista de involucrados está vacía o es nula.');
         return false;

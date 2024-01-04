@@ -73,7 +73,7 @@ namespace HDIClient.Service
             }
             catch (Exception)
             {
-                throw new Exception("Error al conectarse con el servidor");
+                throw new Exception("Error al conectarse con el servidor 1");
             }
             return (result, statusCode);
         }
