@@ -17,7 +17,7 @@ namespace HDIClient.Controllers
 
         public async Task<IActionResult> ShowReportsAjusterView()
         {
-            string idAjustadorPrueba = "e2";
+            string idAjustadorPrueba = "e1";
             //lista para uno de los filtros
             var StatusList = new Dictionary<string, string>
             {
@@ -39,13 +39,19 @@ namespace HDIClient.Controllers
             {
 
             }
-
-
-
-
             return View("ShowReportsAdjuster");
 
         }
 
+        public IActionResult ShowFullReport(string id)
+        {
+            // Redirige directamente a la acción de edición en lugar de crear una nueva instancia del controlador
+            return RedirectToAction("ViewReport", "Report", new { id });
+           
+
+        }
+
     }
+
+
 }
