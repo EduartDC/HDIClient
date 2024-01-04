@@ -40,10 +40,12 @@ namespace HDIClient.Service
             return (code, employeeDTO);
         }
 
-        public async Task<(int, List<EmployeeDTO>)> GetEmployeeList()
+        public async Task<(int, List<EmployeeDTO>)> GetEmployeeList(string token)
         {
             List<EmployeeDTO> employeeList = new List<EmployeeDTO>();
             var code = 0;
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
             try
             {
 
