@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using HDIClient.Service;
 using HDIClient.Service.Interface;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestProject
 {
@@ -13,17 +15,23 @@ namespace TestProject
         private readonly IPolicyService _service;
         private readonly IReportService _reportService;
 
-        public ReportTest(IPolicyService service, IReportService reportService)
+
+        public ReportTest()
         {
-            _service = service;
-            _reportService = reportService;
+          // var configuration = new Mock
 
         }
 
         [Fact]
-        public void TestGetReportById()
+        public void TestMethod()
         {
-
+           
         }
+
+        //[Fact]
+        //public void TestGetReportById()
+        //{
+
+        //}
     }
 }
