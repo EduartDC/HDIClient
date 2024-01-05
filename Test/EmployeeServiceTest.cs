@@ -1,4 +1,6 @@
-﻿using HDIClient.Service;
+﻿using AseguradoraApp.Models;
+using HDIClient.DTOs;
+using HDIClient.Service;
 using Moq;
 
 
@@ -21,5 +23,132 @@ namespace TestProject
 
             _service = new(httpClientFactory.Object);
         }
+
+
+        //Jonathan
+        [Fact]
+        public async Task RegisterEmployeeSuccess()
+        {
+            EmployeeDTO employeeTest = new EmployeeDTO()
+            {
+                IdEmployee = "",
+                NameEmployee = "Test",
+                LastnameEmployee = "Test",
+                Username = "Test",
+                Password = "123",
+                Rol = "admin",
+                RegistrationDate = DateTime.Now,
+            };
+            var result = await _service.RegisterNewEmployee(employeeTest);
+            Xunit.Assert.Equal("200", result.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task RegisterEmployeeErrorUsernameUsed()
+        {
+            EmployeeDTO employeeTest = new EmployeeDTO()
+            {
+                IdEmployee = "",
+                NameEmployee = "Test",
+                LastnameEmployee = "Test",
+                Username = "Test",
+                Password = "123",
+                Rol = "admin",
+                RegistrationDate = DateTime.Now,
+            };
+            var result = await _service.RegisterNewEmployee(employeeTest);
+            Xunit.Assert.Equal("409", result.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task RegisterEmployeeConnectionError()
+        {
+            EmployeeDTO employeeTest = new EmployeeDTO()
+            {
+                IdEmployee = "",
+                NameEmployee = "Test",
+                LastnameEmployee = "Test",
+                Username = "Test",
+                Password = "123",
+                Rol = "admin",
+                RegistrationDate = DateTime.Now,
+            };
+            var result = await _service.RegisterNewEmployee(employeeTest);
+            Xunit.Assert.Equal("500", result.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task UpdateEmployeeSuccess()
+        {
+            EmployeeDTO employeeTest = new EmployeeDTO()
+            {
+                IdEmployee = "FVZJ9WBNRJ",
+                NameEmployee = "Tes2t",
+                LastnameEmployee = "Test",
+                Username = "Test",
+                Password = "123",
+                Rol = "admin",
+                RegistrationDate = DateTime.Now,
+            };
+            var result = await _service.SetUpdateEmployee(employeeTest);
+            Xunit.Assert.Equal("200", result.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task UpdateEmployeeErrorUsernameUsedForOtherEmployee()
+        {
+            EmployeeDTO employeeTest = new EmployeeDTO()
+            {
+                IdEmployee = "FVZJ9WBNRJ",
+                NameEmployee = "Tes2t",
+                LastnameEmployee = "Test",
+                Username = "jon1000",
+                Password = "123",
+                Rol = "admin",
+                RegistrationDate = DateTime.Now,
+            };
+            var result = await _service.SetUpdateEmployee(employeeTest);
+            Xunit.Assert.Equal("409", result.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task UpdateEmployeeConnectionError()
+        {
+            EmployeeDTO employeeTest = new EmployeeDTO()
+            {
+                IdEmployee = "FVZJ9WBNRJ",
+                NameEmployee = "Tes2t",
+                LastnameEmployee = "Test",
+                Username = "jon1000",
+                Password = "123",
+                Rol = "admin",
+                RegistrationDate = DateTime.Now,
+            };
+            var result = await _service.SetUpdateEmployee(employeeTest);
+            Xunit.Assert.Equal("500", result.ToString());
+        }
+
+
+        //Jonathan
+        [Fact]
+        public async Task GetEmployeeListSuccess()
+        {
+            var result = await _service.GetEmployeeList("");
+            Xunit.Assert.Equal("200", result.Item1.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task GetEmployeeListConnectionError()
+        {
+            var result = await _service.GetEmployeeList("");
+            Xunit.Assert.Equal("500", result.Item1.ToString());
+        }
+
     }
 }
