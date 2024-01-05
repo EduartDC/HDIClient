@@ -29,11 +29,11 @@ namespace HDIClient.Controllers
                 (listPolicy, var code) = await _service.GetPolicyByDriver(token, idUser);
                 if (code == HttpStatusCode.InternalServerError)
                 {
-                    //mensaje de error de servidor
+                    return RedirectToAction("ErrorServer", "Home");
                 }
                 else if(code == HttpStatusCode.Unauthorized)
                 {
-                    //mensaje de error de autorización
+                    return RedirectToAction("LoginView", "Account");
                 }
                 else if (code == HttpStatusCode.OK)
                 {
@@ -41,12 +41,12 @@ namespace HDIClient.Controllers
                 }
                 else
                 {
-                    //mensaje de error
+                    return RedirectToAction("ErrorNotFound", "Home");
                 }
             }
             catch (Exception)
             {
-                //error de conexión
+                return RedirectToAction("ErrorServer", "Home");
             }
 
             return View(model);
