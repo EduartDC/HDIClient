@@ -28,14 +28,15 @@ namespace AseguradoraApp.Controllers
          
             if (ModelState.IsValid)
             {
-                newDriver.Age = DateOnly.ParseExact(newDriver.AgeString, "yyyy-MM-dd");
-                // Formatear la fecha al nuevo formato
-                string formattedDate = newDriver.Age.ToString("dd/MM/yyyy");
-                newDriver.Age = DateOnly.Parse(formattedDate);
+               // newDriver.Age = DateOnly.ParseExact(newDriver.AgeString, "yyyy-MM-dd");
+             
+               // string formattedDate = newDriver.Age.ToString("dd/MM/yyyy");
+                //newDriver.Age = DateOnly.Parse(formattedDate);
                 if(ContieneMayusculaYNumero(newDriver.Password))
                 {
                     if(ContieneSoloNumeros(newDriver.TelephoneNumber))
                     {
+                        newDriver.Password = Encryption.Encrypt(newDriver.Password);
                         var result = await _clientservice.RegisterNewClientDriver(newDriver);
                         if (result == 200 || result == 201)
                         {
