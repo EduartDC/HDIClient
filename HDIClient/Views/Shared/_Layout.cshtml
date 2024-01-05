@@ -44,23 +44,30 @@
                             @if (User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
-                                    <a asp-controller="EmployeeManagement" asp-action="EmployeeManagementView" class="btn">Registrar Empleado</a>
+                                    <a asp-controller="EmployeeManagement" asp-action="EmployeeManagementView" class="btn">Administración de empleados</a>
                                 </li>
+                              
                                 
                             }
                             else if (User.IsInRole("ajustador"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sinister" asp-action="AssignLossAdjuster">Asignar Ajustador a Siniestro</a>
+                                    <a asp-controller="ShowReportsAdjuster" asp-action="ShowReportsAjusterView" class="btn">Administrar accidentes</a>
                                 </li>
                             }
                             else if (User.IsInRole("asistente"))
                             {
+                          <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sinister" asp-action="AssignLossAdjuster">Asignar Ajustador a Siniestro</a>
+                                </li>
                             }
                             else if (User.IsInRole("conductor"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Report" asp-action="Tips">Reporte</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Policy" asp-action="ViewPolicy">Pólizas</a>
                                 </li>
                             }
 

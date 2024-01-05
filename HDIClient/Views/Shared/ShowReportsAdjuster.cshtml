@@ -21,7 +21,7 @@
                         <select id="estado" name="estado" class="form-select">
                             <option value="Sin especificar">Sin especificar</option>
                             <option value="Dictaminado">Dictaminado</option>
-                            <option value="Terminado">Terminado</option>
+                            <option value="Pendiente">Pendiente</option>
                         </select>
                         <h4>Selección de ubicacion</h4>
                         <div class="card mt-3">
@@ -73,10 +73,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.previewList[0].StatusReport)
                     </th>
-                    @*<th>
-                    @Html.DisplayNameFor(model => model.previewList[0].)
-                    </th>*@
-                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.previewList[0].LocationName)
+                    </th>
                 </tr>
             </thead>
             <tbody id="tableBody">
@@ -95,12 +94,15 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.StatusReport)
                         </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LocationName)
+                        </td>
                         @*<td>
                     @Html.DisplayFor(modelItem => item.RegistrationDate)
                     </td>*@
                         <td class="td">
                             @* <a class="boton" asp-controller="EmployeeManagement" asp-action="EditInfoEmployee" asp-route-id="@item.IdEmployee">Editar</a>*@
-                            <a class="boton" asp-action="ShowFullReport" asp-route-id="@item.ReportNumber">Editar</a>
+                            <a class="boton" asp-action="ShowFullReport" asp-route-id="@item.ReportNumber">Mostrar</a>
 
 
                         </td>
@@ -138,7 +140,6 @@
             }
         }
 
-        //filtra la lista
         async function filterReports() {
             try{
             console.log("dentro de funcion de filtro de lista");
@@ -150,12 +151,12 @@
                 var tableBody = document.getElementById("tableBody");
             tableBody.innerHTML = ''; // Limpiar filas existentes
 
-            // Obtener valores de los filtros
+            
             var selectedDate = document.getElementById("reportedate").value;
             var selectedEstado = document.getElementById("estado").value;
             console.log("filtro seleccionado es: " + selectedEstado);
 
-            // Otros filtros...
+           
 
             var viewModelJson = @Html.Raw(Json.Serialize(Model.previewList));
             console.log(viewModelJson);
@@ -171,9 +172,7 @@
                 console.log("FOREACH: ", x);
             });
 
-            // Imprimir en consola
-
-            // Filtrar la lista en base a los valores seleccionados
+           
             var filteredList = viewModelJson
                 .filter((item, index) => {
                     var locationName = direcciones[index];
@@ -181,7 +180,7 @@
                     return (!selectedDate || new Date(item.reportDate).toISOString().substring(0, 10) === new Date(selectedDate).toISOString().substring(0, 10)) &&
                         (selectedEstado == "Sin especificar" || item.statusReport == selectedEstado) &&
                         locationName.includes(direccionSinNumeros.trim());
-                    // Agregar lógica para otros filtros...
+                    
                 });
 
             console.log("tamaño de filteredList: " + filteredList.length);
@@ -208,14 +207,14 @@
                 var cell5 = row.insertCell(4);
                 var editButton = document.createElement("a");
                 editButton.className = "boton";
-                editButton.href = "/EditInfoEmployee/" + item.reportNumber;
-                editButton.textContent = "Editar";
+                editButton.href = "/Report/ViewReport?id="+ item.reportNumber;
+                editButton.textContent = "Mostrar";
                 cell5.appendChild(editButton);
                 
             });
-                // Limpiar filas existentes
+                
             }catch(error){
-                console.log("pedos",error);
+                console.log("Error catch",error);
             }
         }
 
