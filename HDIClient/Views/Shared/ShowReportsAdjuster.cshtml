@@ -62,19 +62,19 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.previewList[0].ReportNumber)
+                       Identificador
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.previewList[0].NameClient)
+                        Cliente
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.previewList[0].ReportDate)
+                        Fecha de accidente
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.previewList[0].StatusReport)
+                        Estado de reporte
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.previewList[0].LocationName)
+                        Ubicación
                     </th>
                 </tr>
             </thead>
@@ -205,11 +205,14 @@
                 cell4.innerHTML = item.statusReport;
 
                 var cell5 = row.insertCell(4);
+                cell5.innerHTML = item.locationName;
+
+                var cell6 = row.insertCell(5);
                 var editButton = document.createElement("a");
                 editButton.className = "boton";
                 editButton.href = "/Report/ViewReport?id="+ item.reportNumber;
                 editButton.textContent = "Mostrar";
-                cell5.appendChild(editButton);
+                cell6.appendChild(editButton);
                 
             });
                 

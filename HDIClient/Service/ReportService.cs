@@ -18,8 +18,9 @@ namespace HDIClient.Service
             _cliente = httpClientFactory.CreateClient("ApiHttpClient");
         }
 
-        public async Task<(int, List<PreviewReportDTO>)> GetPreviewReportsList(string idAdjuster)
+        public async Task<(int, List<PreviewReportDTO>)> GetPreviewReportsList(string idAdjuster, string token)
         {
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             List<PreviewReportDTO> previewReports = new List<PreviewReportDTO>();
             var code = 0;
             try

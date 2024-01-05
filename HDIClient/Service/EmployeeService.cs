@@ -7,28 +7,25 @@ namespace HDIClient.Service
 {
     public class EmployeeService : IEmployeeService
     {
-
         HttpClient _cliente;
         public EmployeeService(IHttpClientFactory httpClientFactory)
         {
             _cliente = httpClientFactory.CreateClient("ApiHttpClient");
         }
 
-        public async Task<(int, EmployeeDTO)> GetEmployeeById(string idEmployee)
+        public async Task<(int, EmployeeDTO)> GetEmployeeById(string idEmployee, string token)
         {
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             EmployeeDTO employeeDTO = new EmployeeDTO();
             var code = 0;
             try
             {
-
                 var json = new StringContent(JsonConvert.SerializeObject(idEmployee), Encoding.UTF8, "application/json");
                 var response = await _cliente.GetAsync("/Employee/GetEmployeeById/" + idEmployee);
                 code = (int)response.StatusCode;
                 if (response.IsSuccessStatusCode)
                 {
-
                     var content = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("BODY: " + content);
                     employeeDTO = JsonConvert.DeserializeObject<EmployeeDTO>(content);
                 }
             }
@@ -42,6 +39,7 @@ namespace HDIClient.Service
 
         public async Task<(int, List<EmployeeDTO>)> GetEmployeeList(string token)
         {
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             List<EmployeeDTO> employeeList = new List<EmployeeDTO>();
             var code = 0;
             _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
@@ -68,8 +66,9 @@ namespace HDIClient.Service
             return (code, employeeList);
         }
 
-        public async Task<int> RegisterNewEmployee(EmployeeDTO newEmployee)
+        public async Task<int> RegisterNewEmployee(EmployeeDTO newEmployee, string token)
         {
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             var result = 0;
             try
             {
@@ -86,8 +85,9 @@ namespace HDIClient.Service
             return result;
         }
 
-        public async Task<int> SetUpdateEmployee(EmployeeDTO employee)
+        public async Task<int> SetUpdateEmployee(EmployeeDTO employee, string token)
         {
+            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             var result = 0;
             try
             {
