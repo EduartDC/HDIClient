@@ -62,16 +62,16 @@ namespace HDIClient.Controllers
         {
 
             var token = User.FindFirst("token").Value;
-            var result = _employeeService.GetEmployeeList(token);
+            var result = await _employeeService.GetEmployeeList(token);
 
-            if (result.Result.Item1 == 200)
+            if (result.Item1 == 200)
             {
                 var model = new EmployeeListViewModel
                 {
                     IdAccident = idAccident,
                     Location = location,
                     AccidentDate = accidentDate,
-                    employeeList = result.Result.Item2
+                    employeeList = result.Item2
                 };
                 return View("AssignLossAdjusterExtend", model);
             }
