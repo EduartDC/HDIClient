@@ -16,7 +16,6 @@
         <form id="info" asp-action="RegisterNewDriver" onsubmit="validatePassword(event)">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                @*<h2 class="fw-bold mb-2 text-uppercase">Nombre</h2>*@
                 <label asp-for="NameDriver" class="form-label"></label>
                 <input asp-for="NameDriver" type="text" class="form-control form-control-lg col-md-1" />
                 <span asp-validation-for="NameDriver" class="text-danger"></span>
@@ -65,8 +64,6 @@
 
             <br />
             <div class="text-center">
-
-                @*<button type="" onclick="alertSweet()" class="btn btn-dark">Cerrar</button>*@
                 <button type="submit" value="Register" class="btn btn-outline-light btn-lg px-5">Crear cuenta</button>
 
             </div>
