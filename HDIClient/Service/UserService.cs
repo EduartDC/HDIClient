@@ -49,7 +49,7 @@ namespace HDIClient.Service
             }
             catch (Exception)
             {
-                throw new Exception("Error al conectarse con el servidor");
+                statusCode = HttpStatusCode.InternalServerError;
             }
             return (result, statusCode);
         }

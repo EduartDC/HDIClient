@@ -73,7 +73,7 @@ namespace HDIClient.Service
             }
             catch (Exception)
             {
-                throw new Exception("Error al conectarse con el servidor 1");
+                statusCode = HttpStatusCode.InternalServerError;
             }
             return (result, statusCode);
         }
@@ -98,7 +98,7 @@ namespace HDIClient.Service
             }
             catch (Exception)
             {
-                throw new Exception("Error al conectarse con el servidor");
+                statusCode = HttpStatusCode.InternalServerError;
             }
             return statusCode;
         }
@@ -121,7 +121,7 @@ namespace HDIClient.Service
             }
             catch (Exception)
             {
-                throw new Exception("Error al conectarse con el servidor");
+                statusCode = HttpStatusCode.InternalServerError;
             }
             return statusCode;
         }
@@ -146,7 +146,7 @@ namespace HDIClient.Service
             }
             catch (Exception)
             {
-                throw new Exception("Error al conectarse con el servidor");
+                statusCode = HttpStatusCode.InternalServerError;
             }
             return statusCode;
 
