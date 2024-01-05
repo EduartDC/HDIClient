@@ -42,7 +42,7 @@ namespace HDIClient.Service
             List<AccidentDTO> accidentList = new List<AccidentDTO>();
             try
             {
-                var response = await _cliente.GetAsync($"/api/Accident/GetAccidents");
+                var response = await _cliente.GetAsync("/api/Accident/GetAccidents");
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
