@@ -1,34 +1,39 @@
 ﻿@model PolicyViewModel
 
 <div class="scroll-container">
-
-    <h2>Polizas contratadas:</h2>
-    <div class="card-container" id="cardContainer">
-        <div class="row">
-            @if (Model.PolicyList.Any())
-            {
-                @foreach (var item in Model.PolicyList)
+    
+        <h2>Polizas contratadas:</h2>
+        <div class="card-container" id="cardContainer">
+            <div class="row">
+                @if (Model.PolicyList.Any())
                 {
-                    <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
+                    @foreach (var item in Model.PolicyList)
+                    {
+                        <div class="col-sm-6 col-md-4 col-lg-2 mb-4">
                         <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="..." alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.StartTerm</h5>
-                                <p class="card-text">@item.EndTerm</p>
-                                <p class="card-text">@item.Price</p>
-                                <p class="card-text">@item.PolicyType</p>
-                                <button class="btn btn-primary select-vehicle" data-vehicle-id="@item.VehicleClient.IdVehicleClient">Seleccionar</button>
+                                <img class="card-img-top" src="~/images/car1.jpeg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h6>Fecha de inicio:</h6>
+                                    <p class="card-title">@item.StartTerm</p>
+                                    <h6>Fecha de termino:</h6>
+                                    <p class="card-text">@item.EndTerm</p>
+                                    <h6>Costo:</h6>
+                                    <p class="card-text">@item.Price</p>
+                                    <h6>Tipo de poliza:</h6>
+                                    <p class="card-text">@item.PolicyType</p>
+                                    <button class="btn btn-primary select-vehicle" data-vehicle-id="@item.VehicleClient.IdVehicleClient">Seleccionar</button>
+                                </div>
                             </div>
                         </div>
+                    }
+                }
+                else
+                {
+                    <div class="container my-2">
+                        <h1 class="text-danger"> No se encontraron vehículos con un seguro vigente, le recomendamos verificar la vigencia de sus pólizas.</h1>
                     </div>
                 }
-            }
-            else
-            {
-                <div class="container my-2">
-                    <h1 class="text-danger"> No se encontraron polizas.</h1>    
-                </div>
-            }
+            </div>
         </div>
     </div>
     <div class="separator-container">
@@ -69,10 +74,10 @@
         </div>
 
     </div>
-</div>
+
 
 @section Scripts {
-    <script src="~/js/camara.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var selectButtons = document.querySelectorAll('.select-vehicle');
@@ -122,4 +127,8 @@
             }
         });
     </script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/NewReport.css" asp-append-version="true" />
 }

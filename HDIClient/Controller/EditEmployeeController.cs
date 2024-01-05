@@ -2,11 +2,14 @@
 using HDIClient.Models;
 using HDIClient.Service;
 using HDIClient.Service.Interface;
+using HDIClient.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HDIClient.Controllers
 {
+    [Authorize]
     public class EditEmployeeController : Controller
     {
         private IEmployeeService _employeeService;
@@ -17,6 +20,7 @@ namespace HDIClient.Controllers
             _employeeService = employeeService;
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> EditRegisterEmployeeView(string id)
         {
             TempData["IdUserEdit"] = id;
@@ -36,7 +40,7 @@ namespace HDIClient.Controllers
                 NameEmployeee = DTOObject.Result.Item2.NameEmployee,
                 LastnameEmployee = DTOObject.Result.Item2.LastnameEmployee,
                 Username = DTOObject.Result.Item2.Username,
-                Password = DTOObject.Result.Item2.Password,
+                Password = Encryption.Decrypt(DTOObject.Result.Item2.Password),
                 ListaDeRoles = selectList,
                 Rol = DTOObject.Result.Item2.Rol
             };
@@ -49,6 +53,7 @@ namespace HDIClient.Controllers
             //return View("LoginView");
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> SetUpdateEmployee([Bind("NameEmployeee,LastnameEmployee,Username,Password,Rol,ListaDeRoles")] EmployeeViewModel newEmployee)
         {
             if (ModelState.IsValid)
@@ -60,7 +65,7 @@ namespace HDIClient.Controllers
                     NameEmployee = newEmployee.NameEmployeee,
                     LastnameEmployee = newEmployee.LastnameEmployee,
                     Username = newEmployee.Username,
-                    Password = newEmployee.Password,
+                    Password = Encryption.Encrypt(newEmployee.Password),
                     Rol = newEmployee.Rol
                 };
 
@@ -78,6 +83,10 @@ namespace HDIClient.Controllers
                     ModelState.AddModelError("Error", "username registrada por otro usuario");
                     TempData["ErrorLicenciaExistente"] = true;
                 }
+                else
+                {
+                    return RedirectToAction("ErrorServer", "Home");
+                }
 
             }
 
@@ -87,16 +96,6 @@ namespace HDIClient.Controllers
 
         }
 
-        private IActionResult GetEmployeeManagementView()
-        {
-            // Crear una instancia del controlador EmployeeManagementController y pasarle el mismo servicio
-            var employeeManagementController = new EmployeeManagementController(_employeeService);
-
-            // Llamar al método EmployeeManagementView del controlador
-            var result = employeeManagementController.EmployeeManagementView().Result;
-
-            // Devolver el resultado
-            return result;
-        }
+       
     }
 }
