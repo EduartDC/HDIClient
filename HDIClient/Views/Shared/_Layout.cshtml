@@ -38,6 +38,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Sinister" asp-action="ConsultClaimHistory">Consultar historial de siniestros</a>
+                            </li>
                             @if (User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
@@ -54,6 +57,9 @@
                             }
                             else if (User.IsInRole("asistente"))
                             {
+                          <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Sinister" asp-action="AssignLossAdjuster">Asignar Ajustador a Siniestro</a>
+                                </li>
                             }
                             else if (User.IsInRole("conductor"))
                             {

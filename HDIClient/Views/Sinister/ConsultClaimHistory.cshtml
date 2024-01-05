@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model AccidentViewModel
+
+
+<h1>Consultar Historial de Siniestros</h1>
+
+@if (Model != null && Model.accidentList != null && Model.accidentList.Any())
+{
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.accidentList[0].location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.accidentList[0].reportStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.accidentList[0].accidentDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.accidentList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.reportStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.accidentDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay siniestros para el usuario.</p>
+}
