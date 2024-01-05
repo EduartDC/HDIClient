@@ -36,7 +36,7 @@ namespace HDIClient.Service
                 return false;
             }
         }
-
+         
         public async Task<List<AccidentDTO>> GetAccidents()
         {
             List<AccidentDTO> accidentList = new List<AccidentDTO>();
