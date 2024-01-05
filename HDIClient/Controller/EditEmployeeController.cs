@@ -31,8 +31,9 @@ namespace HDIClient.Controllers
                 {"asistente","asistente"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
-           // idE = ViewData["IdUserEdit"] as string;
-            var DTOObject = _employeeService.GetEmployeeById(id);
+            // idE = ViewData["IdUserEdit"] as string;
+            var token = User.FindFirst("token").Value;
+            var DTOObject = _employeeService.GetEmployeeById(id,token);
             //iniciamos el modelo a enviar a la vista
             var model = new EmployeeViewModel
             {
@@ -68,8 +69,8 @@ namespace HDIClient.Controllers
                     Password = Encryption.Encrypt(newEmployee.Password),
                     Rol = newEmployee.Rol
                 };
-
-                var result = await _employeeService.SetUpdateEmployee(employeeTemp);
+                var token = User.FindFirst("token").Value;
+                var result = await _employeeService.SetUpdateEmployee(employeeTemp,token);
 
                 if (result == 200 || result == 201)
                 {
