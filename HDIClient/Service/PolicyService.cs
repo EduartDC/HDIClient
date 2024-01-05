@@ -9,11 +9,8 @@ namespace HDIClient.Service
     public class PolicyService : IPolicyService
     {
         HttpClient _cliente;
-        IMemoryCache _memoryCache;
-
-        public PolicyService(IHttpClientFactory httpClientFactory, IMemoryCache memoryCache)
+        public PolicyService(IHttpClientFactory httpClientFactory)
         {
-            _memoryCache = memoryCache;
             _cliente = httpClientFactory.CreateClient("ApiHttpClient");
 
 
