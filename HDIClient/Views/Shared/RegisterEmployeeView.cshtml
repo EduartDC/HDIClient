@@ -8,31 +8,32 @@
 
 </head>
 
+<div class="container-fluid">
 <div class="conteiner card bg-dark text-white">
     <form id="info" asp-action="RegisterNewEmployee">
         <div>
-            <h2>Registro de empleados</h2>
+            <label  class="form-label">Registro de empleados</label>
             <br />
-            <h3>Nombre</h3>
+            <label asp-for="NameEmployeee" class="form-label"></label>
             <input asp-for="NameEmployeee" type="text" class="form-control form-control-lg col-md-1" />
             <span asp-validation-for="NameEmployeee" class="text-danger"></span>
 
-            <h3>Apellido</h3>
+            <label asp-for="LastnameEmployee" class="form-label"></label>
             <input asp-for="LastnameEmployee" type="text" class="form-control form-control-lg col-md-1" />
             <span asp-validation-for="LastnameEmployee" class="text-danger"></span>
 
-            <h3>Nombre de usuario</h3>
+            <label asp-for="Username" class="form-label"></label>
             <input asp-for="Username" type="text" class="form-control form-control-lg col-md-1" />
             <span asp-validation-for="Username" class="text-danger"></span>
 
-            <h3>Contraseña</h3>
+            <label asp-for="Password" class="form-label"></label>
             <input asp-for="Password" type="text" class="form-control form-control-lg col-md-1" />
             <span asp-validation-for="Password" class="text-danger"></span>
 
-            <h3>Rol</h3>
+            <label asp-for="Rol" class="form-label"></label>
             <select asp-for="Rol" asp-items="Model.ListaDeRoles" class="form-select">
             </select>
-
+            <br />
             <div class="text-center">
                 <button type="submit" value="Register" class="btn btn-outline-light btn-lg px-5">Registrar</button>
 
@@ -42,7 +43,7 @@
     </form>
    
 </div>
-
+</div>
 
 @section Scripts {
     @{
