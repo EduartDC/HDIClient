@@ -1,14 +1,19 @@
 ﻿using HDIClient.Service;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace TestProject
+namespace Test
 {
-    public  class UserServiceTest
+    public class PolicyServiceTest
     {
-        private readonly UserService _service;
+        private readonly PolicyService _service;
 
-        public UserServiceTest()
+        public PolicyServiceTest()
         {
             var httpClientHandler = new HttpClientHandler();
             var httpClient = new HttpClient(httpClientHandler);
@@ -22,28 +27,30 @@ namespace TestProject
             _service = new(httpClientFactory.Object);
         }
 
-        //Eduart
         [Fact]
-        public async Task TestLoginSuccess()
+        public async Task TestGetPolicyByDriverSuccess()
         {
-            var result = await _service.Login("12345","admin");
+            var result = await _service.GetPolicyByDriver("token", "c1");
+
             Assert.Equal(HttpStatusCode.OK, result.Item2);
         }
 
-        //Eduart
         [Fact]
-        public async Task TestLoginNotFound()
+        public async Task TestGetPolicyByDriverNotFound()
         {
-            var result = await _service.Login("123asd221234aas", "admin");
+            var result = await _service.GetPolicyByDriver("token", "c12234");
+
             Assert.Equal(HttpStatusCode.NotFound, result.Item2);
         }
 
-        //Eduart
         [Fact]
-        public async Task TestLoginInternalServerError()
+        public async Task TestGetPolicyByDriverInternalServerError()
         {
-            var result = await _service.Login("123asd221234aas", "admin");
+            var result = await _service.GetPolicyByDriver("token", "c12234");
+
             Assert.Equal(HttpStatusCode.InternalServerError, result.Item2);
         }
+
+
     }
 }

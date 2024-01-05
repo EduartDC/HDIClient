@@ -18,7 +18,7 @@
     text-align: left;
     margin: 20px auto; /* Añadir espacio entre las secciones */
     padding: 20px; /* Añadir espacio interno */
-    height: 400px;
+    max-height:660px;
     border: 1px solid #ccc; /* Añadir borde para separar visualmente las secciones */
     background-color: #f9f9f9; /* Color de fondo */
     overflow-y: auto;
