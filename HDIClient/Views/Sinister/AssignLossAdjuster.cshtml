@@ -1,0 +1,56 @@
+﻿@model AccidentViewModel
+
+
+<h1>Asignar Ajustador de Siniestro</h1>
+
+<h4>Lista de Siniestros sin Ajustador Asignado.</h4>
+
+@if (Model != null && Model.accidentList != null && Model.accidentList.Any())
+{
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.accidentList[0].location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.accidentList[0].reportStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.accidentList[0].accidentDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.accidentList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.reportStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.accidentDate)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" onclick="AsignarAjustador(this)" data-id="@item.idAccident" data-location="@item.location" data-date="@item.accidentDate">Asignar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay siniestros que requieran asignar un Ajustador.</p>
+}
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/AssignLossAdjuster.js" asp-append-version="true"></script>
+}
