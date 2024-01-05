@@ -18,7 +18,7 @@ namespace HDIClient.Controllers
             _reportService = reportService;
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "ajustador")]
         public async Task<IActionResult> ShowReportsAjusterView()
         {
           
@@ -50,7 +50,7 @@ namespace HDIClient.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "ajustador")]
         public IActionResult ShowFullReport(string id)
         {
             // Redirige directamente a la acción de edición en lugar de crear una nueva instancia del controlador

@@ -1,14 +1,17 @@
 ﻿using HDIClient.DTOs;
 using HDIClient.Models;
 using HDIClient.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.Data;
 using System.Net;
 using System.Reflection;
 using System.Security.Claims;
 
 namespace HDIClient.Controllers
 {
+    [Authorize]
     public class PolicyController : Controller
     {
         readonly IPolicyService _service;
@@ -18,6 +21,7 @@ namespace HDIClient.Controllers
             _service = service;
 
         }
+        [Authorize(Roles = "conductor")]
         public async Task<IActionResult> ViewPolicy()
         {
             var token = User.FindFirst("token").Value;
