@@ -41,13 +41,16 @@
                             @if (User.IsInRole("admin"))
                             {
                                 <li class="nav-item">
-                                    <a asp-controller="EmployeeManagement" asp-action="EmployeeManagementView" class="btn">Registrar Empleado</a>
+                                    <a asp-controller="EmployeeManagement" asp-action="EmployeeManagementView" class="btn">Administración de empleados</a>
                                 </li>
+                              
                                 
                             }
                             else if (User.IsInRole("ajustador"))
                             {
-
+                                <li class="nav-item">
+                                    <a asp-controller="ShowReportsAdjuster" asp-action="ShowReportsAjusterView" class="btn">Historial de accidentes</a>
+                                </li>
                             }
                             else if (User.IsInRole("asistente"))
                             {

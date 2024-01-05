@@ -1,5 +1,6 @@
 ﻿using HDIClient.Models;
 using HDIClient.Service.Interface;
+using HDIClient.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +35,8 @@ namespace HDIClient.Controllers
             {
 
                 var user = loginModel.User;
-                var password = loginModel.Password;
+                var password = Encryption.Encrypt(loginModel.Password);
+               
 
                 try
                 {

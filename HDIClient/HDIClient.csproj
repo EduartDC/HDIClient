@@ -21,8 +21,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
 
-    <Folder Include="Utility\" />
-
   </ItemGroup>
 
 </Project>

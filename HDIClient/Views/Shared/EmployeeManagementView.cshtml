@@ -8,7 +8,7 @@
 
 </head>
 <div>
-    <h2> Administracion de empleados</h2>
+    <h2> Administración de empleados</h2>
     <br/>
 @*    <button class="btn btn-primary" asp-controller="EmployeeManagement" asp-action="RegisterNewEmployee">Agregar nuevo empleado</button>
 *@
@@ -44,7 +44,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IdEmployee)
+                        @Html.DisplayFor(modelItem => item.NameEmployee)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.LastnameEmployee)
@@ -76,10 +76,5 @@
      @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
      }
-    @*<script src="@Url.Content("~/js/messages.js")"></script>
-
-    <script>
-        // Llamada a la función que verifica TempData y muestra mensajes
-        verificarMensajesTempData();
-    </script>*@
+   
 }

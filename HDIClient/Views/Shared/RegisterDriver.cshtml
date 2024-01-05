@@ -145,6 +145,18 @@
                     mostrarMensajeError('Error de conexion');
                 </text>
             }
+            else if (TempData.ContainsKey("ContrasenaInvalida") && (bool)TempData["ContrasenaInvalida"])
+            {
+                <text>
+                    mostrarMensajeError('Contraseña invalida. La contraseña deve contener un caracter en  mayuscula y un caracter numerico');
+                </text>
+            }
+            else if (TempData.ContainsKey("TelefonoInvalido") && (bool)TempData["TelefonoInvalido"])
+            {
+                <text>
+                    mostrarMensajeError('telefono invalido. El numero telefonico debe contener 10 digitos');
+                </text>
+            }
 
             
         </script>
