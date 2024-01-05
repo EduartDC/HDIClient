@@ -1,0 +1,60 @@
+﻿@model EmployeeListViewModel
+
+@{
+    var accidentId = @Model.IdAccident;
+}
+
+
+<h4>Información del Siniestro por asignar</h4>
+<h5>Ubicación donde se dio el siniestro: </h5><p>@Model.Location</p>
+<h5>Fecha en que se suscitó el siniestro: </h5><p>@Model.AccidentDate</p>
+<!--<h5>Identificador del Siniestro: </h5><p id="idAccidentLabel">@accidentId</p>-->
+<input class="form-control d-none" value="@accidentId" id="labelAccident">
+
+<h1>Asignar Ajustador de Siniestro: Selección de Ajustador</h1>
+
+<h4>Lista de Ajustadores disponibles.</h4>
+
+@if (Model != null && Model.employeeList != null && Model.employeeList.Any())
+{
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.employeeList[0].NameEmployee) @Html.DisplayNameFor(model => model.employeeList[0].LastnameEmployee)
+                </th>                
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.employeeList)
+            {
+                @if (string.Equals(item.Rol, "Ajustador", StringComparison.OrdinalIgnoreCase) || string.Equals(item.Rol, "ajustador", StringComparison.OrdinalIgnoreCase))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NameEmployee) @Html.DisplayFor(modelItem => item.LastnameEmployee)
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary assign-button"
+                                    data-id="@item.IdEmployee">
+                                Seleccionar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay Ajustadores disponibles, no dejamos nada para "más tarde".</p>
+}
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="~/js/AssignLossAdjusterExtend.js" asp-append-version="true"></script>
+}
