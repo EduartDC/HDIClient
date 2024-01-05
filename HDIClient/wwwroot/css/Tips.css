@@ -1,17 +1,8 @@
-﻿.info-container {
-    float: left;
-    width: 50%;
-    text-align: left;
-    margin: 0px 30%
-
-}
-
-.image-container {
-    float: right;
-    height: 100%;
-    width: 50%;
-}
+﻿
 
 .h4.subtitle {
     color: #006c30
+}
+p strong span {
+    color: #006c30;
 }
