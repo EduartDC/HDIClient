@@ -1,10 +1,6 @@
-﻿<head>
-    <meta charset="UTF-8">
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/Tips.css" />
-</head>
-<body>
-    <div class="info-container">
+﻿
+<div class="container">
+    <form asp-action="NewReport" asp-controller="Report" method="get">
         <p id="init" class="h4 subtitle">
             Tips
         </p>
@@ -37,8 +33,11 @@
             <strong><span style="color: #006c30">¡Tu auto no se va al corralón!</span></strong><br>
             Si no es necesario resguardarlo en una pensión, cuenta con pase para el taller y/o médico.
         </p>
-        <form asp-action="NewReport" asp-controller="Report" method="get">
-            <button type="submit" class="btn btn-dark">Crear Reporte</button>
-        </form>
-    </div>
-</body>
+
+        <button type="submit" class="btn btn-dark">Crear Reporte</button>
+    </form>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Tips.css" />
+}
