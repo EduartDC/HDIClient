@@ -1,11 +1,7 @@
-using HDIClient.Service;
-using HDIClient.Service.Interface;
-
-namespace TestProject
+namespace Test
 {
     public class UnitTest1
-    { 
-        
+    {
         [Fact]
         public void Test1()
         {

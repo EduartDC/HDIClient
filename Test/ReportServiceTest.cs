@@ -1,10 +1,6 @@
 ﻿using HDIClient.Service;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace TestProject
 {
@@ -24,6 +20,22 @@ namespace TestProject
             httpClientFactory.Setup(factory => factory.CreateClient(It.IsAny<string>())).Returns(httpClient);
 
             _service = new(httpClientFactory.Object);
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task GetReportListByIdEmployeeSuccess()
+        {
+            var result = await _service.GetPreviewReportsList("e1");
+            Xunit.Assert.Equal("200", result.Item1.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task GetReportListByIdEmployeeConnectionError()
+        {
+            var result = await _service.GetPreviewReportsList("e1");
+            Xunit.Assert.Equal("500", result.Item1.ToString());
         }
     }
 }

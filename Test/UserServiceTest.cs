@@ -1,23 +1,13 @@
-﻿using HDIClient.Service.Interface;
-using HDIClient.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HDIClient.Service;
 using Moq;
-using System.Net.Http;
-using AspNetCore;
-
-using System.Net;
 
 namespace TestProject
 {
-    public class ClientServiceTest
+    public  class UserServiceTest
     {
-        private readonly ClientService _service;
+        private readonly UserService _service;
 
-        public ClientServiceTest()
+        public UserServiceTest()
         {
             var httpClientHandler = new HttpClientHandler();
             var httpClient = new HttpClient(httpClientHandler);
@@ -30,6 +20,5 @@ namespace TestProject
 
             _service = new(httpClientFactory.Object);
         }
-
     }
 }
