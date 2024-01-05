@@ -21,8 +21,6 @@ namespace HDIClient.Controllers
         [Authorize(Roles = "ajustador")]
         public async Task<IActionResult> ShowReportsAjusterView()
         {
-          
-            //lista para uno de los filtros
             var StatusList = new Dictionary<string, string>
             {
                 {"Concluido","Concluido"},
@@ -32,7 +30,8 @@ namespace HDIClient.Controllers
 
             var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.Sid);
             string userId = userIdClaim.Value;
-            var result = _reportService.GetPreviewReportsList(userId);
+            var token = User.FindFirst("token").Value;
+            var result =  _reportService.GetPreviewReportsList(userId,token);
 
             if (result.Result.Item1 == 200)
             {

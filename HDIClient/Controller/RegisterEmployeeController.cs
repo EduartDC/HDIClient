@@ -52,8 +52,8 @@ namespace HDIClient.Controllers
                     Password = Encryption.Encrypt(newEmployee.Password),
                     Rol = newEmployee.Rol
                 };
-
-                var result = await _employeeService.RegisterNewEmployee(employeeTemp);
+                var token = User.FindFirst("token").Value;
+                var result = await _employeeService.RegisterNewEmployee(employeeTemp,token);
 
                 if (result == 200 || result == 201)
                 {
