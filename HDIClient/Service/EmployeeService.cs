@@ -42,7 +42,6 @@ namespace HDIClient.Service
             _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
             List<EmployeeDTO> employeeList = new List<EmployeeDTO>();
             var code = 0;
-            _cliente.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
             try
             {
