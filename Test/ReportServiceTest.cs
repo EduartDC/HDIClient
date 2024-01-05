@@ -21,5 +21,21 @@ namespace TestProject
 
             _service = new(httpClientFactory.Object);
         }
+
+        //Jonathan
+        [Fact]
+        public async Task GetReportListByIdEmployeeSuccess()
+        {
+            var result = await _service.GetPreviewReportsList("e1");
+            Xunit.Assert.Equal("200", result.Item1.ToString());
+        }
+
+        //Jonathan
+        [Fact]
+        public async Task GetReportListByIdEmployeeConnectionError()
+        {
+            var result = await _service.GetPreviewReportsList("e1");
+            Xunit.Assert.Equal("500", result.Item1.ToString());
+        }
     }
 }
