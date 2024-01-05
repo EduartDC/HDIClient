@@ -207,7 +207,7 @@
                 var cell5 = row.insertCell(4);
                 var editButton = document.createElement("a");
                 editButton.className = "boton";
-                editButton.href = "/EditInfoEmployee/" + item.reportNumber;
+                editButton.href = "/Report/ViewReport?id="+ item.reportNumber;
                 editButton.textContent = "Mostrar";
                 cell5.appendChild(editButton);
                 
