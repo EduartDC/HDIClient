@@ -4,7 +4,6 @@ using HDIClient.Service.Interface;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 
-
 var builder = WebApplication.CreateBuilder(args);
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
@@ -31,6 +30,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IPolicyService, PolicyService>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IAccidentService, AccidentService>();
 builder.Services.AddMemoryCache();
 
 // Add authentication
@@ -50,6 +50,7 @@ builder.Services.AddHttpClient("ApiHttpClient", client =>
 {
     client.BaseAddress = new Uri(appSettings.GetValue<string>("BaseAddress"));
 });
+
 
 
 var app = builder.Build();
@@ -100,6 +101,15 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "showReportsAdjuster",
     pattern: "{controller=ShowReportsAdjuster}/{action=ShowReportsAjusterView}");
+app.MapControllerRoute(
+    name: "sinister",
+    pattern: "{controller=Sinister}/{action=ConsultClaimHistory}");
+app.MapControllerRoute(
+    name: "sinister",
+       pattern: "{controller=Sinister}/{action=AssignLossAdjuster}");
+app.MapControllerRoute(
+    name: "sinister",
+          pattern: "{controller=Sinister}/{action=AssignLossAdjusterExtend}");
 
 
 app.Run();
