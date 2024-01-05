@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HDIClient.Service;
 using HDIClient.Service.Interface;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 
@@ -43,7 +36,7 @@ namespace TestProject
             var idReport = "a1";
             var (report, code) = await _reportService1.GetReportById(token, idReport);
             var x = report;
-            Xunit.Assert.IsType<HttpStatusCode>(code);
+            Assert.IsType<HttpStatusCode>(code);
 
         }
 

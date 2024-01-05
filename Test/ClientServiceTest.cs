@@ -1,13 +1,5 @@
-﻿using HDIClient.Service.Interface;
-using HDIClient.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HDIClient.Service;
 using Moq;
-using System.Net.Http;
-using AspNetCore;
 
 using System.Net;
 
