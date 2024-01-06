@@ -9,14 +9,14 @@
         <h2>Historial de reportes</h2>
 
         <h3>Filtros</h3>
-        <label><input type="checkbox" id="cbfilter"  onchange="toggleDiv()" />Desplegar filtros</label>
-        <div id="divfilters" class="separator-container " >
+        <label><input type="checkbox" id="cbfilter" onchange="toggleDiv()" />Desplegar filtros</label>
+        <div id="divfilters" class="separator-container ">
 
             <div class="row">
                 <div class="col-sm-6">
                     <form>
                         <h4>Selección de fecha de reporte</h4>
-                        <input type="date" class="form-control form-control-lg col-md-1" id="reportedate" >
+                        <input type="date" class="form-control form-control-lg col-md-1" id="reportedate">
                         <h4>Selección de estado de reporte</h4>
                         <select id="estado" name="estado" class="form-select">
                             <option value="Sin especificar">Sin especificar</option>
@@ -31,7 +31,7 @@
                             <div class="card-body contenedor-mapa">
                                 <div class="mb-3">
                                     <label asp-for="Localizador" class="form-label"></label>
-                                    <input asp-for="Localizador" class="form-control" >
+                                    <input asp-for="Localizador" class="form-control">
                                 </div>
                             </div>
 
@@ -56,55 +56,58 @@
                 </div>
             </div>
         </div>
+        <div class="table-responsive">
 
-        <table class="table table-bordered">
 
-            <thead>
-                <tr>
-                    <th>
-                       Identificador
-                    </th>
-                    <th>
-                        Cliente
-                    </th>
-                    <th>
-                        Fecha de accidente
-                    </th>
-                    <th>
-                        Estado de reporte
-                    </th>
-                    <th>
-                        Ubicación
-                    </th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                @foreach (var item in Model.previewList)
-                {
+            <table class="table table-bordered">
+
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ReportNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NameClient)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ReportDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StatusReport)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LocationName)
-                        </td>
-                       
-                        <td class="td">
-                            <a class="boton" asp-action="ShowFullReport" asp-route-id="@item.ReportNumber">Mostrar</a>
-                        </td>
+                        <th>
+                            Identificador
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Fecha de accidente
+                        </th>
+                        <th>
+                            Estado de reporte
+                        </th>
+                        <th>
+                            Ubicación
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tableBody">
+                    @foreach (var item in Model.previewList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReportNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NameClient)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReportDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StatusReport)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LocationName)
+                            </td>
+
+                            <td class="td">
+                                <a class="boton" asp-action="ShowFullReport" asp-route-id="@item.ReportNumber">Mostrar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 @section Styles {
@@ -124,75 +127,75 @@
             var checkbox = document.getElementById("cbfilter");
 
             if (!checkbox.checked) {
-                
+
                 div.style.visibility = "hidden"
                 div.style.height = "0px";
-                
+
             } else {
-               
+
                 div.style.visibility = "visible"
                 div.style.height = div.scrollHeight + "px";
             }
         }
 
         async function filterReports() {
-            try{
-            var inputLocation = $('#Localizador').val();
-            var locationSplit = inputLocation.split(',');
-            var direccionSinNumeros = locationSplit[locationSplit.length - 3].replace(/\d+/g, '');
+            try {
+                var inputLocation = $('#Localizador').val();
+                var locationSplit = inputLocation.split(',');
+                var direccionSinNumeros = locationSplit[locationSplit.length - 3].replace(/\d+/g, '');
 
                 var tableBody = document.getElementById("tableBody");
-            tableBody.innerHTML = ''; 
-            var selectedDate = document.getElementById("reportedate").value;
-            var selectedEstado = document.getElementById("estado").value;
-            var viewModelJson = @Html.Raw(Json.Serialize(Model.previewList));
-            console.log(viewModelJson);
-            const direccionesPromesas = viewModelJson.map(item => obtenerDireccionPalabras(item.latitude, item.longitude));
-            const direcciones = await Promise.all(direccionesPromesas);
+                tableBody.innerHTML = '';
+                var selectedDate = document.getElementById("reportedate").value;
+                var selectedEstado = document.getElementById("estado").value;
+                var viewModelJson = @Html.Raw(Json.Serialize(Model.previewList));
+                console.log(viewModelJson);
+                const direccionesPromesas = viewModelJson.map(item => obtenerDireccionPalabras(item.latitude, item.longitude));
+                const direcciones = await Promise.all(direccionesPromesas);
 
-            viewModelJson.forEach((item, index) => {
-                var x = direcciones[index];
-                console.log("FOREACH: ", x);
-            });
-
-           
-            var filteredList = viewModelJson
-                .filter((item, index) => {
-                    var locationName = direcciones[index];
-                    return (!selectedDate || new Date(item.reportDate).toISOString().substring(0, 10) === new Date(selectedDate).toISOString().substring(0, 10)) &&
-                        (selectedEstado == "Sin especificar" || item.statusReport == selectedEstado) &&
-                        locationName.includes(direccionSinNumeros.trim());
-                    
+                viewModelJson.forEach((item, index) => {
+                    var x = direcciones[index];
+                    console.log("FOREACH: ", x);
                 });
-            filteredList.forEach(item => {
-                // Agregar filas a la tabla en la vista
-                var row = tableBody.insertRow();
-                var cell1 = row.insertCell(0);
-                cell1.innerHTML = item.reportNumber;
 
-                var cell2 = row.insertCell(1);
-                cell2.innerHTML = item.nameClient;
 
-                var cell3 = row.insertCell(2);
-                cell3.innerHTML = new Date(item.reportDate).toLocaleDateString();
+                var filteredList = viewModelJson
+                    .filter((item, index) => {
+                        var locationName = direcciones[index];
+                        return (!selectedDate || new Date(item.reportDate).toISOString().substring(0, 10) === new Date(selectedDate).toISOString().substring(0, 10)) &&
+                            (selectedEstado == "Sin especificar" || item.statusReport == selectedEstado) &&
+                            locationName.includes(direccionSinNumeros.trim());
 
-                var cell4 = row.insertCell(3);
-                cell4.innerHTML = item.statusReport;
+                    });
+                filteredList.forEach(item => {
+                    // Agregar filas a la tabla en la vista
+                    var row = tableBody.insertRow();
+                    var cell1 = row.insertCell(0);
+                    cell1.innerHTML = item.reportNumber;
 
-                var cell5 = row.insertCell(4);
-                cell5.innerHTML = item.locationName;
+                    var cell2 = row.insertCell(1);
+                    cell2.innerHTML = item.nameClient;
 
-                var cell6 = row.insertCell(5);
-                var editButton = document.createElement("a");
-                editButton.className = "boton";
-                editButton.href = "/Report/ViewReport?id="+ item.reportNumber;
-                editButton.textContent = "Mostrar";
-                cell6.appendChild(editButton);
-                
-            });
-                
-            }catch(error){
-                console.log("Error catch",error);
+                    var cell3 = row.insertCell(2);
+                    cell3.innerHTML = new Date(item.reportDate).toLocaleDateString();
+
+                    var cell4 = row.insertCell(3);
+                    cell4.innerHTML = item.statusReport;
+
+                    var cell5 = row.insertCell(4);
+                    cell5.innerHTML = item.locationName;
+
+                    var cell6 = row.insertCell(5);
+                    var editButton = document.createElement("a");
+                    editButton.className = "boton";
+                    editButton.href = "/Report/ViewReport?id=" + item.reportNumber;
+                    editButton.textContent = "Mostrar";
+                    cell6.appendChild(editButton);
+
+                });
+
+            } catch (error) {
+                console.log("Error catch", error);
             }
         }
 
