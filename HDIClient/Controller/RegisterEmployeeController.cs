@@ -53,12 +53,12 @@ namespace HDIClient.Controllers
                     Rol = newEmployee.Rol
                 };
                 var token = User.FindFirst("token").Value;
-                var result = await _employeeService.RegisterNewEmployee(employeeTemp,token);
+                var result = await _employeeService.RegisterNewEmployee(employeeTemp, token);
 
                 if (result == 200 || result == 201)
                 {
                     TempData["RegistroExitoso"] = true;
-                    
+
                     return View("RegisterEmployeeSuccesView");
                 }
                 else if (result == 409)

@@ -20,7 +20,7 @@
                         <h4>Selección de estado de reporte</h4>
                         <select id="estado" name="estado" class="form-select">
                             <option value="Sin especificar">Sin especificar</option>
-                            <option value="Dictaminado">Dictaminado</option>
+                            <option value="Terminado">Terminado</option>
                             <option value="Pendiente">Pendiente</option>
                         </select>
                         <h4>Selección de ubicacion</h4>
@@ -97,14 +97,9 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.LocationName)
                         </td>
-                        @*<td>
-                    @Html.DisplayFor(modelItem => item.RegistrationDate)
-                    </td>*@
+                       
                         <td class="td">
-                            @* <a class="boton" asp-controller="EmployeeManagement" asp-action="EditInfoEmployee" asp-route-id="@item.IdEmployee">Editar</a>*@
                             <a class="boton" asp-action="ShowFullReport" asp-route-id="@item.ReportNumber">Mostrar</a>
-
-
                         </td>
                     </tr>
                 }
@@ -123,18 +118,18 @@
     <script src="~/js/ubicacionajustador.js"></script>
 
     <script>
-        //oculta o muestra close filtros
+        //oculta o muestra filtros
         function toggleDiv() {
             var div = document.getElementById("divfilters");
             var checkbox = document.getElementById("cbfilter");
 
             if (!checkbox.checked) {
-                // Si el checkbox está marcado, expandir el div
+                
                 div.style.visibility = "hidden"
                 div.style.height = "0px";
                 
             } else {
-                // Si el checkbox no está marcado, contraer el div
+               
                 div.style.visibility = "visible"
                 div.style.height = div.scrollHeight + "px";
             }
@@ -142,29 +137,17 @@
 
         async function filterReports() {
             try{
-            console.log("dentro de funcion de filtro de lista");
             var inputLocation = $('#Localizador').val();
             var locationSplit = inputLocation.split(',');
             var direccionSinNumeros = locationSplit[locationSplit.length - 3].replace(/\d+/g, '');
 
-            console.log("ciudad seleccionada: ", direccionSinNumeros.trim());
                 var tableBody = document.getElementById("tableBody");
-            tableBody.innerHTML = ''; // Limpiar filas existentes
-
-            
+            tableBody.innerHTML = ''; 
             var selectedDate = document.getElementById("reportedate").value;
             var selectedEstado = document.getElementById("estado").value;
-            console.log("filtro seleccionado es: " + selectedEstado);
-
-           
-
             var viewModelJson = @Html.Raw(Json.Serialize(Model.previewList));
             console.log(viewModelJson);
-
-            // Obtener direcciones de forma asíncrona
             const direccionesPromesas = viewModelJson.map(item => obtenerDireccionPalabras(item.latitude, item.longitude));
-
-            // Esperar a que todas las direcciones se resuelvan antes de continuar
             const direcciones = await Promise.all(direccionesPromesas);
 
             viewModelJson.forEach((item, index) => {
@@ -176,20 +159,12 @@
             var filteredList = viewModelJson
                 .filter((item, index) => {
                     var locationName = direcciones[index];
-                    console.log("dentro del filter: ", direccionSinNumeros.trim());
                     return (!selectedDate || new Date(item.reportDate).toISOString().substring(0, 10) === new Date(selectedDate).toISOString().substring(0, 10)) &&
                         (selectedEstado == "Sin especificar" || item.statusReport == selectedEstado) &&
                         locationName.includes(direccionSinNumeros.trim());
                     
                 });
-
-            console.log("tamaño de filteredList: " + filteredList.length);
-
             filteredList.forEach(item => {
-                console.log("item:", item);
-                console.log("item.StatusReport:", item.statusReport);
-                console.log("selectedEstado:", selectedEstado);
-
                 // Agregar filas a la tabla en la vista
                 var row = tableBody.insertRow();
                 var cell1 = row.insertCell(0);

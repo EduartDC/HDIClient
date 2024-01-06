@@ -21,18 +21,10 @@ namespace HDIClient.Controllers
         [Authorize(Roles = "ajustador")]
         public async Task<IActionResult> ShowReportsAjusterView()
         {
-            var StatusList = new Dictionary<string, string>
-            {
-                {"Concluido","Concluido"},
-                {"Activo","Activo"},
-            };
-            var selectList = new SelectList(StatusList, "Key", "Value");
-
             var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.Sid);
             string userId = userIdClaim.Value;
             var token = User.FindFirst("token").Value;
             var result =  _reportService.GetPreviewReportsList(userId,token);
-
             if (result.Result.Item1 == 200)
             {
                 var model = new PreviewReportsListViewModel
@@ -52,13 +44,7 @@ namespace HDIClient.Controllers
         [Authorize(Roles = "ajustador")]
         public IActionResult ShowFullReport(string id)
         {
-            // Redirige directamente a la acción de edición en lugar de crear una nueva instancia del controlador
             return RedirectToAction("ViewReport", "Report", new { id });
-           
-
         }
-
     }
-
-
 }

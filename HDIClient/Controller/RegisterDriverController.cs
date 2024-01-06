@@ -28,10 +28,7 @@ namespace AseguradoraApp.Controllers
          
             if (ModelState.IsValid)
             {
-               // newDriver.Age = DateOnly.ParseExact(newDriver.AgeString, "yyyy-MM-dd");
              
-               // string formattedDate = newDriver.Age.ToString("dd/MM/yyyy");
-                //newDriver.Age = DateOnly.Parse(formattedDate);
                 if(ContieneMayusculaYNumero(newDriver.Password))
                 {
                     if(ContieneSoloNumeros(newDriver.TelephoneNumber))
