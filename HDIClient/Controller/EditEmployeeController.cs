@@ -6,6 +6,7 @@ using HDIClient.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace HDIClient.Controllers
 {
@@ -14,6 +15,7 @@ namespace HDIClient.Controllers
     {
         private IEmployeeService _employeeService;
         private EmployeeViewModel viewmodelTemp;
+        //ESAT ES UNICAMENTE PARA PRUEBA
         public EditEmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
@@ -30,10 +32,13 @@ namespace HDIClient.Controllers
                 {"asistente","asistente"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
+            // idE = ViewData["IdUserEdit"] as string;
             var token = User.FindFirst("token").Value;
-            var DTOObject = _employeeService.GetEmployeeById(id,token);
+            var DTOObject = _employeeService.GetEmployeeById(id, token);
+            //iniciamos el modelo a enviar a la vista
             var model = new EmployeeViewModel
             {
+
                 NameEmployeee = DTOObject.Result.Item2.NameEmployee,
                 LastnameEmployee = DTOObject.Result.Item2.LastnameEmployee,
                 Username = DTOObject.Result.Item2.Username,
@@ -41,7 +46,9 @@ namespace HDIClient.Controllers
                 ListaDeRoles = selectList,
                 Rol = DTOObject.Result.Item2.Rol
             };
+            TempData["OriginalEmployeeModel"] = JsonConvert.SerializeObject(model);
             return View("EditEmployeeView", model);
+
         }
 
         [Authorize(Roles = "admin")]
@@ -49,6 +56,7 @@ namespace HDIClient.Controllers
         {
             if (ModelState.IsValid)
             {
+                //generando DTO
                 EmployeeDTO employeeTemp = new EmployeeDTO()
                 {
                     IdEmployee = TempData["IdUserEdit"] as string,
@@ -59,11 +67,13 @@ namespace HDIClient.Controllers
                     Rol = newEmployee.Rol
                 };
                 var token = User.FindFirst("token").Value;
-                var result = await _employeeService.SetUpdateEmployee(employeeTemp,token);
+                var result = await _employeeService.SetUpdateEmployee(employeeTemp, token);
 
                 if (result == 200 || result == 201)
                 {
                     TempData["Prueba"] = true;
+                    // var view = GetEmployeeManagementView();
+                    //return view;
                     return View("EditEmployeeSuccessView");
                 }
                 else if (result == 409)
@@ -77,13 +87,20 @@ namespace HDIClient.Controllers
                 }
 
             }
-
-
-
-            return View("LoginView");
+            var originalModelJson = TempData["OriginalEmployeeModel"] as string;
+            var originalModel = JsonConvert.DeserializeObject<EmployeeViewModel>(originalModelJson);
+            var Roles = new Dictionary<string, string>
+            {
+                {"admin","admin"},
+                {"ajustador","ajustador"},
+                {"asistente","asistente"},
+            };
+            var selectList = new SelectList(Roles, "Key", "Value");
+            originalModel.ListaDeRoles = selectList;
+            return View("EditEmployeeView",originalModel);
 
         }
 
-       
+
     }
 }

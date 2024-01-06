@@ -28,10 +28,12 @@ namespace HDIClient.Controllers
                 {"asistente","asistente"},
             };
             var selectList = new SelectList(Roles, "Key", "Value");
+            //iniciamos el modelo a enviar a la vista
             var model = new EmployeeViewModel
             {
                 ListaDeRoles = selectList,
             };
+            // viewmodelTemp = model;
             return View("RegisterEmployeeView", model);
         }
 
@@ -41,6 +43,7 @@ namespace HDIClient.Controllers
             var x = newEmployee;
             if (ModelState.IsValid)
             {
+                //generando DTO
                 EmployeeDTO employeeTemp = new EmployeeDTO()
                 {
                     NameEmployee = newEmployee.NameEmployeee,
@@ -50,12 +53,12 @@ namespace HDIClient.Controllers
                     Rol = newEmployee.Rol
                 };
                 var token = User.FindFirst("token").Value;
-                var result = await _employeeService.RegisterNewEmployee(employeeTemp,token);
+                var result = await _employeeService.RegisterNewEmployee(employeeTemp, token);
 
                 if (result == 200 || result == 201)
                 {
                     TempData["RegistroExitoso"] = true;
-                    
+
                     return View("RegisterEmployeeSuccesView");
                 }
                 else if (result == 409)
@@ -69,6 +72,8 @@ namespace HDIClient.Controllers
                 }
 
             }
+
+
 
             return View("RegisterEmployeeView", viewmodelTemp);
 

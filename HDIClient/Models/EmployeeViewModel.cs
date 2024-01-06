@@ -14,7 +14,7 @@ namespace HDIClient.Models
         public string LastnameEmployee { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [Display(Name = "Nmbre de usuario")]
+        [Display(Name = "Nombre de usuario")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
